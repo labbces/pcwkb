@@ -1,0 +1,9 @@
+Bio==1.5.3
+crossrefapi==1.5.0
+django==4.1.4
+django-haystack==3.2.1
+fontawesome-free==5.15.4
+mysqlclient==2.1.1
+myst-parser==2.0.0
+pysolr==3.9.0
+sphinx==6.1.3
