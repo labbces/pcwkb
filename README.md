@@ -32,7 +32,7 @@ To build the documentation, go to `docs/` and run:
 sphinx-build -b html source/ build/html
 ```
 
-Note that we changed the default Sphinx builder to use the Markdown parser. This is done by adding the following line to `conf.py` file in the `CoNekT/docs` folder:
+Note that we changed the default Sphinx builder to use the Markdown parser. This is done by adding the following line to `conf.py` file in the `pcwkb/docs` folder:
 
 ```
 extensions = ["myst_parser"]
