@@ -3,9 +3,9 @@ from Bio import Entrez
 
 
 class Species(models.Model):
-    species_name = models.CharField(max_length=200)
-    common_name = models.CharField(max_length=200)
-    clade = models.CharField(max_length=200)
+    species_name = models.CharField(max_length=50)
+    common_name = models.CharField(max_length=30)
+    clade = models.CharField(max_length=50)
 
     def __str__(self):
         return self.species_name
