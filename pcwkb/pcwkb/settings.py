@@ -14,6 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+PROJECT_DIR = Path(__file__).resolve().parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -31,12 +32,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+ #   'pcwkb_core.apps.PcwkbCoreConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'pcwkb_core',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +55,11 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'pcwkb.urls'
 
 TEMPLATES = [
+    {
+        'BACKEND':'django.template.backends.jinja2.Jinja2',
+	    'DIRS': [ PROJECT_DIR / 'jinjatemplates' ],
+        'APP_DIRS': True,
+    },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
