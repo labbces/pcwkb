@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models.taxonomy.ncbi_taxonomy import Species
+
+admin.site.register(Species)
