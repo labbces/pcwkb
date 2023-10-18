@@ -3,9 +3,12 @@ from Bio import Entrez
 
 
 class Species(models.Model):
-    species_name = models.CharField(max_length=50)
+    species_code = models.CharField(max_length=10)
+    scientific_name = models.CharField(max_length=50)
     common_name = models.CharField(max_length=30)
+    family = models.CharField(max_length=30)
     clade = models.CharField(max_length=50)
+    photosystem = models.CharField(max_length=10)
 
     def __str__(self):
         return self.species_name
