@@ -7,3 +7,4 @@ Welcome to Plant Cell Wall KnowledgeBase's documentation!
 
    connect_mysql
    solr_setup
+   haystack
