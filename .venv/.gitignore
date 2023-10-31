@@ -1,0 +1,8 @@
+# created by virtualenv automatically
+*pyc
+solr-9.4.0/
+settings.py
+
+migrations/
+
+docs/build/
