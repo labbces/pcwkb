@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pcwkb_core',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pcwkb.wsgi.application'
 
+# Haystack connection
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://0.0.0.0:8983/solr/tester',                 # Assuming you created a core named 'tester' as described in installing search engines.
+        'ADMIN_URL': 'http://0.0.0.0:8983/solr/admin/cores'
+        # ...or for multicore...
+        # 'URL': 'http://127.0.0.1:8983/solr/mysite',
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
