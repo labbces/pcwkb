@@ -1,5 +1,5 @@
 from django.urls import path
-
+from django.urls import path, include
 from pcwkb_core.views import views
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('team', views.team, name='team'),
     path('funding', views.funding, name='funding'),
     path('faq', views.faq, name='faq'),
+    path('search/search', include('haystack.urls')),
 ]

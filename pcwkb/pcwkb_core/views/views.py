@@ -21,10 +21,10 @@ def funding(request):
     return render(request, 'funding.html')
 
 def browse_species(request):
-
-    
-
     return render(request, 'species/browse_species.html')
+
+def search(request):
+    return render(request, 'search/search.html')
 
 def species_page(request, species_code):
 
