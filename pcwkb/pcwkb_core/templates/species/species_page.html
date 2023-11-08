@@ -2,19 +2,18 @@
 
 {% block content %}
 
+    <p>  {% if common_name %}
+
     <header>
-        <h1>Species</h1>
+        <h1>{{ scientific_name }}</h1>
     </header>
 
     <div class="b-example-divider"></div>
 
-    <p>  {% if common_name %}
+    {{ species_code }}
+    {{ common_name }}
 
-        {{ species_code }}
-        {{ common_name }}
-        {{ scientific_name }}
-
-         {% endif %} </p>
+    {% endif %} </p>
 
  {% endblock %}
 </html>
