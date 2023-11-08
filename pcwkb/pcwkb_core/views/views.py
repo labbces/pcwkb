@@ -24,7 +24,19 @@ def browse_species(request):
     return render(request, 'species/browse_species.html')
 
 def search(request):
-    return render(request, 'search/search.html')
+    query = request.GET.get('q', '')  # Obtém a consulta de pesquisa do usuário da URL
+
+    if query:
+        search_results = SearchQuerySet().filter(content_auto__contains=query)
+    else:
+        search_results = []
+
+    context = {
+        'query': query,
+        'results': search_results,
+    }
+
+    return render(request, 'search_results.html', context)
 
 def species_page(request, species_code):
 
