@@ -11,7 +11,7 @@ class Species(models.Model):
     photosystem = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.species_name
+        return self.scientific_name
 
     def insert_species_ncbi_taxid(taxid):
         ''' Inserts Species based on TaxID
@@ -19,7 +19,7 @@ class Species(models.Model):
 
         '''
 
-        Entrez.email = "bih.08.vgsul@gmail.com"     # Always tell NCBI who you are
+        Entrez.email = "pcwkb@gmail.com"     # Always tell NCBI who you are
         handle = Entrez.efetch(db="taxonomy", id=taxid, retmode="xml")
 
         records = Entrez.parse(handle)
