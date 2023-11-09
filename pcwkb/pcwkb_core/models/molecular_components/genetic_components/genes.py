@@ -1,0 +1,12 @@
+from django.db import models
+
+
+class Gene(models.Model):
+    """TODO: add comments/ docstrings (try to follow PEP257/ PEP8)"""
+    gene_id = models.CharField(max_length=50, unique=True)
+    gene_name = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    original_db = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.gene_name
