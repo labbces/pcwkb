@@ -1,5 +1,4 @@
 from django.db import models
-
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 
 class Gene(models.Model):

@@ -2,20 +2,11 @@ from django.db import models
 
 class PlantOntologyTerm(models.Model):
     po_id = models.CharField(max_length=50, unique=True)
-    name = models.CharField(max_length=200)
-    description = models.TextField()('self', on_delete=models.SET_NULL, null=True, blank=True)
+    po_name = models.CharField(max_length=200)
+    description = models.TextField( null=True, blank=True)
 
     def __str__(self):
-        return self.name
-
-    def get_values_as_dict(self):
-        new_dict = {
-            'po_id' : self.po_id,
-            'name' : self.name,
-            'description': self.description,
-            'model_name' : 'PlantOntologyTerm',
-        }
-        return new_dict
+        return self.po_name
 
 
 class PlantComponent(models.Model):
@@ -25,15 +16,6 @@ class PlantComponent(models.Model):
                                         max_length=12)
     description = models.TextField('Description of plant structure',
                                    max_length=2000)
-
-    def get_values_as_dict(self):
-        new_dict = {
-            'name' : self.name,
-            'plant_anatomy_po': self.plant_anatomy_po,
-            'description': self.description,
-            'model_name' : 'Plant Component',
-        }
-        return new_dict
 
         
 
@@ -50,15 +32,6 @@ class PlantComponentDevStage(models.Model):
                                    max_length=2000,
                                    null=False,
                                    blank=False)
-
-    def get_values_as_dict(self):
-        new_dict = {
-            'plant_dev_stage_po' : self.plant_dev_stage_po,
-            'dev_stage_name_po': self.dev_stage_name_po,
-            'description': self.description,
-            'model_name' : 'Plant Component Development Stage',
-        }
-        return new_dict
 
     def __str__(self):
         return self.description
