@@ -62,11 +62,9 @@ def browse_species(request):
         if clade_name not in clade_dict:
             clade_dict[clade_name] = {"name": clade_name, "children": []}
 
-        # Verifique se a família já existe no nó do clado
         family_node = next((fam for fam in clade_dict[clade_name]["children"] if fam["name"] == family_name), None)
 
         if family_node is None:
-            # Se não existe, crie um novo nó de família
             family_node = {"name": family_name, "children": []}
             clade_dict[clade_name]["children"].append(family_node)
 
