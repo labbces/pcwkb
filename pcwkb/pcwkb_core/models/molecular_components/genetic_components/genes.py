@@ -3,7 +3,6 @@ from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 
 class Gene(models.Model):
     """TODO: add comments/ docstrings (try to follow PEP257/ PEP8)"""
-    gene_id = models.CharField(max_length=50, unique=True, null=True, blank=True)
     gene_name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     original_db = models.CharField(max_length=50, null=True, blank=True)

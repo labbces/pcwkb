@@ -1,15 +1,14 @@
 from django.db import models
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
-from pcwkb_core.models.molecular_components.genes import Gene
+from pcwkb_core.models.literature.literature import Literature
 
 class Genome(models.Model):
-    genome_id = models.CharField(max_length=50, unique=True)
-    genome_name = models.CharField(max_length=100)
+    genome_version = models.CharField(max_length=50, unique=True)
     description = models.TextField(null=True, blank=True)
-    original_db = models.CharField(max_length=50, unique=True)
+    source_db = models.CharField(max_length=50)
 
+    literature_id = models.ForeignKey(Literature, on_delete=models.CASCADE)
     species_id = models.ForeignKey(Species, on_delete=models.CASCADE)
-    gene_id = models.ForeignKey(Species, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.genome_name
+        return self.genome_version
