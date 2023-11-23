@@ -12,7 +12,9 @@ class Literature(models.Model):
     def __str__(self):
         return self.doi
 
-    def add(doi):
+    def get_lit_info(self, doi):
+
+        print(doi,"\n\n\n\n\n\n\n\n")
 
         # verify if DOI already exists in DB, if not, collect data
         literature = Literature.objects.get(doi=doi)
@@ -43,7 +45,7 @@ class Literature(models.Model):
                                         author_name=author_name, 
                                         title=title,
                                         public_year=public_year)
-
+        return new_literature
 
 
 
