@@ -9,8 +9,8 @@ from .models.literature.literature import Literature
 class LitAdmin(admin.ModelAdmin):
     
     def save_model(self, request, obj, form, change):
-        # obj.get_lit_info(request.doi)
-        print(request)
+        doi = request.POST['doi']
+        obj = Literature.get_lit_info(doi)
         super().save_model(request, obj, form, change)
 
 
