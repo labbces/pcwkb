@@ -12,13 +12,11 @@ class Literature(models.Model):
     def __str__(self):
         return self.doi
 
-    def get_lit_info(self, doi):
-
-        print(doi,"\n\n\n\n\n\n\n\n")
+    def get_lit_info(doi):
 
         # verify if DOI already exists in DB, if not, collect data
-        literature = Literature.objects.get(doi=doi)
-        
+        literature = Literature.objects.filter(doi=doi).first()
+
         if literature is None:
 
             works = Works()
@@ -32,14 +30,11 @@ class Literature(models.Model):
             title = literature_info['title']
 
             if 'published-print' in literature_info.keys():
-                print(literature_info['published-print']['date-parts'])
-                public_year = literature_info['published-print']['date-parts'][0][0]
+                public_year = str(literature_info['published-print']['date-parts'][0][0])+"-01-01"
             elif 'published-online' in literature_info.keys():
-                print(literature_info['published-online']['date-parts'])
-                public_year = literature_info['published-online']['date-parts'][0][0]
+                public_year = str(literature_info['published-online']['date-parts'][0][0])+"-01-01"
             else:
-                print(literature_info['issued']['date-parts'])
-                public_year = literature_info['issued']['date-parts'][0][0]
+                public_year = str(literature_info['issued']['date-parts'][0][0])+"-01-01"
             
             new_literature = Literature(doi=doi,
                                         author_name=author_name, 
