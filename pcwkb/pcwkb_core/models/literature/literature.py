@@ -27,7 +27,7 @@ class Literature(models.Model):
             else:
                 author_name = literature_info['author'][0]['name']
 
-            title = literature_info['title']
+            title = literature_info['title'][0]
 
             if 'published-print' in literature_info.keys():
                 public_year = str(literature_info['published-print']['date-parts'][0][0])+"-01-01"
