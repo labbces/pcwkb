@@ -3,15 +3,15 @@ from django.contrib import admin
 from .models.taxonomy.ncbi_taxonomy import Species
 from .models.molecular_components.genetic_components.genes import Gene
 from .models.molecular_components.genetic_components.genomes import Genome
-from .models.biomass.biomass_composition import BiomassComposition
+from .models.molecular_components.pcw.biomass_composition import BiomassComposition
 from .models.literature.literature import Literature
 from .models.functional_annotation.annotation_method import GenomeAnnotationMethod
 from .models.functional_annotation.cazyme import CAZyme
 from .models.functional_annotation.gene_ontology import GeneOntologyTerm, GOProteinAssociation
 from .models.functional_annotation.interpro import InterPro, InterProProteinAssociation
-from .models.functional_annotation.metabolic_map import MetabolicMap
-from .models.functional_annotation.transcript import Transcript, TranscriptionalRegulatorFamily
-from .models.functional_annotation.transcript import TranscRegProteinAssociation
+from .models.functional_annotation.metabolism import MetabolicMap
+from .models.functional_annotation.transcriptional_regulation import Transcript, TranscriptionalRegulatorFamily
+from .models.functional_annotation.transcriptional_regulation import TranscRegProteinAssociation
 
 
 class LitAdmin(admin.ModelAdmin):

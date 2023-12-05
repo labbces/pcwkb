@@ -1,9 +1,13 @@
 from django.db import models
-from pcwkb_core.models.experiment.eco import ECOTerm
+
+from pcwkb.pcwkb_core.models.ontologies.experiment_related.eco import ECOTerm
 from pcwkb_core.models.literature.literature import Literature
 
+
 class Experiment(models.Model):
-    experiment_id = models.CharField(max_length=50, unique=True)
+    """TODO: documentation
+    
+    """
     experiment_name = models.CharField(max_length=50)
     experiment_category = models.CharField('Category of the experiment', max_length=50)
     description = models.TextField(null=True, blank=True)

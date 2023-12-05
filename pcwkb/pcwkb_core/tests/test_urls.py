@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
-from pcwkb_core.views.views import species_page
+from pcwkb.pcwkb_core.views.taxonomy.species import species_page
 
 class TestUrls(SimpleTestCase):
 

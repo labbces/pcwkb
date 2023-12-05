@@ -1,13 +1,16 @@
 from django.urls import path
 from django.urls import path, include
-from pcwkb_core.views import views
+
+from pcwkb.pcwkb_core.views.taxonomy import species
+from pcwkb.pcwkb_core.views.molecular_components import gene
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("browse_species", views.browse_species, name='browse_species'),
-    path("species_page/<str:species_code>", views.species_page, name='species_page'),
-    path('team', views.team, name='team'),
-    path('funding', views.funding, name='funding'),
-    path('faq', views.faq, name='faq'),
+    path("", species.index, name="index"),
+    path("browse_species", species.browse_species, name='browse_species'),
+    path("species_page/<str:species_code>", species.species_page, name='species_page'),
+    path("gene_page/<int:gene_id>", gene.gene_page, name='gene_page'),
+    path('team', species.team, name='team'),
+    path('funding', species.funding, name='funding'),
+    path('faq', species.faq, name='faq'),
     path('search/search', include('haystack.urls')),
 ]
