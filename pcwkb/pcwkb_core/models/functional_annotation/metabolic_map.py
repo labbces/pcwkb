@@ -1,5 +1,5 @@
 from django.db import models
-from pcwkb_core.models.molecular_components.proteins import Protein
+from pcwkb_core.models.molecular_components.genetic_components.proteins import Protein
 
 class MetabolicMap(models.Model):
     kegg_map_id = models.CharField('KEGG map identifier', max_length=8)

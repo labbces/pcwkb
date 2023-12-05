@@ -1,5 +1,5 @@
 from django.db import models
-from pcwkb_core.models.molecular_components.proteins import Protein
+from pcwkb_core.models.molecular_components.genetic_components.proteins import Protein
 
 class GeneOntologyTerm(models.Model):
     go_id = models.CharField(max_length=50, unique=True)

@@ -7,4 +7,4 @@ class GenomeAnnotationMethod(models.Model):
     software_version = models.CharField('Software version', max_length=10)
     release_date = models.DateField('Release date')
 
-    literature = models.ForeignKey(LiteratureItem, on_delete=models.CASCADE)
+    literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
