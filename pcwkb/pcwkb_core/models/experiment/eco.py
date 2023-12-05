@@ -1,7 +1,7 @@
 from django.db import models
 
 class ECOTerm(models.Model):
-    eco_id = models.CharField(max_length=50, unique=True)
+    eco_term = models.CharField(max_length=50, unique=True)
     eco_name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
 
