@@ -1,13 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <head>
+        <title>Gráfico de Árvore com D3.js</title>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        {% load static %}
+        <script>
+            var data = {{ data|safe }};
+        </script>
+        <script src="{% static 'script/speciestree1.js' %}"></script>
+
+    </head>
 
     <header>
         <h1>Species</h1>
+        <div id="chart"></div>
     </header>
 
     <div class="b-example-divider"></div>
-
-    {% endblock %}
-    
-</html>
+{% endblock %}
