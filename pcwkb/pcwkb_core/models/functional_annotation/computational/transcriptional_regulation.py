@@ -1,5 +1,5 @@
 from django.db import models
-from pcwkb_core.models.functional_annotation.annotation_method import GenomeAnnotationMethod
+from pcwkb_core.models.functional_annotation.computational.annotation_method import GenomeAnnotationMethod
 
 
 class TranscriptionalRegulatorFamily(models.Model):

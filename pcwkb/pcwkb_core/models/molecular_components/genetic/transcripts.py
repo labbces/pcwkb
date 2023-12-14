@@ -1,5 +1,5 @@
 from django.db import models
-
+from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
 class Transcript(models.Model):
     """TODO: documentation

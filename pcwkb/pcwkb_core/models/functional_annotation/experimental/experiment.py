@@ -1,6 +1,6 @@
 from django.db import models
 
-from pcwkb.pcwkb_core.models.ontologies.experiment_related.eco import ECOTerm
+from pcwkb_core.models.ontologies.experiment_related.eco import ECOTerm
 from pcwkb_core.models.literature.literature import Literature
 
 

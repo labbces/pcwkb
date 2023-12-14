@@ -1,6 +1,6 @@
 from django.db import models
-from pcwkb_core.models.molecular_components.genetic_components.proteins import Protein
-from pcwkb_core.models.functional_annotation.annotation_method import GenomeAnnotationMethod
+from pcwkb_core.models.molecular_components.genetic.proteins import Protein
+from pcwkb_core.models.functional_annotation.computational.annotation_method import GenomeAnnotationMethod
 
 
 class CAZyme(models.Model):

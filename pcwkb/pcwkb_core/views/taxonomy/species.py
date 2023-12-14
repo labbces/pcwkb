@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
-from pcwkb.pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
+from pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
 
 def species_page(request, species_code):
 
