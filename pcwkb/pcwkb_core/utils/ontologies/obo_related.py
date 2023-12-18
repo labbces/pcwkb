@@ -2,15 +2,12 @@
 Parser class for obo files (ontology structure files).
 Copied from Conekt source code (https://github.com/sepro/conekt)
 """
-from copy import deepcopy
-
-import gzip
+import deepcopy
 
 class OboEntry:
     """
     Class to store data for a single entry in an OBO file
     """
-
     def __init__(self):
         self.id = ""
         self.name = ""
@@ -71,49 +68,36 @@ class OboEntry:
         elif key == "is_obsolete" and value == "true":
             self.make_obsolete()
 
-    def print(self):
+    def get_dict(self):
         """
         print term to terminal
         """
-        print("ID:\t\t" + self.id)
-        print("Name:\t\t" + self.name)
-        print("Namespace:\t" + self.namespace)
-        print("Definition:\t" + self.definition)
-        print("is_a: " + str(self.is_a))
-        print("extended_parents: " + str(self.extended_go))
+        return {
+            "id": self.id,
+            "name": self.name,
+            "namespace": self.namespace,
+            "definition": self.definition,
+            "is_a": self.is_a,
+            "synonym": self.synonym,
+            "alt_id": self.alt_id,
+            "extended_go": self.extended_go,
+            "is_obsolete": self.is_obsolete,
+        }
 
-        if self.is_obsolete:
-            print("OBSOLETE")
 
 class Parser:
     """
     Reads the specified obo file
     """
-
     def __init__(self):
         self.terms = []
 
-    def print(self):
-        """
-        prints all the terms to the terminal
-        """
-        for term in self.terms:
-            term.print()
-
-    def readfile(self, filename, compressed=False):
+    def readfile(self, filename):
         """
         Reads an OBO file (from filename) and stores the terms as OBOEntry objects
         """
         self.terms = []
-
-        if compressed:
-            load = gzip.open
-            load_type = "rt"
-        else:
-            load = open
-            load_type = "r"
-
-        with load(filename, load_type) as f:
+        with open(filename, "r") as f:
             current_term = None
 
             for line in f:
@@ -168,3 +152,6 @@ class Parser:
                             extended_go.append(new_go)
 
             term.set_extended_go(extended_go)
+
+    def get_term_dicts(self):
+        return [term.get_dict() for term in self.terms]

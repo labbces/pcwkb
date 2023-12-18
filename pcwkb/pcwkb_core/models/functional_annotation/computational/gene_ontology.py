@@ -4,13 +4,13 @@ from pcwkb_core.models.molecular_components.genetic.proteins import Protein
 class GeneOntologyTerm(models.Model):
     """ todo: documentation
     """
-    go_term = models.CharField(max_length=50 unique=True)
+    go_term = models.CharField(max_length=50, unique=True)
     go_class = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.go_term
-    
+
     def add_from_obo(filename, empty=True, compressed=False):
         """
         Parses GeneOntology's OBO file and adds it to the database
@@ -24,33 +24,39 @@ class GeneOntologyTerm(models.Model):
 
         obo_parser = OBOParser()
         obo_parser.readfile(filename, compressed=compressed)
-
         obo_parser.extend_go()
+
+        if empty:
+            # Assuming your model is named GO and is in your_django_app.models
+            GO.objects.all().delete()
 
         for i, term in enumerate(obo_parser.terms):
             go = GO(
-                term.id,
-                term.name,
-                term.namespace,
-                term.definition,
-                term.is_obsolete,
-                ";".join(term.is_a),
-                ";".join(term.extended_go),
+                term_id=term.id,
+                name=term.name,
+                namespace=term.namespace,
+                definition=term.definition,
+                is_obsolete=term.is_obsolete,
+                is_a=";".join(term.is_a),
+                extended_go=";".join(term.extended_go),
             )
 
-            db.session.add(go)
+            go.save()
 
             if i % 40 == 0:
-                # commit to the db frequently to allow WHOOSHEE's indexing function to work without timing out
+                # commit to the db frequently to allow indexing functions to work without timing out
                 try:
-                    db.session.commit()
+                    # Assuming you are using Django ORM
+                    transaction.commit()
                 except Exception as e:
-                    db.session.rollback()
+                    transaction.rollback()
                     print(e)
+
         try:
-            db.session.commit()
+            # commit remaining changes
+            transaction.commit()
         except Exception as e:
-            db.session.rollback()
+            transaction.rollback()
             print(e)
 
 
