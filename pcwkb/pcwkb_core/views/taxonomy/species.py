@@ -9,10 +9,11 @@ def species_page(request, species_code):
                 'species_id': '',
                 'scientific_name': '',
                 'common_name': '',
-                'experimental_genes': {}}
+                'experimental_genes': {},
+                'biomass_composition': "asdasdasd"}
 
     context['species_id'] = Species.objects.get(species_code=species_code).id
-    context['experimental_genes'] = GeneExperimentAssociation.objects.filter(species_id=context['species_id'])
+#    context['experimental_genes'] = GeneExperimentAssociation.objects.filter(species_id=context['species_id'])
 
     context['common_name'] = Species.objects.get(species_code=species_code).common_name
     context['scientific_name'] = Species.objects.get(species_code=species_code).scientific_name

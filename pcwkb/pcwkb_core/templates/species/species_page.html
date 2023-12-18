@@ -2,45 +2,88 @@
 
 {% block content %}
 
-    <p>  {% if scientific_name %}
+<p> {% if scientific_name %}
 
-    <header>
-        <h1>{{ scientific_name }}</h1>
-    </header>
+<header>
+  <h1>{{ scientific_name }}</h1>
+</header>
 
-    <div class="b-example-divider"></div>
+<div class="b-example-divider"></div>
 
-    {{ species_code }}
+{{ species_code }}
 
-    {% if common_name %}
-    {{ common_name }}
-    {% endif %}
+{% if common_name %}
+{{ common_name }}
+{% endif %}
 
-    {% endif %} </p>
+{% endif %} </p>
 
-    Plant Cell Wall-related Genes
+{% if biomass_composition %}
+<div>
+  <div id="grafico"></canvas>
+  </div>
+  {% endif %}
 
-    {% if  %}
+  Plant Cell Wall-related Genes
 
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Gene Identifier</th>
-            <th scope="col">Cell Wall Component</th>
-            <th scope="col">Experiment</th>
-            <th scope="col">Paper</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">{%  %}</th>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+  {% if experimental_genes %}
 
-    {% endif %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Gene Identifier</th>
+        <th scope="col">Cell Wall Component</th>
+        <th scope="col">Experiment</th>
+        <th scope="col">Paper</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">asdasd</th>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
- {% endblock %}
-</html>
+  {% endif %}
+
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script>
+    PLOT = document.getElementById('grafico');
+    var data = [{
+      values: [45, 20, 3, 25, 7],
+      labels: ['Cellulose', 'Hemicellulose', 'Pectin', 'Lignin', 'Other'],
+      domain: { column: 0 },
+      name: 'Cell Wall Components',
+      hoverinfo: 'label+percent',
+      hole: .4,
+      type: 'pie',
+      automargin: true
+    }];
+
+    var layout = {
+      title: '<i>Populus trichocarpa</i>',
+      annotations: [
+        {
+          font: {
+            size: 15
+          },
+          showarrow: false,
+          text: 'Cell Wall Components',
+          x: 0.5,
+          y: 0.5
+        }],
+      height: 600,
+      width: 800,
+      showlegend: true,
+      legend: { "orientation": "h" },
+      grid: { rows: 1, columns: 1 }
+    };
+
+    Plotly.newPlot(PLOT, data, layout);
+  </script>
+
+  {% endblock %}
+
+  </html>
