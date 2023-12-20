@@ -15,6 +15,16 @@ from .models.functional_annotation.computational.kegg import MetabolicMap
 from .models.functional_annotation.computational.transcriptional_regulation import TranscriptionalRegulatorFamily
 
 
+
+class SpeciesAdmin(admin.ModelAdmin):
+    
+    def save_model(self, request, obj, form, change):
+        taxid = request.POST['taxid']
+        obj = Species.insert_species_ncbi_taxid(taxid)
+        super().save_model(request, obj, form, change)
+
+
+
 class LitAdmin(admin.ModelAdmin):
     
     def save_model(self, request, obj, form, change):
@@ -23,7 +33,7 @@ class LitAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
-admin.site.register(Species)
+admin.site.register(Species, SpeciesAdmin)
 admin.site.register(Gene)
 admin.site.register(Genome)
 admin.site.register(Transcript)
