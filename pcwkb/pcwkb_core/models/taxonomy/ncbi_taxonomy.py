@@ -3,12 +3,13 @@ from Bio import Entrez
 
 
 class Species(models.Model):
-    species_code = models.CharField(max_length=10)
-    scientific_name = models.CharField(max_length=50)
-    common_name = models.CharField(max_length=30)
-    family = models.CharField(max_length=30)
-    clade = models.CharField(max_length=50)
-    photosystem = models.CharField(max_length=10)
+    species_code = models.CharField(max_length=10, null=False, blank=True)
+    taxid = models.IntegerField()
+    scientific_name = models.CharField(max_length=50, null=False, blank=True)
+    common_name = models.CharField(max_length=30, null=True, blank=True)
+    family = models.CharField(max_length=30, null=False, blank=True)
+    clade = models.CharField(max_length=50, null=False, blank=True)
+    photosystem = models.CharField(max_length=10, null=True, blank=True)
 
     def __str__(self):
         return self.scientific_name
@@ -24,9 +25,40 @@ class Species(models.Model):
 
         records = Entrez.parse(handle)
 
+        scientific_name = ''
+        species_code = ''
+        common_name = ''
+        family = ''
+        clade = ''
+        photosystem = ''    
+
         for tax_item in records:
-            # print(tax_item['TaxId'],tax_item['ScientificName'],tax_item['OtherNames'], tax_item['Lineage'])
-            lineage_list = tax_item['Lineage'].split(';')
+
+            scientific_name = tax_item['ScientificName']
+            species_code = scientific_name.split(' ')[0][0] + scientific_name.split(' ')[1][0:2]
+
+            db_species = Species.objects.filter(species_code=species_code).first()
+
+            i = 0
+            while db_species:
+                i = i + 1
+                species_code = species_code + str(i)
+                db_species = Species.objects.filter(species_code=species_code).first()
+            
+            common_name = 'batata' #tax_item['OtherNames']
+            family = 'Poaceae'
+            clade = 'mmonocot'
+            photosystem = 'C4'
+    
+        new_species = Species(scientific_name = scientific_name,
+        taxid = taxid,
+        species_code = species_code,
+        common_name = common_name,
+        family = family,
+        clade = clade,
+        photosystem = photosystem)
+
+        return new_species
             
 
 
