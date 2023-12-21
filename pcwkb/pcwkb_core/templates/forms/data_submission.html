@@ -25,28 +25,10 @@
     <dd class="col-sm-9">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</dd>
   </div>
 
-
-  <form method="post" enctype="multipart/form-data">
+  <form method="get">
     {% csrf_token %}
-    
-    <div class="input-group mb-3">
-        <input type="file" class="form-control" id="inputGroupFile02" accept=".xlsx, .xls">
-        <label class="input-group-text" for="inputGroupFile02">Upload</label>
-    </div>
-    
+    {{ form }}
     <input type="submit" value="Submit">
-
-    {% if request.method == 'POST' and not request.FILES %}
-        <blockquote class="blockquote mt-3">
-            <p class="mb-0">Please upload a file in Excel format (xlsx or xls).</p>
-        </blockquote>
-    {% else %}
-                <!-- Lógica para salvar o arquivo no banco de dados aqui -->
-                <blockquote class="blockquote mt-3">
-                    <p class="mb-0">Submission successful. File '{{ uploaded_file.name }}' has been saved.</p>
-                </blockquote>
-    {% endif %}
-
-</form>
+  </form>
 
 {% endblock %}
