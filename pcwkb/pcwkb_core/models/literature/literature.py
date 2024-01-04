@@ -13,10 +13,10 @@ class Literature(models.Model):
         return self.doi
 
     def get_lit_info(doi):
+        """ Gets literature information using only the DOI identifier whit crossref library.
 
-        # verify if DOI already exists in DB, if not, collect data
-        literature = Literature.objects.filter(doi=doi).first()
-
+        Verify if DOI already exists in DB, if not, collect data and store in the fields from Literature class.
+        """
         if literature is None:
 
             works = Works()

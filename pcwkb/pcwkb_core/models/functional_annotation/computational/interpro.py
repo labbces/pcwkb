@@ -2,6 +2,11 @@ from django.db import models
 from pcwkb_core.models.molecular_components.genetic.proteins import Protein
 
 class InterPro(models.Model):
+    """Receive InterPro information
+    
+    This class stores information found in InterPro, such as its ID and 
+    its description.
+    """
     interpro_id = models.CharField(max_length=50, unique=True)
     description = models.TextField(null=True, blank=True)
 

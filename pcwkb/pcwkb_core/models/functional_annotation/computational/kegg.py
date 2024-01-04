@@ -2,6 +2,12 @@ from django.db import models
 from pcwkb_core.models.molecular_components.genetic.proteins import Protein
 
 class MetabolicMap(models.Model):
+    """Receive Metabolic map informations
+    
+    This class stores information about metabolic pathways, 
+    such as its name, the KEGG ID related to the map, the map
+    class, the KO pathway entry and the description of the KEGG map.
+    """
     kegg_map_id = models.CharField('KEGG map identifier', max_length=8)
     name = models.CharField('Map name', max_length=30)
     map_class = models.CharField('Map class', max_length=100)

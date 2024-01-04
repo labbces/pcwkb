@@ -4,8 +4,12 @@ from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 
 
 class Gene(models.Model):
-    """TODO: add comments/ docstrings (try to follow PEP257/ PEP8)
+    """Receive genes information
     
+    This class stores information about a gene, such as its name, 
+    the description of the gene and the database where this gene was found. 
+    We also require that this gene need to be related to a species, reason 
+    why we included the cascade ForeingKey. 
     """
     gene_name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)

@@ -6,8 +6,10 @@ from pcwkb_core.models.literature.literature import Literature
 
 
 class GeneExperimentAssociation(models.Model):
-    """TODO: documentation
+    """Relate a gene function on the PCW with an experiment 
     
+    This class relates a gene with an experiment that involves
+    it using the literature that brings this experiment.
     """
 
     gene_id = models.ForeignKey(Gene, on_delete=models.CASCADE)

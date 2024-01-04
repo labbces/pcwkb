@@ -4,7 +4,10 @@ from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
 
 def species_page(request, species_code):
-
+    """
+    This function shows the species page with the species information
+    that will be taken from the database using the species code.
+    """
     context = { 'species_code': species_code,
                 'species_id': '',
                 'scientific_name': '',
@@ -21,6 +24,10 @@ def species_page(request, species_code):
     return render(request, 'species/species_page.html', context)
 
 def browse_species(request):
+    """
+    Function that shows a cladogram in the browse species page,
+    that gets the information from the database and shows in the tree.
+    """
     species_data = Species.objects.values('species_code', 'scientific_name', 'common_name', 'family', 'clade', 'photosystem')
     print(species_data)
 

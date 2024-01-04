@@ -5,8 +5,10 @@ from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
 
 class GeneFunctionAssociation(models.Model):
-    """TODO: documentation
+    """Relates a gene with its function 
     
+    This class associates the anotation method, 
+    the gene and the transcriptional regulatory family.
     """
 
     annotation_method = models.ForeignKey(GenomeAnnotationMethod, on_delete=models.CASCADE, null=False, blank=False)

@@ -5,8 +5,12 @@ from pcwkb_core.models.literature.literature import Literature
 
 
 class Experiment(models.Model):
-    """TODO: documentation
+    """Receive an experiment involving PCW related genes.
     
+    This class stores information about an experiment, such as its name, 
+    the description of the experiment and the experiment category. It also
+    can recieve a ECO Term and is required to com with a literature to validate
+    the experiment. 
     """
     experiment_name = models.CharField(max_length=50)
     experiment_category = models.CharField('Category of the experiment', max_length=50)

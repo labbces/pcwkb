@@ -4,6 +4,11 @@ from pcwkb_core.models.functional_annotation.computational.annotation_method imp
 
 
 class CAZyme(models.Model):
+    """ This class store the information about CAZymes.
+
+    The CAZyme table include family, class, clan, subfamily
+    and putative activities in the family or subfamily.
+    """
     family = models.CharField('CAZyme Family', max_length=30)
     cazyme_class = models.CharField('CAZyme Class', max_length=30)
     clan = models.CharField('CAZyme Clan', max_length=30, null=True, blank=True)

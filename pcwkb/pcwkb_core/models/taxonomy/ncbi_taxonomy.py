@@ -3,6 +3,12 @@ from Bio import Entrez
 
 
 class Species(models.Model):
+    """Receive Species information.
+    
+    This class stores information about a specie, such as its scientific 
+    and common name, the description of the specie, the family and clade 
+    where the specie is assigned and its photosystem type.  
+    """
     species_code = models.CharField(max_length=10, null=False, blank=True)
     taxid = models.IntegerField()
     scientific_name = models.CharField(max_length=50, null=False, blank=True)
@@ -15,9 +21,11 @@ class Species(models.Model):
         return self.scientific_name
 
     def insert_species_ncbi_taxid(taxid):
-        ''' Inserts Species based on TaxID
+        ''' Inserts Species based on TaxID.
 
-
+        This function uses the Biopython library and  the TaxID from 
+        NCBI to collect the information that will be used to fill the 
+        species table in the database.
         '''
 
         Entrez.email = "pcwkb@gmail.com"     # Always tell NCBI who you are

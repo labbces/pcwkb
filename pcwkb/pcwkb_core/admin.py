@@ -17,8 +17,11 @@ from .models.functional_annotation.computational.transcriptional_regulation impo
 
 
 class SpeciesAdmin(admin.ModelAdmin):
-    
+    """Class for adding species on Admin 
+    """  
     def save_model(self, request, obj, form, change):
+    """Function that saves the information obtained by insert_species_ncbi_taxid function 
+    """  
         taxid = request.POST['taxid']
         obj = Species.insert_species_ncbi_taxid(taxid)
         super().save_model(request, obj, form, change)
@@ -26,8 +29,11 @@ class SpeciesAdmin(admin.ModelAdmin):
 
 
 class LitAdmin(admin.ModelAdmin):
-    
+    """Class for adding literature on Admin 
+    """  
     def save_model(self, request, obj, form, change):
+    """Function that saves the information obtained by get_lit_info function 
+    """  
         doi = request.POST['doi']
         obj = Literature.get_lit_info(doi)
         super().save_model(request, obj, form, change)

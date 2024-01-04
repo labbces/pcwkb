@@ -2,7 +2,10 @@ from django.db import models
 from pcwkb_core.models.molecular_components.genetic.proteins import Protein
 
 class GeneOntologyTerm(models.Model):
-    """ todo: documentation
+    """Receive Gene Ontology terms
+    
+    This class stores information about a ontology, such as its name, 
+    the description of the ontology and the term of the ontology.
     """
     go_term = models.CharField(max_length=50, unique=True)
     go_class = models.CharField(max_length=200)
