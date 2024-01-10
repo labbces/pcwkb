@@ -26,6 +26,17 @@
 
   Plant Cell Wall-related Genes
 
+
+  {% if genes_paginated %}
+   
+  {% for page in genes_paginated %}
+
+    {{ page.object_list }}<br>
+
+  {% endfor %}
+
+  {% endif %}
+
   {% if experimental_genes %}
 
   <table class="table">
