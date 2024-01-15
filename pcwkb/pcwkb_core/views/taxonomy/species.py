@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.views.generic import ListView
+from django.http import Http404
 
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
@@ -18,6 +19,11 @@ def species_page(request, species_code):
     that will be taken from the database using the species code.
     """
 
+    try:
+        p = Species.objects.get(species_code=species_code).id
+    except Species.DoesNotExist:
+        raise Http404("Species does not exist")
+
     context = { 'species_code': species_code,
                 'species_id': '',
                 'scientific_name': '',
@@ -25,8 +31,6 @@ def species_page(request, species_code):
                 'experimental_genes': {},
                 'genes_paginated': {},
                 'biomass_composition': "asdasdasd"}
-
-
 
     context['species_id'] = Species.objects.get(species_code=species_code).id
     context['genes_paginated'] = listing_genes(context['species_id'])
