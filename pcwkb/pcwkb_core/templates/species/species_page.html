@@ -28,36 +28,50 @@
 
 
   {% if genes_paginated %}
-   
-  {% for page in genes_paginated %}
 
-    {{ page.object_list }}<br>
+  {% for page in genes_paginated.page %}
+
+    <table class="table" text-align="center">
+      <thead>
+        <tr>
+          <th scope="col">Gene Identifier</th>
+          <th scope="col">Description</th>
+          <th scope="col">Paper</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for gene in page %}
+          <tr>
+            <th scope="row">{{ gene.gene_name }}</th>
+            <td>{{ gene.description }}</td>
+            <td>{{ gene.original_db }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
   {% endfor %}
 
-  {% endif %}
+  <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
 
-  {% if experimental_genes %}
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Gene Identifier</th>
-        <th scope="col">Cell Wall Component</th>
-        <th scope="col">Experiment</th>
-        <th scope="col">Paper</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">asdasd</th>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
 
-  {% endif %}
+{% endif %}
+
 
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <script>
@@ -94,7 +108,6 @@
 
     Plotly.newPlot(PLOT, data, layout);
   </script>
+</html>
 
-  {% endblock %}
-
-  </html>
+{% endblock %}
