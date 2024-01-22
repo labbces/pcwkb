@@ -1,17 +1,11 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from django.views.generic import ListView
 from django.http import Http404
 
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 from pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
 
-def listing_genes(species_id):
-    gene_list = Gene.objects.filter(species_id=species_id)
-    paginator = Paginator(gene_list, 3)  # Show 3 genes per page.
-
-    return paginator
 
 def species_page(request, species_code):
     """
@@ -33,8 +27,7 @@ def species_page(request, species_code):
                 'biomass_composition': "asdasdasd"}
 
     context['species_id'] = Species.objects.get(species_code=species_code).id
-    context['genes_paginated'] = listing_genes(context['species_id'])
-    print(context['genes_paginated'].page(1),'\n\n\n\n\n\n')
+    context['genes_paginated'] = Gene.objects.filter(species_id=context['species_id'])
 
     context['common_name'] = Species.objects.get(species_code=species_code).common_name
     context['scientific_name'] = Species.objects.get(species_code=species_code).scientific_name
