@@ -2,9 +2,96 @@
 
   {% block content %}
 
-    <h1>Welcome to Plant Cell Wall KnowledgeBase</h1>
-    
+  {% load static %}
+
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head> 
+
+<style>
+  * {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.text-column {
+  padding: 3rem;
+  width: 50%;
+  background-color: #f5f5f5;
+}
+
+.image-column {
+  padding: 3rem;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #88b993;
+}
+
+.image-column img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .text-column,
+  .image-column {
+    width: 100%;
+  }
+}
+
+.browse-species-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #218838;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.browse-species-btn:hover {
+  background-color: #218838;
+}
+
+.full-width-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+</style>
+
+    <div class="container">
+      <div class="content"></div>
+      <div class="text-column">
+        <h1>Welcome to Plant Cell Wall KnowledgeBase!</h1>
+        <p style="text-align: justify;"> Our database facilitates the conection between molecular biology experiments and changes in composition of plant cell wall and biomass.<br>   It mainly comprises grass species (including the main grass C3 and C4 models), but we also include dicot models (such as <em>Arabidopsis thaliana</em>).<br>   We expect that this resource acelerate research aiming to study elements involved in biomass recalcitrance and finally use this information in molecular breeding programs.</p>
+        <a href="/pcwkb_core/browse_species" class="browse-species-btn">Browse Species</a>
+      </div>
+      <div class="image-column">
+        <img src="{% static 'img/pcwkb.jpg' %}" alt="Plant Cell Wall KnowledgeBase" class="full-width-image">
+      </div>
+    </div>
+  </body>
+  </html>
     </script>
     
-  {% endblock %}
 </html>
+
+{% endblock %}

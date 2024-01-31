@@ -5,28 +5,42 @@
 <p> {% if scientific_name %}
 
 <header>
-  <h1>{{ scientific_name }}</h1>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+        <h2 class="mb-4 display-5 text-center">{{ scientific_name }}</h2>
+        <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
+        {% if common_name %}
+        <h4 class="text-secondary mb-5 text-center"> Common Name: {{ common_name }} <br> Species Code: {{ species_code }} </h4>
+        {% else %}
+        <h4 class="text-secondary mb-5 text-center"> Species Code: {{ species_code }} </h4>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </header>
+
+<style>
+  body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+</style>
 
 <div class="b-example-divider"></div>
 
-{{ species_code }}
-
-{% if common_name %}
-{{ common_name }}
-{% endif %}
 
 {% endif %} </p>
 
 {% if biomass_composition %}
-<div>
-  <div id="grafico"></canvas>
+<div class="row justify-content-md-center">
+  <div id="grafico" ></canvas>
   </div>
   {% endif %}
 
   {% if genes_paginated %}
 
-    Plant Cell Wall-related Genes
+    <h4>Plant Cell Wall-related Genes</h4>
 
     <table class="table" text-align="center" id="data-table">
       <thead>
@@ -100,7 +114,7 @@ loadTableData(1);
     }];
 
     var layout = {
-      title: '<i>Populus trichocarpa</i>',
+      title: '<i>{{ scientific_name }}</i>',
       annotations: [
         {
           font: {
