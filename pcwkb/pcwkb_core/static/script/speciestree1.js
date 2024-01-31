@@ -4,10 +4,10 @@ console.log(data);
     const marginTop = 100;
     const marginRight = 100;
     const marginBottom = 100;
-    const marginLeft = 400;
+    const marginLeft = 300;
     
-    const dx = 50;
-    const dy = 60;
+    const dx = 60;
+    const dy = 120;
     
     const tree = d3.tree().nodeSize([dx, dy]);
     const diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x);
@@ -16,7 +16,7 @@ console.log(data);
         .attr("width", width)
         .attr("height", dy)
         .attr("viewBox", [-marginLeft, -marginTop, width, dy])
-        .attr("style", "max-width: 100%; height: auto; font: 10px sans-serif; user-select: none;");
+        .attr("style", "max-width: 100%; height: auto; font: 20px sans-serif; user-select: none;");
     
     const gLink = svg.append("g")
         .attr("fill", "none")
@@ -71,17 +71,20 @@ console.log(data);
         .attr("dy", "0.31em")
         .attr("x", d => d._children ? -6 : 6)
         .attr("text-anchor", d => d._children ? "end" : "start")
-        .append("a")
-        .attr("href", d => {
-          return "http://127.0.0.1:8000/pcwkb_core/species_page/" + d.data.name.match(/\((.*?)\)/)?.[1];
-        })
-        .attr("target", "_blank")
-        .append("tspan")
-            .text(d => d.data.name)
-        .clone(true).lower()
-            .attr("stroke-linejoin", "round")
-            .attr("stroke-width", 3)
-            .attr("stroke", "white");
+        .each(function(d) {
+          if (d.data.name.match(/\((.*?)\)/)?.[1]) {
+              d3.select(this).append("a")
+                  .attr("href", d => {
+                      return "http://127.0.0.1:8000/pcwkb_core/species_page/" + d.data.name.match(/\((.*?)\)/)?.[1];
+                  })
+                  .attr("target", "_blank")
+                      .text(d => d.data.name)
+          }
+          else {
+              d3.select(this).append("tspan")
+                  .text(d => d.data.name)
+          }
+      });        
     
       const nodeUpdate = node.merge(nodeEnter).transition(transition)
           .attr("transform", d => `translate(${d.y},${d.x})`)

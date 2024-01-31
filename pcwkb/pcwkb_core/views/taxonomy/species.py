@@ -42,7 +42,7 @@ def browse_species(request):
     species_data = Species.objects.values('species_code', 'scientific_name', 'common_name', 'family', 'clade', 'photosystem')
     print(species_data)
 
-    data = {"name": "clado", "children": []}
+    data = {"name": "Angiospermae", "children": []}
 
     clade_dict = {}
     for species in species_data:
