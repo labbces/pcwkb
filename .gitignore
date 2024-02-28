@@ -1,5 +1,6 @@
 *pyc
-
+settings.py
+.venv/
 docs/build/
-
+solr-9.4.0/
 migrations/

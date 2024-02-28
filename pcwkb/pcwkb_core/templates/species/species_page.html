@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p> {% if scientific_name %}
+
+<header>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+        <h2 class="mb-4 display-5 text-center">{{ scientific_name }}</h2>
+        <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
+        {% if common_name %}
+        <h4 class="text-secondary mb-5 text-center"> Common Name: {{ common_name }} <br> Species Code: {{ species_code
+          }} </h4>
+        {% else %}
+        <h4 class="text-secondary mb-5 text-center"> Species Code: {{ species_code }} </h4>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+</style>
+
+<div class="b-example-divider"></div>
+
+
+{% endif %} </p>
+
+{% if biomass_composition %}
+<div class="row justify-content-md-center">
+  <div id="grafico"></canvas>
+  </div>
+  {% endif %}
+
+  {% if genes_paginated %}
+
+  <h4>Plant Cell Wall-related Genes</h4>
+
+  <table class="table" text-align="center" id="data-table">
+    <thead>
+      <tr>
+        <th scope="col">Gene Identifier</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+
+  <div id="pagination-links">
+
+  </div>
+  {% else %}
+
+  <p>No genes found for this species.</p>
+
+  {% endif %}
+
+  <script>
+
+    function loadTableData(page) {
+      fetch(`/pcwkb_core/gene_list/{{ species_id }}?page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+          const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+          tableBody.innerHTML = '';  // Clear current table data
+
+          data.data.forEach(rowData => {
+            const row = tableBody.insertRow();
+            const cell1 = row.insertCell(0);
+            cell1.innerHTML = rowData.gene_name;
+            const cell2 = row.insertCell(1);
+            cell2.innerHTML = rowData.description;
+          });
+
+          // Handle pagination links
+          const paginationLinks = document.getElementById('pagination-links');
+          paginationLinks.innerHTML = '';  // Clear current pagination links
+
+          for (let i = 1; i <= data.num_pages; i++) {
+            const link = document.createElement('a');
+            link.innerText = i;
+            link.href = '#';
+            link.addEventListener('click', () => loadTableData(i));
+            paginationLinks.appendChild(link);
+          }
+        });
+    }
+
+    // Load first page on page load
+    loadTableData(1);
+
+  </script>
+
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script>
+
+    var scientificName = "{{ scientific_name }}";
+    console.log(scientificName);
+    
+    var jsonData = {
+      "plants": {
+        "Brachypodium distachyon": {
+          "mature_leaves": {
+          "Neutral_sugar": 36.86,
+          "Uronosyls": 6.37,
+          "Phenolics": 0.8,
+          "Lignin": 6.48,
+          "Protein": 31.82,
+          "Other": 17.67
+          },
+          "mature_sheath": {
+            "Neutral_sugar": 56.06,
+            "Uronosyls": 6.35,
+            "Phenolics": 1.68,
+            "Lignin": 13.29,
+            "Protein": 9.84,
+            "Other": 12.78
+          },
+          "mature_stem": {
+            "Neutral_sugar": 60.20,
+            "Uronosyls": 5.77,
+            "Phenolics": 2.40,
+            "Lignin": 15.76,
+            "Protein": 8.27,
+            "Other": 7.61
+          },
+          "mature_flower_seed": {
+            "Neutral_sugar": 60.13,
+            "Uronosyls": 5.01,
+            "Phenolics": 2.42,
+            "Lignin": 11.07,
+            "Protein": 12.38,
+            "Other": 8.98
+          },
+          "expanding_leaves": {
+            "Neutral_sugar": 38.93,
+            "Uronosyls": 6.03,
+            "Phenolics": 0.77,
+            "Lignin": 6.25,
+            "Protein": 29.74,
+            "Other": 18.27
+          },
+          "expanding_sheath": {
+            "Neutral_sugar": 57.67,
+            "Uronosyls": 6.01,
+            "Phenolics": 1.69,
+            "Lignin": 13.29,
+            "Protein": 10.44,
+            "Other": 10.90
+          },
+          "expanding_stem": {
+            "Neutral_sugar": 62.63,
+            "Uronosyls": 6.03,
+            "Phenolics": 2.25,
+            "Lignin": 12.78,
+            "Protein": 10.69,
+            "Other": 5.62
+          },
+          "seedling_leaves": {
+            "Neutral_sugar": 44.29,
+            "Uronosyls": 6.62,
+            "Phenolics": 1.25,
+            "Lignin": 7.92,
+            "Protein": 30.47,
+            "Other": 9.45
+          },
+          "seedling_sheath_stem": {
+            "Neutral_sugar": 52.17,
+            "Uronosyls": 5.86,
+            "Phenolics": 1.76,
+            "Lignin": 12.26,
+            "Protein": 0,
+            "Other": 27.96
+          },
+          "seedling_root": {
+            "Neutral_sugar": 53.98,
+            "Uronosyls": 4.93,
+            "Phenolics": 1.94,
+            "Lignin": 12.46,
+            "Protein": 0,
+            "Other": 26.68
+          },
+          "embryonic_callus": {
+            "Neutral_sugar": 39.56,
+            "Uronosyls": 6.67,
+            "Phenolics": 2.34,
+            "Lignin": 7.94,
+            "Protein": 0,
+            "Other": 43.40
+          }
+        },
+        "Populus trichocarpa": {
+          "Geral": {
+            "Cellulose": 45,
+            "Hemicellulose": 20,
+            "Pectin": 3,
+            "Lignin": "~25",
+            "Other": 7
+          }
+        }
+      }
+    }
+
+    if (jsonData.plants.hasOwnProperty(scientificName)) {
+
+      PLOT = document.getElementById('grafico');
+      var plantData = jsonData.plants[scientificName];
+      var pieChartData = [];      
+      
+      var row = 0;
+      var column = 0;
+      var cell_Counter = 0;
+
+      var layout = {
+        title: 'Plant components distribution',
+        annotations: [],
+        height: 400*(Math.ceil(Object.keys(plantData).length/4)),
+        width: 1200,
+        showlegend: false,
+        grid: { rows: Math.ceil(Object.keys(plantData).length/4), columns: 4 }
+      };
+
+      for (var part in plantData) {
+        var values = [];
+        var labels = [];
+        for (var component in plantData[part]) {
+          labels.push(component);
+          values.push(plantData[part][component]);
+        }
+    
+        pieChartData.push({
+          values: values,
+          labels: labels,
+          domain: { row: row, column: column },
+          name: scientificName + ' - ' + part,
+          hoverinfo: 'label+percent',
+          hole: .7,
+          type: 'pie',
+          automargin: true
+        });
+
+        var annotation = {
+        font: {
+        size: 12
+        },
+        showarrow: false,
+        text: part,
+        x: 0.06 + (column * 0.3),
+        y: 0.85 - (row * 0.35),
+        };
+
+        cell_Counter++;
+        if (cell_Counter % 4 === 0) {
+            row++;
+            column = 0;
+        } else {
+            column++;
+        }
+
+        layout.annotations.push(annotation);
+      }
+
+      Plotly.newPlot(PLOT, pieChartData, layout);
+
+    } else {
+    console.log("Planta com o nome científico especificado não encontrada no JSON.");
+    }
+    console.log(layout)
+    console.log(pieChartData)
+  </script>
+
+  </html>
+
+  {% endblock %}

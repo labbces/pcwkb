@@ -1,0 +1,26 @@
+[
+ {"model": "pcwkb.cazyme",
+  "pk": 1,
+  "fields": {
+   "family": "Glycosyl Transferase Family 43",
+   "cazyme_class": "Glycosyl Transferase",
+   "putative_activities": "β-glucuronyltransferase (EC 2.4.1.135); UDP-Xyl: xylan β-1,4-xylosyltransferase (EC 2.4.2.-)"
+  }
+ },
+ {"model": "pcwkb.cazyme",
+ "pk": 2,
+ "fields": {
+  "family": "Glycosyl Transferase Family 47",
+  "cazyme_class": "Glycosyl Transferase",
+  "putative_activities": "UDP-GlcA: N-acetylglucosaminyl-proteoglycan β-1,4-glucuronosyltransferase (EC 2.4.1.225); UDP-Xyl: xylan β-1,4-xylosyltransferase (EC 2.4.2.-); α-1,3-L-arabinofuranosyltransferase (EC 2.4.2.-); arabinan α-1,5-L-arabinofuranosyltransferase (EC 2.4.2.-); glucomannan β-1,2-galactosyltransferase (EC 2.4.1.-); pectin β-1,4-glucuronyltransferase (EC 2.4.1.-); xylogalacturonan β-1,3-xylosyltransferase (EC 2.4.2.41); xyloglucan β-1,2-galactosyltransferase (EC 2.4.1.-)."
+ }
+},
+{"model": "pcwkb.cazyme",
+ "pk": 3,
+ "fields": {
+  "family": "Glycosyl Transferase Family 61",
+  "cazyme_class": "Glycosyl Transferase",
+  "putative_activities": "β-1,2-xylosyltransferase (EC 2.4.2.38) ; protein O-β-N-acetylglucosaminyltransferase (EC 2.4.1.94) ; xylan α-1,3-arabinofuranosyltransferase (EC 2.4.2.-) ; UDP-GlcNAc: protein O-β-N-acetylglucosaminyltransferase (EC 2.4.1.255); protein O-mannose Î²-1,4-N-acetylglucosaminyltransferase (EC 2.4.1.312)"
+ }
+}
+]

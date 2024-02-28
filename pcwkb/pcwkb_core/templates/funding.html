@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+  {% block content %}
+
+{% load static %}
+
+<html lang="pt">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="Mark Otto, Jacob Thornton e colaboradores do Bootstrap">
+      <meta name="generator" content="Hugo 0.84.0">
+      <title>Contact Us</title>
+  
+      <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/carrossel-rtl/">
+  
+      <!-- Bootstrap core CSS -->
+      <link href="/docs/5.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+  
+      <!-- Favoritos -->
+      <link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+      <link rel="icon" href "/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+      <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+      <link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
+      <link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+      <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
+      <meta name="theme-color" content="#7952b3">
+
+      <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.3/components/teams/team-1/assets/css/team-1.css">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""/>
+
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <title>Our Team</title>
+</head>
+<body>
+
+  <style>
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  </style>
+
+ <!-- Team 1 - Bootstrap Brain Component -->
+<section class="bg-light py-3 py-md-5 py-xl-8">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+          <h2 class="mb-4 display-5 text-center">Funding</h2>
+          <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+        </div>
+      </div>
+    </div>
+  
+    <div class="container overflow-hidden">
+      <div class="row gy-4 gy-lg-0 gx-xxl-5">
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-success shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static 'img/funding/fapesp.png' %}" alt="FAPESP">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">FAPESP</h4>
+                  <a href="https://fapesp.br/">Acesse Aqui</a>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-success shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static 'img/funding/cnpq.png' %}" alt="CNPq">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">CNPq</h4>
+                  <a href="https://www.gov.br/cnpq/pt-br">Acesse Aqui</a>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-success shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static 'img/funding/rgc2i.png' %}" alt="RCG2I">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">RCG2I</h4>
+                  <a href="https://sites.usp.br/rcgi/br/home/">Acesse Aqui</a>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-success shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static 'img/funding/inct_bioet.png' %}" alt="INCT do Bioetanol">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">INCT do Bioetanol</h4>
+                  <a href="https://inctbioetanol.ib.usp.br/">Acesse Aqui</a>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+{% endblock %}

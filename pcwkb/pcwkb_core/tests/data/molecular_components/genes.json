@@ -1,0 +1,155 @@
+[
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 1,
+  "fields": {
+   "gene_name": "OsMYB61a",
+   "description": "no description available",
+   "species_id": 1
+   }
+  },
+  {
+  "model": "pcwkb_core.gene",
+  "pk": 2,
+  "fields": {
+   "gene_name": "OsCESA4",
+   "description": "cellulose synthase, expressed",
+   "species_id": 1
+   }
+  },
+  {
+  "model": "pcwkb_core.gene",
+  "pk": 3,
+  "fields": {
+   "gene_name": "OsAT5",
+   "description": "no description available",
+   "species_id": 1
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 4,
+  "fields": {
+   "gene_name": "OsCSLH1",
+   "description": "cellulose synthase-like family H, expressed",
+   "species_id": 1
+  }
+ },
+ {
+    "model": "pcwkb_core.gene",
+    "pk": 5,
+    "fields": {
+     "gene_name": "OsAT10",
+     "description": "Acyltransferase",
+     "species_id": 1
+    }
+   },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 6,
+  "fields": {
+   "gene_name": "BdGT43A",
+   "description": "glycosyl transferase",
+   "species_id": 15
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 7,
+  "fields": {
+   "gene_name": "LAC8",
+   "description": "di-, tri-valent inorganic cation transmembrane transporter activity",
+   "species_id": 15
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 8,
+  "fields": {
+   "gene_name": "ZmNST3",
+   "description": "No apical meristem (NAM) protein (NAM)",
+   "species_id": 8
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 9,
+  "fields": {
+   "gene_name": "ZmNST4",
+   "description": "No apical meristem (NAM) protein (NAM)",
+   "species_id": 8
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 10,
+  "fields": {
+   "gene_name": "ZmMYB109",
+   "description": "PTHR10641//PTHR10641:SF577 - MYB-LIKE DNA-BINDING PROTEIN MYB // SUBFAMILY NOT NAMED",
+   "species_id": 8
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 11,
+  "fields": {
+   "gene_name": "ZmMYB128",
+   "description": "PTHR10641//PTHR10641:SF582 - MYB-LIKE DNA-BINDING PROTEIN MYB // SUBFAMILY NOT NAMED",
+   "species_id": 8
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 12,
+  "fields": {
+   "gene_name": "ZmMYB149",
+   "description": "PTHR10641//PTHR10641:SF582 - MYB-LIKE DNA-BINDING PROTEIN MYB // SUBFAMILY NOT NAMED",
+   "species_id": 8
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 13,
+  "fields": {
+   "gene_name": "ZmCESA4",
+   "description": "Cellulose synthase (UDP-forming) / UDP-glucose-cellulose glucosyltransferase",
+   "species_id": 8
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 14,
+  "fields": {
+   "gene_name": "ZmCESA9",
+   "description": "Cellulose synthase (UDP-forming) / UDP-glucose-cellulose glucosyltransferase",
+   "species_id": 8
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 15,
+  "fields": {
+   "gene_name": "Zm4CL",
+   "description": "4-coumarate--CoA ligase / 4-coumaryl-CoA synthetase // Trans-feruloyl-CoA synthase / Trans-feruloyl-CoA synthetase",
+   "species_id": 8
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 16,
+  "fields": {
+   "gene_name": "ZmHCT",
+   "description": "Transferase family (Transferase)",
+   "species_id": 8
+  }
+ },
+ {
+  "model": "pcwkb_core.gene",
+  "pk": 17,
+  "fields": {
+   "gene_name": "SvBAHD01",
+   "description": "Transferase family (Transferase)",
+   "species_id": 2
+  }
+ }
+]

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <head>
+        <title>Gráfico de Árvore com D3.js</title>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        {% load static %}
+        <script>
+            var data = {{ data|safe }};
+        </script>
+        <script src="{% static 'script/speciestree1.js' %}"></script>
+
+    </head>
+
+    <header>
+        <div class="container">
+            <div class="row justify-content-md-center">
+              <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="mb-4 display-5 text-center">Species</h2>
+                <p class="text-secondary mb-5 text-center">Navigate through branches to choose specific plants of interest. Click on each node to reveal detailed information, allowing you to learn more about the distinctive features of the available plants.</p>
+              </div>
+            </div>
+          </div>
+        <div id="chart"></div>
+    </header>
+
+    <div class="b-example-divider"></div>
+{% endblock %}

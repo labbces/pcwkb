@@ -1,0 +1,42 @@
+[
+ {
+  "model": "pcwkb.genome",
+  "pk": 1,
+  "fields": {
+   "literature": 3,
+   "species": 1,
+   "source_db": "Phytozome",
+   "version": "Osativa_v7_0"
+  }
+ },
+ {
+  "model": "pcwkb.genome",
+  "pk": 2,
+  "fields": {
+   "literature": 8,
+   "species": 15,
+   "source_db": "Phytozome",
+   "version": "Bdistachyon_v3_1"
+  }
+ },
+ {
+  "model": "pcwkb.genome",
+  "pk": 3,
+  "fields": {
+   "literature": 11,
+   "species": 8,
+   "source_db": "Phytozome",
+   "version": "Zmays_RefGen_V4"
+  }
+ },
+ {
+    "model": "pcwkb.genome",
+    "pk": 4,
+    "fields": {
+     "literature": 14,
+     "species": 2,
+     "source_db": "Phytozome",
+     "version": "Sviridis_v2_1"
+  }
+ }
+]

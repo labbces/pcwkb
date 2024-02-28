@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+  {% block content %}
+
+{% load static %}
+
+<html lang="pt">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="Mark Otto, Jacob Thornton e colaboradores do Bootstrap">
+      <meta name="generator" content="Hugo 0.84.0">
+      <title>Contact Us</title>
+  
+      <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/carrossel-rtl/">
+  
+      <!-- Bootstrap core CSS -->
+      <link href="/docs/5.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+  
+      <!-- Favoritos -->
+      <link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+      <link rel="icon" href "/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+      <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+      <link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
+      <link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+      <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
+      <meta name="theme-color" content="#7952b3">
+
+      <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.3/components/teams/team-1/assets/css/team-1.css">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""/>
+
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <title>Our Team</title>
+</head>
+<body>
+
+  <style>
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  </style>
+
+<!-- Team 1 - Bootstrap Brain Component -->
+<section class="bg-light py-3 py-md-5 py-xl-8">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+          <h2 class="mb-4 display-5 text-center">Our Team</h2>
+          <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+        </div>
+      </div>
+    </div>
+  
+    <div class="container overflow-hidden">
+      <div class="row gy-4 gy-lg-0 gx-xxl-5">
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-success shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static 'img/people/renato_santos.jpg' %}" alt="Renato Augusto Corrêa dos Santos">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">Renato Augusto Corrêa dos Santos</h4>
+                  <p class="text-secondary mb-0">Team Leader</p>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+                    <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671"/>
+                    <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z"/>
+                  </svg><a href="mailto:someone@example.com"> renatoacsantos@gmail.com</a>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-success shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static 'img/people/diego_riano.jpg' %}" alt="Diego Riaño-Pachón">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">Diego Riaño-Pachón</h4>
+                  <p class="text-secondary mb-0">Researcher</p>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+                    <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671"/>
+                    <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z"/>
+                  </svg><a href="mailto:someone@example.com"> diego.riano@cena.usp.br</a>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-success shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static 'img/people/bianca_sagiorato.jpeg' %}" alt="Bianca Sagiorato">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">Bianca Sagiorato</h4>
+                  <p class="text-secondary mb-0">Main Developer</p>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+                    <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671"/>
+                    <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z"/>
+                  </svg><a href="mailto:someone@example.com"> bih.08.vgsul@gmail.com</a>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card border-0 border-bottom border-success shadow-sm overflow-hidden">
+            <div class="card-body p-0">
+              <figure class="m-0 p-0">
+                <img class="img-fluid" loading="lazy" src="{% static 'img/people/danielli_teix.jpeg' %}" alt="Danielli Teixeira Brito Machado">
+                <figcaption class="m-0 p-4">
+                  <h4 class="mb-1">Danielli Teixeira Brito Machado</h4>
+                  <p class="text-secondary mb-0">Researcher</p>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+                    <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671"/>
+                    <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z"/>
+                  </svg><a href="mailto:someone@example.com"> danielliteix@gmail.com</a>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="row gy-4 gy-lg-0 gx-xxl-5"></div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <div class="card border-0 border-bottom border-success shadow-sm overflow-hidden">
+              <div class="card-body p-0">
+                <figure class="m-0 p-0">
+                  <img class="img-fluid" loading="lazy" src="{% static 'img/people/joao_novoletti.jpg' %}" alt="João Novoletti">
+                  <figcaption class="m-0 p-4">
+                    <h4 class="mb-1">João Novoletti</h4>
+                    <p class="text-secondary mb-0">Developer</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+                      <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671"/>
+                      <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z"/>
+                    </svg><a href="mailto:someone@example.com"> joao.novoletti@gmail.com</a>
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <!-- Map - Colaborators Map -->
+ <div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+      <h2 class="mb-4 display-5 text-center">Collaborators Map</h2>
+    </div>
+  </div>
+</div>
+
+ <div class="container">
+  <div class="row justify-content-md-center">
+   <div id="map" style="width: 600px; height: 400px;" ></div>
+  </div>
+ </div>
+
+  <!-- Contact 1 - Bootstrap Brain Component -->
+<section class="bg-light py-3 py-md-5">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+        <h2 class="mb-4 display-5 text-center">Contact</h2>
+        <p class="text-secondary mb-5 text-center">The best way to contact us is to use our contact form below. Please fill out all of the required fields and we will get back to you as soon as possible.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-lg-center">
+      <div class="col-12 col-lg-9">
+        <div class="bg-white border rounded shadow-sm overflow-hidden">
+
+          <form action="#!">
+            <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
+              <div class="col-12">
+                <label for="fullname" class="form-label">Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="fullname" name="fullname" value="" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+                    </svg>
+                  </span>
+                  <input type="email" class="form-control" id="email" name="email" value="" required>
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label for="phone" class="form-label">Phone Number</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                      <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                    </svg>
+                  </span>
+                  <input type="tel" class="form-control" id="phone" name="phone" value="">
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
+                <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+              </div>
+              <div class="col-12">
+                <div class="d-grid">
+                  <button class="btn btn-success btn-lg" type="submit">Submit</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  #map {
+    height: 500px;
+  }
+</style>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+var map = L.map('map').setView([-23.54, -46.63], 7);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+var marker_sp = L.marker([-23.5387, -46.6383]).addTo(map);
+marker_sp.bindPopup("<b>São Paulo</b><br>LigninLab (USP)<br>Laboratório de Fisiologia Ecológica de Plantas (USP)").openPopup()
+
+var marker_pira = L.marker([-22.7250, -47.6529]).addTo(map);
+marker_pira.bindPopup("<b>Piracicaba</b><br>LabBCES (USP)").openPopup()
+
+var marker_sanca = L.marker([-22.0131, -47.8888]).addTo(map);
+marker_sanca.bindPopup("<b>São Carlos</b><br>UFSCar").openPopup()
+
+var marker_sa = L.marker([-23.6565, -46.5319]).addTo(map);
+marker_sa.bindPopup("<b>Santo André</b><br>Laboratório de Biotecnologia Vegetal").openPopup()
+
+</script>
+</html>
+
+
+{% endblock %}

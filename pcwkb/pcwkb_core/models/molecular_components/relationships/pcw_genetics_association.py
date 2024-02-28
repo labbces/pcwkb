@@ -1,0 +1,16 @@
+from django.db import models
+from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
+from pcwkb_core.models.literature.literature import Literature
+
+class BiomassComposition(models.Model):
+    """Receive biomass composition information
+    
+    This class stores information about the biomass composition, 
+    wich will be recieved in a JSON file as percentage from each component.
+    We also require that this gene need to be related to a specie and a literature, reason 
+    why we included the cascade ForeingKey. 
+    """
+    components_percentage = models.JSONField(null=True, blank=True)
+
+    literature_id = models.ForeignKey(Literature, on_delete=models.CASCADE)
+    species_id = models.ForeignKey(Species, on_delete=models.CASCADE)
