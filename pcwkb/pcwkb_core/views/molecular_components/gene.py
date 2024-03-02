@@ -29,12 +29,14 @@ def paginated_gene_list(request, species_id):
 
 
 
-def gene_page(request, gene_id):
+def gene_page(request, gene_name):
     
-    gene = Gene.objects.get(id=gene_id)
+    gene = Gene.objects.get(gene_name=gene_name)
 
-    context = {'gene_id': gene_id,
-               'gene_name': gene.gene_name,
+    print(gene.gene_name)
+
+    context = {'gene_id': gene.id,
+               'gene_name': gene,
                'description': gene.description}
     
     return render(request, 'gene/gene_page.html', context)

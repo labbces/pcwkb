@@ -10,7 +10,7 @@ from pcwkb_core.views.forms import species_submission
 urlpatterns = [
     path('browse_species', species.browse_species, name='browse_species'),
     path('species_page/<str:species_code>', species.species_page, name='species_page'),
-    path('gene_page/<int:gene_id>', gene.gene_page, name='gene_page'),
+    path('gene_page/<str:gene_name>', gene.gene_page, name='gene_page'),
     path('gene_list/<int:species_id>', gene.paginated_gene_list, name='gene_list'),
     path('', base_views.index, name='index'),
     path('team', base_views.team, name='team'),
