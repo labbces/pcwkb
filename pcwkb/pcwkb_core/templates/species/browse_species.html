@@ -5,7 +5,7 @@
     <head>
         <title>Gráfico de Árvore com D3.js</title>
         <script src="https://d3js.org/d3.v7.min.js"></script>
-        {{ data|json_script:"data" }};
+        {{ data|json_script:"data" }}
         <script>
             const data = JSON.parse(document.getElementById('data').textContent);
         </script>
