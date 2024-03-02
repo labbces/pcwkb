@@ -58,11 +58,6 @@
   <div id="pagination-links">
 
   </div>
-  {% else %}
-
-  <p>No genes found for this species.</p>
-
-  {% endif %}
 
   <script>
 
@@ -99,6 +94,12 @@
     loadTableData(1);
 
   </script>
+  
+  {% else %}
+
+  <p>No genes found for this species.</p>
+
+  {% endif %}
 
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <script>

@@ -1,10 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
     <head>
         <title>Gráfico de Árvore com D3.js</title>
         <script src="https://d3js.org/d3.v7.min.js"></script>
-        {% load static %}
         <script>
             var data = {{ data|safe }};
         </script>
