@@ -5,8 +5,9 @@
     <head>
         <title>Gráfico de Árvore com D3.js</title>
         <script src="https://d3js.org/d3.v7.min.js"></script>
+        {{ data|json_script:"data" }};
         <script>
-            var data = {{ data|safe }};
+            const data = JSON.parse(document.getElementById('data').textContent);
         </script>
         <script src="{% static 'script/speciestree1.js' %}"></script>
 
