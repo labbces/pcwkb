@@ -2,7 +2,7 @@
 
 console.log(data);
 
-const width = 1000;
+const width = 1200;
 const marginTop = 100;
 const marginRight = 100;
 const marginBottom = 100;
