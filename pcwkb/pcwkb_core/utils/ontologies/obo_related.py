@@ -2,7 +2,7 @@
 Parser class for obo files (ontology structure files).
 Copied from Conekt source code (https://github.com/sepro/conekt)
 """
-import deepcopy
+from copy import deepcopy
 
 class OboEntry:
     """

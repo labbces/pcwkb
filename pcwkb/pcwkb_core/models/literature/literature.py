@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from crossref.restful import Works
 
@@ -17,8 +18,10 @@ class Literature(models.Model):
 
         Verify if DOI already exists in DB, if not, collect data and store in the fields from Literature class.
         """
-        if literature is None:
-
+        try:
+            literature = Literature.objects.get(doi=doi)      #Checks if the literature exists
+            return literature
+        except Literature.DoesNotExist:
             works = Works()
             literature_info = works.doi(doi)
             
@@ -31,16 +34,19 @@ class Literature(models.Model):
 
             if 'published-print' in literature_info.keys():
                 public_year = str(literature_info['published-print']['date-parts'][0][0])+"-01-01"
+                print(str(literature_info['published-print']['date-parts']))
             elif 'published-online' in literature_info.keys():
                 public_year = str(literature_info['published-online']['date-parts'][0][0])+"-01-01"
+                print(str(literature_info['published-online']['date-parts']))
             else:
                 public_year = str(literature_info['issued']['date-parts'][0][0])+"-01-01"
+                print(str(literature_info['issued']['date-parts']))
             
-            new_literature = Literature(doi=doi,
-                                        author_name=author_name, 
-                                        title=title,
-                                        public_year=public_year)
-        return new_literature
+            new_literature = Literature.objects.create(doi=doi,                           #saves the new literature
+                                                        author_name=author_name, 
+                                                        title=title,
+                                                        public_year=public_year)
+            return new_literature
 
 
 

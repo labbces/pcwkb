@@ -8,12 +8,20 @@ from .models.molecular_components.genetic.proteins import Protein
 from .models.molecular_components.relationships.pcw_genetics_association import BiomassComposition
 from .models.literature.literature import Literature
 from .models.functional_annotation.computational.annotation_method import GenomeAnnotationMethod
-from .models.functional_annotation.computational.cazyme import CAZyme
+from .models.functional_annotation.computational.cazyme import CAZyme, CAZymeProteinAssociation
 from .models.functional_annotation.computational.gene_ontology import GeneOntologyTerm, GOProteinAssociation
 from .models.functional_annotation.computational.interpro import InterPro, InterProProteinAssociation
 from .models.functional_annotation.computational.kegg import MetabolicMap
 from .models.functional_annotation.computational.transcriptional_regulation import TranscriptionalRegulatorFamily
-
+from .models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
+from .models.functional_annotation.experimental.experiment import Experiment
+from .models.molecular_components.pcw.biomass_composition import CellWallComponent
+from .models.ontologies.experiment_related.eco import ECOTerm
+from .models.ontologies.molecular_related.chebi import ChEBI
+from .models.ontologies.plant_related.peco import PECOTerm
+from .models.ontologies.plant_related.po import PlantOntologyTerm, PlantComponent, PlantComponentDevStage
+from .models.temporary_data.data_submission import TemporaryData
+from .models.temporary_data.species_submission import SpeciesTemporaryData
 
 
 class SpeciesAdmin(admin.ModelAdmin):
@@ -58,3 +66,4 @@ admin.site.register(InterPro)
 admin.site.register(InterProProteinAssociation)
 admin.site.register(MetabolicMap)
 admin.site.register(TranscriptionalRegulatorFamily)
+admin.site.register(PlantOntologyTerm)

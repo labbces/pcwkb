@@ -15,5 +15,5 @@ class InterPro(models.Model):
 
 
 class InterProProteinAssociation(models.Model):
-    interpro_id = models.ForeignKey(InterPro, on_delete=models.CASCADE)
-    protein_id = models.ForeignKey(Protein, on_delete=models.CASCADE)
+    interpro = models.ForeignKey(InterPro, on_delete=models.CASCADE)
+    protein = models.ForeignKey(Protein, on_delete=models.CASCADE)

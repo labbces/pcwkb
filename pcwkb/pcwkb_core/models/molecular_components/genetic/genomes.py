@@ -14,8 +14,8 @@ class Genome(models.Model):
     description = models.TextField(null=True, blank=True)
     source_db = models.CharField(max_length=50)
 
-    literature_id = models.ForeignKey(Literature, on_delete=models.CASCADE)
-    species_id = models.ForeignKey(Species, on_delete=models.CASCADE)
+    literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
+    species = models.ForeignKey(Species, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.genome_version

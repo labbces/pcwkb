@@ -1,6 +1,7 @@
 from django.db import models
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.literature.literature import Literature
+from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
 
 class BiomassComposition(models.Model):
     """Receive biomass composition information
@@ -11,6 +12,7 @@ class BiomassComposition(models.Model):
     why we included the cascade ForeingKey. 
     """
     components_percentage = models.JSONField(null=True, blank=True)
+    po = models.ForeignKey(PlantOntologyTerm, on_delete=models.CASCADE, null=True)
+    literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
+    species = models.ForeignKey(Species, on_delete=models.CASCADE)
 
-    literature_id = models.ForeignKey(Literature, on_delete=models.CASCADE)
-    species_id = models.ForeignKey(Species, on_delete=models.CASCADE)

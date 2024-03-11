@@ -21,7 +21,7 @@ class CAZyme(models.Model):
 
 class CAZymeProteinAssociation(models.Model):
     annotation_method = models.ForeignKey(GenomeAnnotationMethod, on_delete=models.CASCADE, null=True, blank=True)
-    protein_id = models.ForeignKey(Protein, on_delete=models.CASCADE)
+    protein = models.ForeignKey(Protein, on_delete=models.CASCADE)
     family = models.ForeignKey(CAZyme, on_delete=models.CASCADE)
 
     def __str__(self):

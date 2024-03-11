@@ -12,10 +12,10 @@ class GeneExperimentAssociation(models.Model):
     it using the literature that brings this experiment.
     """
 
-    gene_id = models.ForeignKey(Gene, on_delete=models.CASCADE)
-    experiment_id = models.ForeignKey(Experiment, on_delete=models.CASCADE)
+    gene = models.ForeignKey(Gene, on_delete=models.CASCADE)
+    experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
 
-    literature_id = models.ForeignKey(Literature, on_delete=models.CASCADE, null=False, blank=False)
+    literature = models.ForeignKey(Literature, on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
         return self.annotation_method

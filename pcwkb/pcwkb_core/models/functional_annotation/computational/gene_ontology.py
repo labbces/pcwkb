@@ -62,6 +62,6 @@ def add_from_obo(filename, empty=True, compressed=False):
     
 
 class GOProteinAssociation(models.Model):
-    go_id = models.ForeignKey(GeneOntologyTerm, on_delete=models.CASCADE)
-    protein_id = models.ForeignKey(Protein, on_delete=models.CASCADE)
+    go = models.ForeignKey(GeneOntologyTerm, on_delete=models.CASCADE)
+    protein = models.ForeignKey(Protein, on_delete=models.CASCADE)
 

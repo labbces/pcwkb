@@ -1,6 +1,6 @@
 from django.db import models
 
-from pcwkb_core.utils.ontologies.obo_related import read_obo
+from pcwkb_core.utils.ontologies.obo_related import Parser
 
 
 class ChEBI(models.Model):
@@ -20,9 +20,7 @@ class ChEBI(models.Model):
         """TODO: Import OBO file from ChEBIs
         """
         
-        pronto_obo = read_obo(filename)
+        pronto_obo = Parser(filename)
 
-        
-
-
+    
         return
