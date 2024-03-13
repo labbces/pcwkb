@@ -16,3 +16,6 @@ class BiomassComposition(models.Model):
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
     species = models.ForeignKey(Species, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.species} {self.po} Composition"
+
