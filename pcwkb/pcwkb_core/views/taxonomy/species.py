@@ -5,7 +5,7 @@ from django.http import Http404
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 from pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
-
+from pcwkb_core.models.molecular_components.relationships.pcw_genetics_association import BiomassComposition
 
 def species_page(request, species_code):
     """
@@ -24,13 +24,21 @@ def species_page(request, species_code):
                 'common_name': '',
                 'experimental_genes': {},
                 'genes_paginated': {},
-                'biomass_composition': "asdasdasd"}
+                'biomass_composition':{}
+                }
 
     context['species_id'] = Species.objects.get(species_code=species_code).id
     context['genes_paginated'] = Gene.objects.filter(species_id=context['species_id'])
 
+    if BiomassComposition.objects.filter(species_id=context['species_id']).exists():
+        BiomassComponent_objects = BiomassComposition.objects.filter(species_id=context['species_id'])
+        for obj in BiomassComponent_objects:
+            context['biomass_composition'][obj.po]=obj.components_percentage
+
     context['common_name'] = Species.objects.get(species_code=species_code).common_name
     context['scientific_name'] = Species.objects.get(species_code=species_code).scientific_name
+
+    print(context)
     
     return render(request, 'species/species_page.html', context)
 
