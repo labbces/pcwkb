@@ -67,7 +67,7 @@ class OboEntry:
             self.set_definition(value)
         elif key == "is_a":
             parts = value.split()
-            if parts[0].startswith(self.abbr):  # Verifica se a relação começa com 'BFO:'
+            if parts[0].startswith(self.abbr):
                 self.add_is_a(parts[0])
         elif key == "synonym":
             self.add_synonym(value)
