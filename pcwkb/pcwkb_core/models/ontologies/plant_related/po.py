@@ -1,4 +1,5 @@
 from django.db import models
+from pcwkb_core.utils.ontologies.obo_related import Parser as OBOParser
 
 class PlantOntologyTerm(models.Model):
     """Receive ECO ontology
@@ -8,10 +9,31 @@ class PlantOntologyTerm(models.Model):
     """
     po_id = models.CharField(max_length=50, unique=True)
     po_name = models.CharField(max_length=200)
-    description = models.TextField( null=True, blank=True)
+    extended_po = models.TextField(null=True, blank=True)
+    definition = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.po_name
+
+    def add_from_obo(filename, empty=True, compressed=False):
+
+        if empty:
+            PlantOntologyTerm.objects.all().delete()
+
+        obo_parser = OBOParser()
+        print("Filename:", filename)
+        print("Empty:", empty)
+        print("Compressed:", compressed)
+        obo_parser.readfile(filename)
+
+        obo_parser.extend_go()
+
+        for i, term in enumerate(obo_parser.terms):
+            po = PlantOntologyTerm.objects.create(po_id = term.id,
+                                                  po_name = term.name,
+                                                  definition = term.definition,
+                                                  extended_po = ";".join(term.extended_go))
+        return po
 
 
 class PlantComponent(models.Model):

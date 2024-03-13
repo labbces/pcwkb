@@ -3,6 +3,7 @@ Parser class for obo files (ontology structure files).
 Copied from Conekt source code (https://github.com/sepro/conekt)
 """
 from copy import deepcopy
+import gzip
 
 class OboEntry:
     """
@@ -10,6 +11,7 @@ class OboEntry:
     """
     def __init__(self):
         self.id = ""
+        self.abbr = ""
         self.name = ""
         self.namespace = ""
         self.definition = ""
@@ -21,6 +23,9 @@ class OboEntry:
 
     def set_id(self, term_id):
         self.id = term_id
+
+    def set_abbr(self, ontology_abbreviation):
+        self.abbr = ontology_abbreviation
 
     def set_name(self, name):
         self.name = name
@@ -50,8 +55,10 @@ class OboEntry:
         """
         function to process new data for the current entry from the OBO file
         """
+
         if key == "id":
             self.set_id(value)
+            self.set_abbr(value.split(':')[0])
         elif key == "name":
             self.set_name(value)
         elif key == "namespace":
@@ -60,7 +67,8 @@ class OboEntry:
             self.set_definition(value)
         elif key == "is_a":
             parts = value.split()
-            self.add_is_a(parts[0])
+            if parts[0].startswith(self.abbr):  # Verifica se a relação começa com 'BFO:'
+                self.add_is_a(parts[0])
         elif key == "synonym":
             self.add_synonym(value)
         elif key == "alt_id":
@@ -89,15 +97,31 @@ class Parser:
     """
     Reads the specified obo file
     """
+
     def __init__(self):
         self.terms = []
 
-    def readfile(self, filename):
+    def print(self):
+        """
+        prints all the terms to the terminal
+        """
+        for term in self.terms:
+            term.print()
+
+    def readfile(self, filename, compressed=False):
         """
         Reads an OBO file (from filename) and stores the terms as OBOEntry objects
         """
         self.terms = []
-        with open(filename, "r") as f:
+
+        if compressed:
+            load = gzip.open
+            load_type = "rt"
+        else:
+            load = open
+            load_type = "r"
+
+        with load(filename, load_type) as f:
             current_term = None
 
             for line in f:
