@@ -36,13 +36,17 @@
 
 <div class="b-example-divider"></div>
 
-
 {% endif %} </p>
 
 {% if biomass_composition %}
+{{ biomass_composition|json_script:"biomass_composition" }}
 <div class="row justify-content-md-center">
   <div id="grafico"></div>
-  {% endif %}
+{% else %}
+<div class="row justify-content-md-center">
+  <h4 class="text-secondary mb-5 text-center"> Species without biomass composition data </h4>
+</div>
+{% endif %}
 
   {% if genes_paginated %}
 </div>
@@ -109,117 +113,11 @@
 
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <script>
-
     var scientificName = "{{ scientific_name }}";
+    const biomass_composition = JSON.parse(document.getElementById('biomass_composition').textContent);
     console.log(scientificName);
+    console.log(biomass_composition);
     
-    var jsonData = {
-      "plants": {
-        "Brachypodium distachyon": {
-          "mature_leaves": {
-          "Neutral_sugar": 36.86,
-          "Uronosyls": 6.37,
-          "Phenolics": 0.8,
-          "Lignin": 6.48,
-          "Protein": 31.82,
-          "Other": 17.67
-          },
-          "mature_sheath": {
-            "Neutral_sugar": 56.06,
-            "Uronosyls": 6.35,
-            "Phenolics": 1.68,
-            "Lignin": 13.29,
-            "Protein": 9.84,
-            "Other": 12.78
-          },
-          "mature_stem": {
-            "Neutral_sugar": 60.20,
-            "Uronosyls": 5.77,
-            "Phenolics": 2.40,
-            "Lignin": 15.76,
-            "Protein": 8.27,
-            "Other": 7.61
-          },
-          "mature_flower_seed": {
-            "Neutral_sugar": 60.13,
-            "Uronosyls": 5.01,
-            "Phenolics": 2.42,
-            "Lignin": 11.07,
-            "Protein": 12.38,
-            "Other": 8.98
-          },
-          "expanding_leaves": {
-            "Neutral_sugar": 38.93,
-            "Uronosyls": 6.03,
-            "Phenolics": 0.77,
-            "Lignin": 6.25,
-            "Protein": 29.74,
-            "Other": 18.27
-          },
-          "expanding_sheath": {
-            "Neutral_sugar": 57.67,
-            "Uronosyls": 6.01,
-            "Phenolics": 1.69,
-            "Lignin": 13.29,
-            "Protein": 10.44,
-            "Other": 10.90
-          },
-          "expanding_stem": {
-            "Neutral_sugar": 62.63,
-            "Uronosyls": 6.03,
-            "Phenolics": 2.25,
-            "Lignin": 12.78,
-            "Protein": 10.69,
-            "Other": 5.62
-          },
-          "seedling_leaves": {
-            "Neutral_sugar": 44.29,
-            "Uronosyls": 6.62,
-            "Phenolics": 1.25,
-            "Lignin": 7.92,
-            "Protein": 30.47,
-            "Other": 9.45
-          },
-          "seedling_sheath_stem": {
-            "Neutral_sugar": 52.17,
-            "Uronosyls": 5.86,
-            "Phenolics": 1.76,
-            "Lignin": 12.26,
-            "Protein": 0,
-            "Other": 27.96
-          },
-          "seedling_root": {
-            "Neutral_sugar": 53.98,
-            "Uronosyls": 4.93,
-            "Phenolics": 1.94,
-            "Lignin": 12.46,
-            "Protein": 0,
-            "Other": 26.68
-          },
-          "embryonic_callus": {
-            "Neutral_sugar": 39.56,
-            "Uronosyls": 6.67,
-            "Phenolics": 2.34,
-            "Lignin": 7.94,
-            "Protein": 0,
-            "Other": 43.40
-          }
-        },
-        "Populus trichocarpa": {
-          "Geral": {
-            "Cellulose": 45,
-            "Hemicellulose": 20,
-            "Pectin": 3,
-            "Lignin": "~25",
-            "Other": 7
-          }
-        }
-      }
-    }
-
-    if (jsonData.plants.hasOwnProperty(scientificName)) {
-
-      var plantData = jsonData.plants[scientificName];
       var pieChartData = [];      
       
       var row = 0;
@@ -229,18 +127,20 @@
       var layout = {
         title: 'Plant components distribution',
         annotations: [],
-        height: 400*(Math.ceil(Object.keys(plantData).length/4)),
+        height: 400*(Math.ceil(Object.keys(biomass_composition).length/4)),
         width: 1200,
         showlegend: false,
-        grid: { rows: Math.ceil(Object.keys(plantData).length/4), columns: 4 }
+        grid: { rows: Math.ceil(Object.keys(biomass_composition).length/4), columns: 4 }
       };
 
-      for (var part in plantData) {
+      for (var part in biomass_composition) {
+        console.log(part)
         var values = [];
         var labels = [];
-        for (var component in plantData[part]) {
+        for (var component in biomass_composition[part]) {
+          console.log(component,biomass_composition[part][component])
           labels.push(component);
-          values.push(plantData[part][component]);
+          values.push(biomass_composition[part][component]);
         }
     
         pieChartData.push({
@@ -261,7 +161,7 @@
         showarrow: false,
         text: part,
         x: 0.06 + (column * 0.3),
-        y: 0.85 - (row * 0.35),
+        y: 0.7 - (row * 0.35),
         };
 
         cell_Counter++;
@@ -277,11 +177,9 @@
 
       Plotly.newPlot('grafico', pieChartData, layout);
 
-    } else {
-    console.log("Planta com o nome científico especificado não encontrada no JSON.");
-    }
     console.log(layout)
     console.log(pieChartData)
+
   </script>
 
   </html>
