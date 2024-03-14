@@ -337,8 +337,8 @@
       "species_code": "Egr",
       "taxid": 71139,
       "scientific_name": "Eucalyptus grandis",
-      "family": "",
-      "clade": "",
+      "family": "Myrtaceae",
+      "clade": "Eudicot",
       "photosystem": "C3"
      }
     }
