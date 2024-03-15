@@ -44,12 +44,10 @@
   <div class="row justify-content-md-center">
     <script>
     const scientificName = '{{ scientific_name }}'
+    const biomasscomp = JSON.parse(document.getElementById('biomass_composition').textContent);
     </script>
     {% if biomass_composition|length > 1 %}
-    <div id="grafico"></div>
-    <script>
-     const biomass_composition = JSON.parse(document.getElementById('biomass_composition').textContent);
-    </script>
+    <div id="grafico"></div>>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <script src="/static/script/species/species_morepiecharts.js"></script>
     {% else %}
@@ -57,9 +55,6 @@
       <h4> Biomass composition pie chart for PO {{ key }} </h4>
     {% endfor %}
     <div id="grafico"></div>
-    <script>
-     const biomass_composition = JSON.parse(document.getElementById('biomass_composition').textContent);
-    </script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <script src="/static/script/species/species_singlepiechart.js"></script>
     {% endif %}

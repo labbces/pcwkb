@@ -1,7 +1,7 @@
 // script for making a lot of piecharts within a specie
 
 console.log(scientificName);
-console.log(biomass_composition);
+console.log(biomasscomp);
 const PLOT = document.getElementById('grafico');
 console.log(PLOT)
 if (PLOT) {
@@ -11,14 +11,14 @@ if (PLOT) {
     width: 400,
   }
 
-  for (var part in biomass_composition) {
+  for (var part in biomasscomp) {
     console.log(part)
     var values = [];
     var labels = [];
-    for (var component in biomass_composition[part]) {
-      console.log(component,biomass_composition[part][component])
+    for (var component in biomasscomp[part]) {
+      console.log(component,biomasscomp[part][component])
       labels.push(component);
-      values.push(biomass_composition[part][component]);
+      values.push(biomasscomp[part][component]);
     }
   }
   
