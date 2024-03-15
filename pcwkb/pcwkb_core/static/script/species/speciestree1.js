@@ -1,5 +1,4 @@
 // Collapsible tree based on https://observablehq.com/@d3/collapsible-tree by Mike Bostock
-
 console.log(data);
 
 const width = 1200;
