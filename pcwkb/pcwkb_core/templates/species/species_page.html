@@ -47,22 +47,26 @@
     const biomasscomp = JSON.parse(document.getElementById('biomass_composition').textContent);
     </script>
     {% if biomass_composition|length > 1 %}
-    <div id="grafico"></div>>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-    <script src="/static/script/species/species_morepiecharts.js"></script>
+      <div id="grafico"></div>
+      <div id="grafico2" style="width: 1400px; height: 800px;"></div>
+      <script src="https://cdn.anychart.com/releases/8.12.0/js/anychart-core.min.js"></script>
+      <script src="https://cdn.anychart.com/releases/8.12.0/js/anychart-heatmap.min.js"></script>
+      <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+      <script src="/static/script/species/species_morepiecharts.js"></script>
+      <script src="/static/script/species/species_heatmap.js"></script>
     {% else %}
-    {% for key in biomass_composition %}
-      <h4> Biomass composition pie chart for PO {{ key }} </h4>
-    {% endfor %}
-    <div id="grafico"></div>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-    <script src="/static/script/species/species_singlepiechart.js"></script>
+      {% for key in biomass_composition %}
+        <h4> Biomass composition pie chart for PO {{ key }} </h4>
+      {% endfor %}
+      <div id="grafico"></div>
+      <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+      <script src="/static/script/species/species_singlepiechart.js"></script>
     {% endif %}
   </div>
 {% else %}
-<div class="row justify-content-md-center">
-  <h4 class="text-secondary mb-5 text-center"> Species without biomass composition data </h4>
-</div>
+  <div class="row justify-content-md-center">
+    <h4 class="text-secondary mb-5 text-center"> Species without biomass composition data </h4>
+  </div>
 {% endif %}
 
   {% if genes_paginated %}
