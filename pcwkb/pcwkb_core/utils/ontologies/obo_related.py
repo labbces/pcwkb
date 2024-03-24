@@ -11,7 +11,6 @@ class OboEntry:
     """
     def __init__(self):
         self.id = ""
-        self.abbr = ""
         self.name = ""
         self.namespace = ""
         self.definition = ""
@@ -24,8 +23,6 @@ class OboEntry:
     def set_id(self, term_id):
         self.id = term_id
 
-    def set_abbr(self, ontology_abbreviation):
-        self.abbr = ontology_abbreviation
 
     def set_name(self, name):
         self.name = name
@@ -58,7 +55,6 @@ class OboEntry:
 
         if key == "id":
             self.set_id(value)
-            self.set_abbr(value.split(':')[0])
         elif key == "name":
             self.set_name(value)
         elif key == "namespace":
@@ -67,8 +63,7 @@ class OboEntry:
             self.set_definition(value)
         elif key == "is_a":
             parts = value.split()
-            if parts[0].startswith(self.abbr):
-                self.add_is_a(parts[0])
+            self.add_is_a(parts[0])
         elif key == "synonym":
             self.add_synonym(value)
         elif key == "alt_id":
@@ -169,11 +164,12 @@ class Parser:
             while found_new:
                 found_new = False
                 for parent_term in extended_go:
-                    new_gos = hashed_terms[parent_term].is_a
-                    for new_go in new_gos:
-                        if new_go not in extended_go:
-                            found_new = True
-                            extended_go.append(new_go)
+                    if parent_term in hashed_terms and hashed_terms[parent_term].is_a:
+                        new_gos = hashed_terms[parent_term].is_a
+                        for new_go in new_gos:
+                            if new_go not in extended_go:
+                                found_new = True
+                                extended_go.append(new_go)
 
             term.set_extended_go(extended_go)
 
