@@ -11,8 +11,7 @@
         <h2 class="mb-4 display-5 text-center"><i>{{ scientific_name }}</i></h2>
         <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
         {% if common_name %}
-        <h4 class="text-secondary mb-5 text-center"> Common Name: {{ common_name }} <br> Species Code: {{ species_code
-          }} </h4>
+        <h4 class="text-secondary mb-5 text-center"> Common Name: {{ common_name }} <br> Species Code: {{ species_code }} </h4>
         {% else %}
         <h4 class="text-secondary mb-5 text-center"> Species Code: {{ species_code }} </h4>
         {% endif %}
@@ -46,7 +45,7 @@
     const scientificName = '{{ scientific_name }}'
     const biomasscomp = JSON.parse(document.getElementById('biomass_composition').textContent);
   </script>
-  <div id="grafico"></div>
+  <div id="grafico" class="overflow-auto"></div>
 
   {% if biomass_composition|length > 1 %}
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
