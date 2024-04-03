@@ -5,7 +5,7 @@ const width = 1200;
 const marginTop = 100;
 const marginRight = 100;
 const marginBottom = 100;
-const marginLeft = 300;
+const marginLeft = 200;
 
 const root = d3.hierarchy(data);
 const dx = 60;
@@ -84,7 +84,8 @@ function update(event, source) {
           .attr("stroke-linejoin", "round")
           .attr("stroke-width", 3)
           .attr("stroke", "white")
-          .attr("paint-order", "stroke");
+          .attr("paint-order", "stroke")
+          .attr("font-style", "italic");
       }
       else {
         d3.select(this).append("tspan")
