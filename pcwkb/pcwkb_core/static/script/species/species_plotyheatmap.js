@@ -67,6 +67,4 @@ for ( var i = 0; i < yValues.length; i++ ) {
   }
 }
 
-var config = {responsive: true}
-
-Plotly.newPlot(PLOT, data, layout, config);
+Plotly.newPlot(PLOT, data, layout);
