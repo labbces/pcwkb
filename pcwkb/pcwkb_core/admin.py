@@ -5,6 +5,7 @@ from .models.molecular_components.genetic.genes import Gene
 from .models.molecular_components.genetic.genomes import Genome
 from .models.molecular_components.genetic.transcripts import Transcript
 from .models.molecular_components.genetic.proteins import Protein
+from pcwkb_core.models.molecular_components.genetic.cds import CDS
 from .models.molecular_components.relationships.pcw_genetics_association import BiomassComposition
 from .models.literature.literature import Literature
 from .models.functional_annotation.computational.annotation_method import GenomeAnnotationMethod
@@ -55,6 +56,7 @@ admin.site.register(Species, SpeciesAdmin)
 admin.site.register(Gene)
 admin.site.register(Genome)
 admin.site.register(Transcript)
+admin.site.register(CDS)
 admin.site.register(Protein)
 admin.site.register(BiomassComposition)
 admin.site.register(Literature, LitAdmin)

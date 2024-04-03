@@ -7,9 +7,11 @@ class Transcript(models.Model):
     This class stores a transcript sequence and requires a related genes 
     that needs to be in our database.
     """
-    sequence = models.TextField('Trancript sequence', max_length=12000)
-
-    gene = models.ForeignKey(Gene, on_delete=models.CASCADE)
-
+    transcript_name = models.CharField(max_length=100, unique=True)
+    transcript_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    sequence = models.TextField('Trancript sequence', max_length=20000)
+    gene = models.ForeignKey(Gene, on_delete=models.CASCADE) #FK gene
+    source = models.CharField(max_length=100, null=True, blank=True)
+    
     def __str__(self):
-        return self.sequence
+        return self.transcript_name
