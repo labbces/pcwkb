@@ -9,7 +9,7 @@ class Transcript(models.Model):
     """
     transcript_name = models.CharField(max_length=100, unique=True)
     transcript_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
-    sequence = models.TextField('Trancript sequence', max_length=20000)
+    sequence = models.TextField('Trancript sequence')
     gene = models.ForeignKey(Gene, on_delete=models.CASCADE) #FK gene
     source = models.CharField(max_length=100, null=True, blank=True)
     

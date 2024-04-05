@@ -18,4 +18,4 @@ class Genome(models.Model):
     species = models.ForeignKey(Species, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.genome_version
+        return f"{self.species}.{self.genome_version}"

@@ -11,7 +11,7 @@ class Protein(models.Model):
     protein_name = models.CharField(max_length=100, unique=True) #unico | checar se o nome já existe
     protein_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    sequence = models.TextField(null=True, blank=True, max_length=10000)
+    sequence = models.TextField('Protein sequence')
     gene = models.ForeignKey(Gene, on_delete=models.CASCADE)
     transcript= models.ForeignKey(Transcript, on_delete=models.CASCADE, null=True, blank=True)
     source = models.CharField(max_length=100, null=True, blank=True)

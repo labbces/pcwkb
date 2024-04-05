@@ -1,6 +1,6 @@
 from django.db import models
 
-from pcwkb_core.utils.ontologies.obo_related import Parser as OBOParser
+from pcwkb_core.utils.parsers.obo_related import Parser as OBOParser
 
 
 class ChEBI(models.Model):
