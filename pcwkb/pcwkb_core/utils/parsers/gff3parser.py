@@ -27,7 +27,11 @@ class GFF3Parser:
                                     }
                         genes.append(gene_data)
             print(genes)
+
+        f.close()
+        
         return genes
+        
         
 
     def parse_attributes(self, attribute_string):
