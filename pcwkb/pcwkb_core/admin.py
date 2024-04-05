@@ -6,6 +6,8 @@ from .models.molecular_components.genetic.genomes import Genome
 from .models.molecular_components.genetic.transcripts import Transcript
 from .models.molecular_components.genetic.proteins import Protein
 from pcwkb_core.models.molecular_components.genetic.cds import CDS
+from pcwkb_core.models.molecular_components.relationships.orthogroups import Orthogroup, OrthogroupMethods
+from pcwkb_core.models.molecular_components.relationships.gene_orthogroup import GeneOrthogroup
 from .models.molecular_components.relationships.pcw_genetics_association import BiomassComposition
 from .models.literature.literature import Literature
 from .models.functional_annotation.computational.annotation_method import GenomeAnnotationMethod
@@ -58,6 +60,9 @@ admin.site.register(Genome)
 admin.site.register(Transcript)
 admin.site.register(CDS)
 admin.site.register(Protein)
+admin.site.register(GeneOrthogroup)
+admin.site.register(OrthogroupMethods)
+admin.site.register(Orthogroup)
 admin.site.register(BiomassComposition)
 admin.site.register(Literature, LitAdmin)
 admin.site.register(GenomeAnnotationMethod)
