@@ -13,6 +13,7 @@
             <th scope="col">Source</th>
             <th scope="col">Identifier</th>
             <th scope="col">Description</th>
+            <th scope="col">Proteins</th>
           </tr>
         </thead>
         <tbody>
@@ -20,6 +21,11 @@
             <th scope="row">{{ gene_name }}</th>
             <td>{{ gene_name }}</td>
             <td>{{ description }}</td>
+            <td>
+            {% for protein in proteins %}
+            {{ proteins }} <br>
+            {% endfor %}
+            </td>
           </tr>
         </tbody>
       </table>
