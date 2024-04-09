@@ -33,7 +33,7 @@ def species_page(request, species_code):
     if BiomassComposition.objects.filter(species_id=context['species_id']).exists():
         BiomassComponent_objects = BiomassComposition.objects.filter(species_id=context['species_id'])
         for obj in BiomassComponent_objects:
-            po_name = str(obj.po).split(":")[-1].strip()
+            po_name = str(obj.po.po_name)
             context['biomass_composition'][po_name]=obj.components_percentage[0]
 
     context['common_name'] = Species.objects.get(species_code=species_code).common_name

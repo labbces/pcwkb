@@ -5,13 +5,14 @@ from django.http import JsonResponse
 
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 from pcwkb_core.models.molecular_components.genetic.proteins import Protein
+from pcwkb_core.models.molecular_components.relationships.protein_orthogroup import ProteinOrthogroup
 from pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
 
 
 def paginated_gene_list(request, species_id):
     page_number = request.GET.get('page', 1)
     data_list = Gene.objects.filter(species_id=species_id)
-    paginator = Paginator(data_list, 3)
+    paginator = Paginator(data_list, 500)
 
     try:
         data = paginator.page(page_number)
@@ -29,18 +30,23 @@ def paginated_gene_list(request, species_id):
     })
 
 
-
 def gene_page(request, gene_name):
-    
+
     gene = Gene.objects.get(gene_name=gene_name)
 
-    proteins=[]
+    proteins = {}
 
     proteins_objects = Protein.objects.filter(gene=gene)
-    for obj in proteins_objects:
-            protein = str(obj).split(":")[-1].strip()
-            proteins.append(protein)
-
+    if proteins_objects:
+        for obj in proteins_objects:
+            protein = str(obj.protein_name)
+            proteins[protein] = {}
+            proteins[protein]['sequence'] = obj.sequence
+            proteins[protein]['description'] = obj.description
+            if ProteinOrthogroup.objects.filter(protein=obj):
+                og = ProteinOrthogroup.objects.get(protein=obj).orthogroup
+                proteins[protein]['orthogroup'] = og
+            print(proteins[protein])
 
     print(gene.gene_name)
 
@@ -48,6 +54,6 @@ def gene_page(request, gene_name):
                'gene_name': gene,
                'description': gene.description,
                'proteins': proteins}
-    
-    return render(request, 'gene/gene_page.html', context)
+    print(context)
 
+    return render(request, 'gene/gene_page.html', context)
