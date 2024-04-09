@@ -91,6 +91,7 @@ class Fasta:
         new_sequences = []
 
         # Loop over sequences, sorted by name (key here) and add to db
+        i=1
         for header, sequence in sorted(fasta_data.sequences.items()):
 
             fa_id = ""
@@ -99,8 +100,8 @@ class Fasta:
             gene_name = ""
 
             header = header.split()
-            print(header)
             name=header[0]
+            
             for str in header:
                 if str.startswith("locus"):
                     _, gene_name = str.split("=")
@@ -119,27 +120,45 @@ class Fasta:
             if seq_type == 'transcript':
                 from pcwkb_core.models.molecular_components.genetic.transcripts import Transcript
 
-                model_data = Transcript.objects.create(transcript_name = name,
+                if not Transcript.objects.filter(transcript_name = name,
                                                        transcript_id = fa_id,
                                                        sequence = sequence,
-                                                       gene = gene,
-                                                       source = "")
+                                                       gene = gene):
+                    model_data = Transcript.objects.create(transcript_name = name,
+                                                           transcript_id = fa_id,
+                                                           sequence = sequence,
+                                                           gene = gene,
+                                                           source = "")
+                else:
+                    print("Já existe1")
+
             elif seq_type == 'protein':
+                
                 from pcwkb_core.models.molecular_components.genetic.transcripts import Transcript
                 from pcwkb_core.models.molecular_components.genetic.proteins import Protein
 
                 if Transcript.objects.filter(transcript_name=transcript_name).exists():
                     transcript = Transcript.objects.get(transcript_name=transcript_name)
                 else:
-                    transcript = ""
+                    transcript = None
                 
-                model_data = Protein.objects.create(protein_name = name,
-                                                   protein_id = fa_id,
-                                                  sequence = sequence,
-                                                  gene = gene,
-                                                  transcript = transcript,
-                                                  source = "",
-                                                  )
+                if not Protein.objects.filter(protein_name = name,
+                                              protein_id = fa_id,
+                                              sequence = sequence,
+                                              gene = gene,
+                                              transcript = transcript):
+
+                    model_data = Protein.objects.create(protein_name = name,
+                                                        protein_id = fa_id,
+                                                        sequence = sequence,
+                                                        gene = gene,
+                                                        transcript = transcript,
+                                                        source = "",
+                                                        )
+                else:
+                    print("Já existe2")
+                    
+
             elif seq_type == 'cds':
                 from pcwkb_core.models.molecular_components.genetic.transcripts import Transcript
                 from pcwkb_core.models.molecular_components.genetic.proteins import Protein
@@ -155,7 +174,14 @@ class Fasta:
                 else:
                     protein = ""
                 
-                model_data = CDS.objects.create(cds_name = name,
+                if not CDS.objects.filter(cds_name = name,
+                                          cds_id = fa_id,
+                                          sequence = sequence,
+                                          gene = gene,
+                                          transcript = transcript,
+                                          protein = protein):
+                    
+                    model_data = CDS.objects.create(cds_name = name,
                                                cds_id = fa_id,
                                                sequence = sequence,
                                                gene = gene,
@@ -163,6 +189,9 @@ class Fasta:
                                                protein = protein,
                                                source = "",
                                                )
-               
+                else:
+                    print("Já existe3")
+            print(i)
+            i=i+1
         
         return model_data

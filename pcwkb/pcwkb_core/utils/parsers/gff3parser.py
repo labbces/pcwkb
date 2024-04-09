@@ -1,9 +1,7 @@
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
-import sys
 import gzip
-
 
 class GFF3Parser:
     def __init__(self):
@@ -44,15 +42,26 @@ class GFF3Parser:
 
     @staticmethod
     def add_from_gff3(gff3_file, species_id, compressed=False):
+        i = 1
         parser = GFF3Parser()
         genes = parser.parse(gff3_file, compressed)
         for gene in genes:
-            print(Species.objects.get(id=species_id).scientific_name,
-                  Species.objects.get(id=species_id).id)
-            print(gene, species_id)
-            g = Gene.objects.create(gene_name=gene['gene_name'],
+            print(i)
+#            print(Species.objects.get(id=species_id).scientific_name,
+#                  Species.objects.get(id=species_id).id)
+#            print(gene, species_id)
+
+            if not Gene.objects.filter(gene_name=gene['gene_name'],
+                                    original_db=gene['source'],
+                                    species=Species.objects.get(id=species_id),
+                                    source="gff3"
+                                    ):
+                g = Gene.objects.create(gene_name=gene['gene_name'],
                                     original_db=gene['source'],
                                     species=Species.objects.get(id=species_id),
                                     source="gff3"
                                     )
+            else:
+                print("Já existe")
+            i=i+1
         return g

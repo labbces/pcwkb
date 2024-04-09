@@ -1,9 +1,7 @@
 from pcwkb_core.models.molecular_components.relationships.orthogroups import Orthogroup,OrthogroupMethods
-from pcwkb_core.models.molecular_components.relationships.gene_orthogroup import GeneOrthogroup
+from pcwkb_core.models.molecular_components.relationships.protein_orthogroup import ProteinOrthogroup
 from pcwkb_core.models.molecular_components.genetic.proteins import Protein
 
-
-import sys
 import gzip
 
 class OrthogroupParser:
@@ -28,6 +26,9 @@ class OrthogroupParser:
         
     @staticmethod
     def add_from_orthofinder(orthofinder_file,og_method_id,compressed=False):
+
+        i=1
+
         try:
             og_method = OrthogroupMethods.objects.get(id=og_method_id)
         except Exception as e:
@@ -44,7 +45,11 @@ class OrthogroupParser:
                                            )
             else:
                 print(f"orthogroup_id: {og} with the method: {og_method} already exists")
-        
+            print(i)
+            i=i+1
+
+        i=1
+
         for p in Protein.objects.all():
             for og in sorted(og_data.orthogroups.keys()):
                 if p.protein_name in og_data.orthogroups[og]:
@@ -53,7 +58,18 @@ class OrthogroupParser:
                         GeneOrthogroup.objects.create(orthogroup=Orthogroup.objects.get(orthogroup_id=og),
                                                       protein=p
                                                       )
-                    else:
-                        print(f"protein: {p} in orthogroup_id: {og} already exists")
+
+#        for p in Protein.objects.all():
+#            for og in Orthogroup.objects.all():
+#                if p.protein_name in og_data.orthogroups[og.orthogroup_id]:
+#                    print(p.protein_name, og)
+#                    if not ProteinOrthogroup.objects.filter(orthogroup=og,protein=p):
+#                        ProteinOrthogroup.objects.create(orthogroup=og,
+#                                                      protein=p
+#                                                     )
+#                    else:
+#                        print(f"protein: {p} in orthogroup_id: {og} already exists")
+#                    print(i)
+#                    i=i+1
 
         return
