@@ -77,7 +77,7 @@ function update(event, source) {
       if (d.data.name.match(/\((.*?)\)/)?.[1]) {
         d3.select(this).append("a")
           .attr("href", d => {
-            return "http://127.0.0.1:8000/pcwkb_core/species_page/" + d.data.name.match(/\((.*?)\)/)?.[1];
+            return "pcwkb_core/species_page/" + d.data.name.match(/\((.*?)\)/)?.[1];
           })
           .attr("target", "_blank")
           .text(d => d.data.name)
