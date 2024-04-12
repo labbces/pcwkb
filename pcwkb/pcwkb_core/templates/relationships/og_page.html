@@ -1,26 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static %}
 
 <div class="p-4">
-    <div class="background-color-88b993">
+    <div class="background-color-88b993 rounded-top-5">
         <h1 class="text-center">Orthogroup: {{ orthogroup }}</h1>
         <table class="table table-responsive">
             <tbody>
                 <tr>
-                    <td>
-                        <h4>Tool: {{ method.tool }}</h4>
+                    <td class="w-50">
+                        <h6>Tool: {{ method.tool }}</h6>
                     </td>
-                    <td>
-                        <h4>Version: {{ method.version }}</h4>
+                    <td class="w-50">
+                        <h6>Version: {{ method.version }}</h6>
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <h4>Run: {{ method.run }}</h4>
+                    <td class="w-50">
+                        <h6>Run: {{ method.run }}</h6>
                     </td>
-                    <td>
+                    <td class="w-50">
                         {% if method.description %}
-                        <h4>Description: {{ method.description }}</h4>
+                        <h6>Description: {{ method.description }}</h6>
                         {% endif %}
                     </td>
                 </tr>
@@ -30,7 +31,7 @@
 </div>
 
 <div class="p-4">
-    <div class="background-color-f5f5f5">
+    <div class="background-color-f5f5f5 rounded-bottom-5">
         <p><strong>Proteins in this Orthogroup:</strong></p>
         <ul>
             {% for og in proteins %}
@@ -41,6 +42,8 @@
         </ul>
     </div>
 </div>
+
+
 <p>Tree: {{ orthogroup.tree }}</p>
 
 {% endblock %}

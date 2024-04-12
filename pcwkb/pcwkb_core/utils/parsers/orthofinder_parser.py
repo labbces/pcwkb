@@ -58,6 +58,10 @@ class OrthogroupParser:
                         GeneOrthogroup.objects.create(orthogroup=Orthogroup.objects.get(orthogroup_id=og),
                                                       protein=p
                                                       )
+                    else:
+                        print(f"protein: {p} in orthogroup_id: {og} already exists")
+                    print(i)
+                    i=i+1
 
 #        for p in Protein.objects.all():
 #            for og in Orthogroup.objects.all():
