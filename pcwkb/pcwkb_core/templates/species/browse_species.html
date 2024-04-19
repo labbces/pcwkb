@@ -2,24 +2,30 @@
 {% load static %}
 
 {% block content %}
-    <head>
-        <title>Gráfico de Árvore com D3.js</title>
-        <script src="https://d3js.org/d3.v7.min.js"></script>
-        {{ data|json_script:"data" }}
-        <script>
-            const data = JSON.parse(document.getElementById('data').textContent);
-        </script>
-        <script src="{% static 'script/species/speciestree1.js' %}"></script>
-    </head>
 
-    <header>
-        <div class="container">
-            <div class="row justify-content-md-center">
-              <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                <h2 class="mb-4 display-5 text-center">Species</h2>
-                <p class="text-secondary mb-5 text-center">Navigate through branches to choose specific plants of interest. Click on each node to reveal detailed information, allowing you to learn more about the distinctive features of the available plants.</p>
-              </div>
-            </div>
-          </div>
-    </header>
+<head>
+  <title>Gráfico de Árvore com D3.js</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  {{ data|json_script:"data" }}
+  <script>
+    const data = JSON.parse(document.getElementById('data').textContent);
+  </script>
+  <script src="{% static 'script/species/speciestree1.js' %}"></script>
+</head>
+
+<header class="py-3 py-md-5 py-xl-8">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+        <h2 class="mb-4 display-5 text-center">Species</h2>
+        <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
+        <p class="text-secondary mb-5 justify-content-evenly">
+          Navigate through branches to choose specific plants of interest.
+          Click on each node to reveal detailed information, allowing you to 
+          learn more about the distinctive features of the available plants.
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
 {% endblock %}
