@@ -21,4 +21,5 @@ urlpatterns = [
     path('search', include('haystack.urls')),
     path('data_submission', data_submission.get_data_file, name='data_submission'),
     path('species_submission', species_submission.get_data_file, name='data_submission'),
+    path('ontologies', base_views.ontologies, name='ontologies'),
 ]

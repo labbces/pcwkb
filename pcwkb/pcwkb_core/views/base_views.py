@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-
 def index(request):
     return render(request, 'home.html')
 
@@ -12,6 +11,9 @@ def team(request):
 
 def funding(request):
     return render(request, 'funding.html')
+
+def ontologies(request):
+    return render(request, 'ontologies.html')
 
 def search(request):
     query = request.GET.get('q', '')  # Obtém a consulta de pesquisa do usuário da URL
