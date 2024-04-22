@@ -5,10 +5,12 @@ Copied from Conekt source code (https://github.com/sepro/conekt)
 from copy import deepcopy
 import gzip
 
+
 class OboEntry:
     """
     Class to store data for a single entry in an OBO file
     """
+
     def __init__(self):
         self.id = ""
         self.name = ""
@@ -22,7 +24,6 @@ class OboEntry:
 
     def set_id(self, term_id):
         self.id = term_id
-
 
     def set_name(self, name):
         self.name = name
@@ -54,7 +55,8 @@ class OboEntry:
         """
 
         if key == "id":
-            self.set_id(value)
+            parts = value.split()
+            self.set_id(parts[0])
         elif key == "name":
             self.set_name(value)
         elif key == "namespace":
@@ -175,3 +177,44 @@ class Parser:
 
     def get_term_dicts(self):
         return [term.get_dict() for term in self.terms]
+
+    @staticmethod
+    def add_from_obo(filename, ont, empty=False, compressed=False, ):
+
+        if ont == "po":
+            from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
+            model=PlantOntologyTerm
+        elif ont == "eco":
+            from pcwkb_core.models.ontologies.experiment_related.eco import ECOTerm
+            model=ECOTerm
+        elif ont == "peco":
+            from pcwkb_core.models.ontologies.plant_related.peco import PECOTerm
+            model=PECOTerm
+        elif ont == "ChEBI":
+            from pcwkb_core.models.ontologies.molecular_related.chebi import ChEBI
+            model=ChEBI
+        else:
+            raise ValueError("Unsupported ontology type. Only 'po', 'eco', 'peco', 'chebi' are supported.")
+
+        print(model.objects.all())
+
+        if empty:
+            model.objects.all().delete()
+
+        obo_parser = Parser()
+        print("Filename:", filename)
+        print("Empty:", empty)
+        print("Compressed:", compressed)
+        obo_parser.readfile(filename)
+
+        obo_parser.extend_go()
+
+        for i, term in enumerate(obo_parser.terms):
+            kwargs = {f"{ont}_id":term.id,
+                      f"{ont}_name":term.name,
+                      "definition":term.definition,
+                      f"extended_{ont}":";".join(term.extended_go)}
+
+            new_object = model.objects.create(**kwargs)
+            print(f"Created {model.__name__} object:", new_object)
+        return new_object

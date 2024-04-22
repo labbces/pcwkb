@@ -6,9 +6,10 @@ class ECOTerm(models.Model):
     This class stores information about a ontology, such as its name, 
     the description of the ontology and the term of the ontology.
     """
-    eco_term = models.CharField(max_length=50, unique=True)
+    eco_id = models.CharField(max_length=50, unique=True)
     eco_name = models.CharField(max_length=200)
-    description = models.TextField(null=True, blank=True)
+    extended_eco = models.TextField(null=True, blank=True)
+    definition = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.eco_name
