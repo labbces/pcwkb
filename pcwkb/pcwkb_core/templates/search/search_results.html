@@ -1,13 +1,40 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-<h2>Search Results for "{{ query }}"</h2>
-<ul>
-    {% for result in results %}
-        <li>{{ result.object.scientific_name }}</li>
-    {% endfor %}
-</ul>
+<section class="background-color-aac0b218 py-3 py-md-5 py-xl-8">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="mb-4 display-5 text-center">Search engine</h2>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+            </div>
+        </div>
+    </div>
+</section>
 
+<div class="background-color-aac0b218 py-5">
+    <div class="bg-white container py-3 py-md-5 py-xl-8 rounded-2">
+        <div class="rounded-5 p-4 background-color-aac0b218">
+            <form method="get" action="{% url 'search' %}">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search...">
+                <input type="submit" value="Search">
+            </form>
+        </div>
 
+        {% if query %}
+            <h3 class="mb-4 display-6 text-center py-3">Results for {{ query }}</h3>
+                <ul>
+                {% for result in results %}
+                    <li>
+                        <a href="pcwkb_core/species_page/{{ result.object.species_code }}">{{ result.object.scientific_name }}</a>
+                    </li>
+                {% empty %}
+                    <p>No results found.</p>
+                {% endfor %}
+                </ul>
+        {% endif %}
+    </div>
+</div>    
 {% endblock %}

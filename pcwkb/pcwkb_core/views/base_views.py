@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from haystack.query import SearchQuerySet
 
 def index(request):
     return render(request, 'home.html')
@@ -16,16 +17,21 @@ def ontologies(request):
     return render(request, 'ontologies.html')
 
 def search(request):
-    query = request.GET.get('q', '')  # Obtém a consulta de pesquisa do usuário da URL
+    query = request.GET.get('q', '')  # Obtain the search query from the URL parameter
 
-    if query:
-        search_results = SearchQuerySet().filter(content_auto__contains=query)
-    else:
-        search_results = []
+    # Filter search results based on the 'content_auto' field in the indexed model
+    search_results = SearchQuerySet().filter(content_auto__contains=query)
+
+    print(search_results)
+
+    print(query)
 
     context = {
         'query': query,
         'results': search_results,
     }
 
-    return render(request, 'search_results.html', context)
+    for result in search_results:
+        print(result)
+
+    return render(request, 'search/search_results.html', context)  

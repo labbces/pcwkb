@@ -8,7 +8,7 @@ class SpeciesIndex(indexes.SearchIndex, indexes.Indexable):
     common_name = indexes.CharField(model_attr='common_name', null=True)
     family = indexes.CharField(model_attr='family')
     clade = indexes.CharField(model_attr='clade')
-    photosystem = indexes.CharField(model_attr=' photosystem')
+    photosystem = indexes.CharField(model_attr='photosystem')
 
     # Autocomplete
     content_auto = indexes.EdgeNgramField(model_attr='scientific_name')
