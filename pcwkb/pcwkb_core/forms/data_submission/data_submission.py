@@ -1,5 +1,6 @@
 from django import forms
 from openpyxl import load_workbook
+from pcwkb_core.models.molecular_components.relationships.biomass_experiemnte_assoc import Experimentalevidenceplanttrait
 import xml.etree.ElementTree as ET
 
 
@@ -50,3 +51,8 @@ class SpeciesSubmissionForm(forms.Form):
     plant_image = forms.ImageField(label="Plant image")
     plant_image_source = forms.URLField(label="Image Source URL")
     description = forms.CharField(label="Plant description", max_length=200, required=True)
+
+class ExperimentForm(forms.ModelForm):
+    class Meta:
+        model = Experimentalevidenceplanttrait
+        fields = '__all__'

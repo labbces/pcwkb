@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from pcwkb_core.forms.data_submission.data_submission import DataSubmissionForm
+from pcwkb_core.forms.data_submission.data_submission import DataSubmissionForm, ExperimentForm
 
 '''def index(request):
     return render(request, 'forms/data_submission.html')
@@ -22,3 +22,17 @@ def get_data_file(request):
         form = DataSubmissionForm()
     
     return render(request, "forms/data_submission.html", {"form": form})
+
+
+def experiment_form_view(request):
+    if request.method == 'POST':
+        form = ExperimentForm(request.POST)
+        if form.is_valid():
+            # Get the instance from the form but don't save it yet
+            instance = form.save(commit=False) # Save the instance to the 'temporary_data' database
+            instance.save(using='temporary_data')
+            return redirect('home.html') 
+    else:
+        form = ExperimentForm()
+    
+    return render(request, 'forms/experiment_form.html', {'form': form})
