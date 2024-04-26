@@ -179,7 +179,9 @@ class Parser:
         return [term.get_dict() for term in self.terms]
 
     @staticmethod
-    def add_from_obo(filename, ont, empty=False, compressed=False, ):
+    def add_from_obo(filename, ont, empty=False, compressed=False):
+
+        count=1
 
         if ont == "po":
             from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
@@ -190,11 +192,14 @@ class Parser:
         elif ont == "peco":
             from pcwkb_core.models.ontologies.plant_related.peco import PECOTerm
             model=PECOTerm
-        elif ont == "ChEBI":
+        elif ont == "chebi":
             from pcwkb_core.models.ontologies.molecular_related.chebi import ChEBI
             model=ChEBI
+        elif ont == "to":
+            from pcwkb_core.models.ontologies.plant_related.to import TOTerm
+            model=TOTerm
         else:
-            raise ValueError("Unsupported ontology type. Only 'po', 'eco', 'peco', 'chebi' are supported.")
+            raise ValueError("Unsupported ontology type. Only 'po', 'eco', 'peco', 'chebi', 'to' are supported.")
 
         print(model.objects.all())
 
@@ -214,7 +219,12 @@ class Parser:
                       f"{ont}_name":term.name,
                       "definition":term.definition,
                       f"extended_{ont}":";".join(term.extended_go)}
-
-            new_object = model.objects.create(**kwargs)
-            print(f"Created {model.__name__} object:", new_object)
+            
+            if not model.objects.filter(**kwargs):
+                new_object = model.objects.create(**kwargs)
+                print(f"Created {model.__name__} object:", new_object)
+            else:
+                print("Já existe")
+            print(count)
+            count += 1
         return new_object
