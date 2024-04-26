@@ -10,10 +10,10 @@ class ChEBI(models.Model):
     the description and the ID of ChEBI.
     """
     chebi_id = models.CharField(max_length=50, unique=True)
-    chebi_name = models.CharField(max_length=200)
+    chebi_name = models.TextField('Chebi name')
     extended_chebi = models.TextField(null=True, blank=True)
     definition = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.chebi_name
 2
