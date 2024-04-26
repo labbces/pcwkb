@@ -11,7 +11,7 @@ class Experiment(models.Model):
     This class stores information about an experiment, such as its name, 
     the description of the experiment and the experiment category. It also
     can recieve a ECO Term and is required to com with a literature to validate
-    the experiment. 
+    the experiment. 2
     """
     experiment_name = models.CharField(max_length=50)
     experiment_category = models.CharField('Category of the experiment', max_length=50)

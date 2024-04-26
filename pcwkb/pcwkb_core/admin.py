@@ -22,10 +22,11 @@ from .models.molecular_components.pcw.biomass_composition import CellWallCompone
 from .models.ontologies.experiment_related.eco import ECOTerm
 from .models.ontologies.molecular_related.chebi import ChEBI
 from .models.ontologies.plant_related.peco import PECOTerm
+from .models.ontologies.plant_related.to import TOTerm
 from .models.ontologies.plant_related.po import PlantOntologyTerm, PlantComponent, PlantComponentDevStage
 from .models.temporary_data.data_submission import TemporaryData
 from .models.temporary_data.species_submission import SpeciesTemporaryData
-
+from .models.molecular_components.relationships.biomass_experiemnte_assoc import Experimentalevidenceplanttrait
 
 class SpeciesAdmin(admin.ModelAdmin):
     """

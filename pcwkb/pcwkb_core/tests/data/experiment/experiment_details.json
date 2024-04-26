@@ -1,0 +1,41 @@
+ [
+  {"model": "pcwkb_core.experiment",
+  "pk": 1,
+  "fields": {
+   "experiment_name": "Yeast-one-hybrid",
+   "description": "Y1H is a powerful approach to rapidly identify proteins that can interact with a specific DNA regulatory region of interest. This technique is employed to ascertain “prey” molecules of TFs bind to a DNA fragment of interest that is known as “bait”. The process of Y1H involves that plasmids encoding TFs introduced into a yeast bait strain in which the DNA fragment is integrated upstream of one or more reporter genes, and subsequently the activation of the reporters indicates that a TF-DNA interaction has occurred. The name of one hybrid in yeast is derived from these plasmids, which express each TF as a hybrid protein fused to the activation domain (AD) of yeast Gal4.",
+   "literature_id": 2,
+   "experiment_category": "molecular interaction",
+   "eco_term_id": 61
+  }
+ },
+ {"model": "pcwkb_core.experiment",
+  "pk": 2,
+  "fields": {
+   "experiment_name": "Klason Method",
+   "description": "In this method, lignin known as \"Klason lignin\" is defined as the wood component insoluble in a 72% sulphuric acid solution. 1g of extractive-free biomass is treated with 72% H2SO4 solution (15 cm3) for 2 h at room temperature to hydrolyze and solubilize the carbohydrates. The sample is then diluted with water (560 cm3) to reduce the sulphuric acid concentration to 3 wt% and further boiled for 4 h. Next, lignin is allowed to settle before being filtered. The residue is washed using hot water until reaching a neutral pH. The dried insoluble residue represents the lignin content. The sulphuric acid method is the most widely accepted analytical method for determining the lignin content in woody plants, although it is time consuming.",
+   "literature_id": 4,
+   "experiment_category": "cell wall characterization"
+  }
+ },
+ {"model": "pcwkb_core.experiment",
+  "pk": 3,
+  "fields": {
+   "experiment_name": "Real-Time Quantitive PCR",
+   "description": "The main advantage of real-time PCR over PCR is that real-time PCR allows you to determine the initial number of copies of template DNA (the amplification target sequence) with accuracy and high sensitivity over a wide dynamic range. Real-time PCR results can either be qualitative (the presence or absence of a sequence) or quantitative (copy number). Quantitative real-time PCR is thus also known as qPCR analysis. In contrast, PCR is at best semiquantitative. Additionally, real-time qPCR data can be evaluated without gel electrophoresis, resulting in reduced bench time and increased throughput. Finally, because real-time qPCR reactions are run and data are evaluated in a unified, closed-tube qPCR system, opportunities for contamination are reduced and the need for postamplification manipulation is eliminated in qPCR analysis.",
+   "literature_id": 5,
+   "experiment_category": "molecular expression",
+   "eco_term_id": 593
+  }
+ },
+ {"model": "pcwkb_core.experiment",
+  "pk": 4,
+  "fields": {
+   "experiment_name": "RNAi-silencing",
+   "description": "Introduction of double-stranded RNA (dsRNA) induces potent and specific gene silencing.",
+   "literature_id": 9,
+   "experiment_category": "gene silencing",
+   "eco_term_id": 19
+  }
+ }
+]
