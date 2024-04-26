@@ -1,13 +1,19 @@
 import datetime
 from django.db import models
-from crossref.restful import Works
+from crossref.restful import Works #ver se pega o resumo
 
 class Literature(models.Model):
 
     doi = models.CharField(max_length=50, unique=True, null=False)
     author_name = models.CharField(max_length=50, null=False, blank=True)
-    title = models.CharField(max_length=100, null=False, blank=True)
+    title = models.TextField(null=False, blank=True)
     public_year = models.DateField(null=False, blank=True)
+    reference_type = models.CharField(max_length=50, null=True, blank=True)
+    journal = models.CharField(max_length=100, null=True, blank=True)
+    abstract = models.TextField(null=True, blank=True)
+    pmid = models.CharField(max_length=50, null=True, blank=True)
+
+
     # source = models.CharField(max_length=50, null=False, blank=True)
 
     def __str__(self):

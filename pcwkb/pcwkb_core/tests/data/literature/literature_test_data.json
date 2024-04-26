@@ -1,1 +1,218 @@
-[{"model": "pcwkb_core.literature", "pk": 1, "fields": {"doi": "10.3389/fpls.2012.00266", "author_name": "Rancour", "title": "Cell wall composition throughout development for the model grass Brachypodium distachyon", "public_year": "2012-01-01"}}, {"model": "pcwkb_core.literature", "pk": 2, "fields": {"doi": "10.3389/fpls.2022.757810", "author_name": "Harman-Ware", "title": "Abundance of Major Cell Wall Components in Natural Variants and Pedigrees of Populus trichocarpa", "public_year": "2022-01-01"}}]
+[
+    {
+     "model": "pcwkb_core.literature",
+     "pk": 1,
+     "fields": {
+      "reference_type": "article",
+      "title": "Rice Genome-Scale Network Integration Reveals Transcriptional Regulators of Grass Cell Wall Synthesis",
+      "author_name": "Zhao",
+      "public_year": "2019-01-01",
+      "abstract": "Grasses have evolved distinct cell wall composition and patterning relative to dicotyledonous plants. However, despite the importance of this plant family, transcriptional regulation of its cell wall biosynthesis is poorly understood. To identify grass cell wall-associated transcription factors, we constructed the Rice Combined mutual Ranked Network (RCRN). The RCRN covers >90% of annotated rice (Oryza sativa) genes, is high quality, and includes most grass-specific cell wall genes, such as mixed-linkage glucan synthases and hydroxycinnamoyl acyltransferases. Comparing the RCRN and an equivalent Arabidopsis network suggests that grass orthologs of most genetically verified eudicot cell wall regulators also control this process in grasses, but some transcription factors vary significantly in network connectivity between these divergent species. Reverse genetics, yeast-one-hybrid, and protoplast-based assays reveal that OsMYB61a activates a grass-specific acyltransferase promoter, which confirms network predictions and supports grass-specific cell wall synthesis genes being incorporated into conserved regulatory circuits. In addition, 10 of 15 tested transcription factors, including six novel Wall-Associated regulators (WAP1, WACH1, WAHL1, WADH1, OsMYB13a, and OsMYB13b), alter abundance of cell wall-related transcripts when transiently expressed. The results highlight the quality of the RCRN for examining rice biology, provide insight into the evolution of cell wall regulation, and identify network nodes and edges that are possible leads for improving cell wall composition.",
+      "journal": "Frontiers in Plant Science",
+      "doi": "10.3389/fpls.2019.01275",
+      "pmid": 31681374
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 2,
+       "fields": {
+        "reference_type": "article",
+        "title": "Yeast one-hybrid assays: A historical and technical perspective",
+        "author_name": "Reece-Hoyes",
+        "public_year": "2012-01-01",
+        "abstract": "Since its development about two decades ago, the yeast one-hybrid (Y1H) assay has become an important technique for detecting physical interactions between sequence-specific regulatory transcription factor proteins (TFs) and their DNA target sites. Multiple versions of the Y1H methodology have been developed, each with technical differences and unique advantages. We will discuss several of these technical variations in detail, and also provide some ideas for how Y1H assays can be further improved.",
+        "journal": "Methods",
+        "doi": "10.1016/j.ymeth.2012.07.027",
+        "pmid": 22884952
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 3,
+       "fields": {
+        "reference_type": "article",
+        "title": "The TIGR Rice Genome Annotation Resource: improvements and new features",
+        "author_name": "Ouyang",
+        "public_year": "2007-01-01",
+        "abstract": "In The Institute for Genomic Research Rice Genome Annotation project (Author Webpage), we have continued to update the rice genome sequence with new data and improve the quality of the annotation. In our current release of annotation (Release 4.0; January 12, 2006), we have identified 42 653 non-transposable element-related genes encoding 49 472 gene models as a result of the detection of alternative splicing. We have refined our identification methods for transposable element-related genes resulting in 13 237 genes that are related to transposable elements. Through incorporation of multiple transcript and proteomic expression data sets, we have been able to annotate 24 799 genes (31 739 gene models), representing ∼50% of the total gene models, as expressed in the rice genome. All structural and functional annotation is viewable through our Rice Genome Browser which currently supports 59 tracks. Enhanced data access is available through web interfaces, FTP downloads and a Data Extractor tool developed in order to support discrete dataset downloads.",
+        "journal": "Nucleic Acids Research, (Database)",
+        "doi": "10.1093/nar/gkl976",
+        "pmid": 17145706
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 4,
+       "fields": {
+        "reference_type": "article",
+        "title": "Thermogravimetric analysis as a new method to determine the lignocellulosic composition of biomass",
+        "author_name": "Carrier",
+        "public_year": "2011-01-01",
+        "abstract": "",
+        "journal": "Biomass and Bioenergy",
+        "doi": "10.1016/j.biombioe.2010.08.067"
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 5,
+       "fields": {
+        "reference_type": "article",
+        "title": "Basic principles of real-time quantitative PCR",
+        "author_name": "Arya",
+        "public_year": "2014-01-01",
+        "abstract": "Real-time quantitative PCR allows the sensitive, specific and reproducible quantitation of nucleic acids. Since its introduction, real-time quantitative PCR has revolutionized the field of molecular diagnostics and the technique is being used in a rapidly expanding number of applications. This exciting technology has enabled the shift of molecular diagnostics toward a high-throughput, automated technology with lower turnaround times. This article reviews the basic principles of real-time PCR and describes the various chemistries available: the double-stranded DNA-intercalating agent SYBR® Green 1, hydrolysis probes, dual hybridization probes, molecular beacons and scorpion probes. Quantitation methods are discussed in addition to the competing instruments available on the market. Examples of applications of this important and versatile technique are provided throughout the review.",
+        "journal": "Expert Review of Molecular Diagnostics",
+        "doi": "10.1586/14737159.5.2.209",
+        "pmid": 15833050
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 6,
+       "fields": {
+        "reference_type": "article",
+        "title": "Overexpression of the rice BAHD acyltransferase AT10 increases xylan-bound p-coumarate and reduces lignin in Sorghum bicolor",
+        "author_name": "Tian",
+        "public_year": "2021-01-01",
+        "abstract": "The development of bioenergy crops with reduced recalcitrance to enzymatic degradation represents an important challenge to enable the sustainable production of advanced biofuels and bioproducts. Biomass recalcitrance is partly attributed to the complex structure of plant cell walls inside which cellulose microfibrils are protected by a network of hemicellulosic xylan chains that crosslink with each other or with lignin via ferulate (FA) bridges. Overexpression of the rice acyltransferase OsAT10 is an effective bioengineering strategy to lower the amount of FA involved in the formation of cell wall crosslinks and thereby reduce cell wall recalcitrance. The annual crop sorghum represents an attractive feedstock for bioenergy purposes considering its high biomass yields and low input requirements. Although we previously validated the OsAT10 engineering approach in the perennial bioenergy crop switchgrass, the effect of OsAT10 expression on biomass composition and digestibility in sorghum remains to be explored.",
+        "journal": "Biotechnology for Biofuels",
+        "doi": "10.1186/s13068-021-02068-9",
+        "pmid": 34801067
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 7,
+       "fields": {
+        "reference_type": "article",
+        "title": "A glycosyl transferase family 43 protein involved in xylan biosynthesis is associated with straw digestibility in Brachypodium distachyon",
+        "author_name": "Whitehead",
+        "public_year": "2018-01-01",
+        "abstract": "The recalcitrance of secondary plant cell walls to digestion constrains biomass use for the production of sustainable bioproducts and for animal feed. We screened a population of Brachypodium recombinant inbred lines (RILs) for cell wall digestibility using commercial cellulases and detected a quantitative trait locus (QTL) associated with this trait. Examination of the chromosomal region associated with this QTL revealed a candidate gene that encodes a putative glycosyl transferase family (GT) 43 protein, orthologue of IRX14 in Arabidopsis, and hence predicted to be involved in the biosynthesis of xylan. Arabinoxylans form the major matrix polysaccharides in cell walls of grasses, such as Brachypodium. The parental lines of the RIL population carry alternative nonsynonymous polymorphisms in the BdGT43A gene, which were inherited in the RIL progeny in a manner compatible with a causative role in the variation in straw digestibility. In order to validate the implied role of our candidate gene in affecting straw digestibility, we used RNA interference to lower the expression levels of the BdGT43A gene in Brachypodium. The biomass of the silenced lines showed higher digestibility supporting a causative role of the BdGT43A gene, suggesting that it might form a good target for improving straw digestibility in crops.",
+        "journal": "New Phytologist",
+        "doi": "10.1111/nph.15089",
+        "pmid": 29574807
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 8,
+       "fields": {
+        "reference_type": "article",
+        "title": "Genome sequencing and analysis of the model grass Brachypodium distachyon",
+        "author_name": "International Brachypodium Initiative",
+        "public_year": "2010-01-01",
+        "abstract": "Three subfamilies of grasses, the Ehrhartoideae, Panicoideae and Pooideae, provide the bulk of human nutrition and are poised to become major sources of renewable energy. Here we describe the genome sequence of the wild grass Brachypodium distachyon (Brachypodium), which is, to our knowledge, the first member of the Pooideae subfamily to be sequenced. Comparison of the Brachypodium, rice and sorghum genomes shows a precise history of genome evolution across a broad diversity of the grasses, and establishes a template for analysis of the large genomes of economically important pooid grasses such as wheat. The high-quality genome sequence, coupled with ease of cultivation and transformation, small size and rapid life cycle, will help Brachypodium reach its potential as an important model system for developing new energy and food crops.",
+        "journal": "Nature",
+        "doi": "10.1038/nature08747",
+        "pmid": 20148030
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 9,
+       "fields": {
+        "reference_type": "article",
+        "title": "RNA interference: genetic wand and genetic watchdog",
+        "author_name": "Bosher",
+        "public_year": "2000-01-01",
+        "abstract": "In many species, introduction of double-stranded RNA (dsRNA) induces potent and specific gene silencing, a phenomenon called RNA interference or RNAi. The apparently widespread nature of RNAi in eukaryotes, ranging from trypanosome to mouse, has sparked great interest from both applied and fundamental standpoints. Here we review the technical improvements being made to increase the experimental potential of this technique. We also discuss recent advances in uncovering the proteins that act during the RNAi process, discoveries that have revealed enticing links between transposition, transgene silencing and RNAi.",
+        "journal": "Nature Cell Biology",
+        "doi": "10.1038/35000102",
+        "pmid": 20148030
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 10,
+       "fields": {
+        "reference_type": "article",
+        "title": "Inactivation of LACCASE8 and LACCASE5 genes in Brachypodium distachyon leads to severe decrease in lignin content and high increase in saccharification yield without impacting plant integrity",
+        "author_name": "Bris",
+        "public_year": "2019-01-01",
+        "abstract": "Dedicated lignocellulosic feedstock from grass crops for biofuel production is extensively increasing. However, the access to fermentable cell wall sugars by carbohydrate degrading enzymes is impeded by lignins. These complex polymers are made from reactive oxidized monolignols in the cell wall. Little is known about the laccase-mediated oxidation of monolignols in grasses, and inactivation of the monolignol polymerization mechanism might be a strategy to increase the yield of fermentable sugars. LACCASE5 and LACCASE8 are inactivated in a Brachypodium double mutant. Relative to the wild type, the lignin content of extract-free mature culms is decreased by 20–30% and the saccharification yield is increased by 140%. Release of ferulic acid by mild alkaline hydrolysis is also 2.5-fold higher. Interfascicular fibers are mainly affected while integrity of vascular bundles is not impaired. Interestingly, there is no drastic impact of the double mutation on plant growth. This work shows that two Brachypodium laccases with clearly identified orthologs in crops are involved in lignification of this model plant. Lignification in interfascicular fibers and metaxylem cells is partly uncoupled in Brachypodium. Orthologs of these laccases are promising targets for improving grass feedstock for cellulosic biofuel production.",
+        "journal": "Biotechnology for Biofuels",
+        "doi": "10.1186/s13068-019-1525-5",
+        "pmid": 31338123
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 11,
+       "fields": {
+        "reference_type": "article",
+        "title": "Improved maize reference genome with single-molecule technologies",
+        "author_name": "Jiao",
+        "public_year": "2017-01-01",
+        "abstract": "Complete and accurate reference genomes and annotations provide fundamental tools for characterization of genetic and functional variation. These resources facilitate the determination of biological processes and support translation of research findings into improved and sustainable agricultural technologies. Many reference genomes for crop plants have been generated over the past decade, but these genomes are often fragmented and missing complex repeat regions. Here we report the assembly and annotation of a reference genome of maize, a genetic and agricultural model species, using single-molecule real-time sequencing and high-resolution optical mapping. Relative to the previous reference genome, our assembly features a 52-fold increase in contig length and notable improvements in the assembly of intergenic spaces and centromeres. Characterization of the repetitive portion of the genome revealed more than 130,000 intact transposable elements, allowing us to identify transposable element lineage expansions that are unique to maize. Gene annotations were updated using 111,000 full-length transcripts obtained by single-molecule real-time sequencing. In addition, comparative optical mapping of two other inbred maize lines revealed a prevalence of deletions in regions of low gene density and maize lineage-specific genes.",
+        "journal": "Nature",
+        "doi": "10.1038/nature22971",
+        "pmid": 28605751
+      }
+     },
+     {
+       "model": "pcwkb_core.literature",
+       "pk": 12,
+       "fields": {
+        "reference_type": "article",
+        "title": "ZmNST3 and ZmNST4 are master switches for secondary wall deposition in maize (Zea mays L.)",
+        "author_name": "Xiao",
+        "public_year": "2017-01-01",
+        "abstract": "Secondary walls are the most abundant biomass produced by plants, and they consist mainly of lignin, cellulose and hemicellulose. Understanding how secondary wall biosynthesis is regulated could potentially provide genetic tools for engineering biomass components, especially in maize and Sorghum bicolor. Although many works have focused on secondary wall biosynthesis in dicotyledons, little has been reported for these monocotyledons. In this study, we cloned two NAC transcriptional factor genes, ZmNST3 and ZmNST4, and analyzed their functions in maize secondary wall formation process. ZmNST3 and ZmNST4 were expressed specifically in secondary wall-forming cells, expression of ZmNST3/4 can restore the pendent phenotype of Arabidopsis nst1nst3 double mutant. ZmNST3/4-overexpressing Arabidopsis and maize displayed a thickened secondary wall in the stem, and knockdown maize showed defective secondary wall deposition. ZmNST3/4 could regulate the expression of ZmMYB109/128/149. Our results revealed that ZmNST3/4 are master switches of the maize secondary wall biosynthesis process and provides new evidence that the secondary wall regulatory pathway is conserved in different plant species.",
+        "journal": "Plant Science",
+        "doi": "10.1016/j.plantsci.2017.03.012",
+        "pmid": 29241570
+      }
+    },
+    {
+     "model": "pcwkb_core.literature",
+     "pk": 13,
+     "fields": {
+      "reference_type": "article",
+      "title": "Suppression of a single BAHD gene in Setaria viridis causes large, stable decreases in cell wall feruloylation and increases biomass digestibility",
+      "author_name": "Souza",
+      "public_year": "2018-01-01",
+      "abstract": "Feruloylation of arabinoxylan (AX) in grass cell walls is a key determinant of recalcitrance to enzyme attack, making it a target for improvement of grass crops, and of interest in grass evolution. Definitive evidence on the genes responsible is lacking so we studied a candidate gene that we identified within the BAHD acyl-CoA transferase family. We used RNA interference (RNAi) silencing of orthologs in the model grasses Setaria viridis (SvBAHD01) and Brachypodium distachyon (BdBAHD01) and determined effects on AX feruloylation. Silencing of SvBAHD01 in Setaria resulted in a c. 60% decrease in AX feruloylation in stems consistently across four generations. Silencing of BdBAHD01 in Brachypodium stems decreased feruloylation much less, possibly due to higher expression of functionally redundant genes. Setaria SvBAHD01 RNAi plants showed: no decrease in total lignin, approximately doubled arabinose acylated by p-coumarate, changes in two-dimensional NMR spectra of unfractionated cell walls consistent with biochemical estimates, no effect on total biomass production and an increase in biomass saccharification efficiency of 40–60%. We provide the first strong evidence for a key role of the BAHD01 gene in AX feruloylation and demonstrate that it is a promising target for improvement of grass crops for biofuel, biorefining and animal nutrition applications.",
+      "journal": "New Phytologist",
+      "doi": "10.1111/nph.14970",
+      "pmid": 29315591
+     }
+    },
+    {
+     "model": "pcwkb_core.literature",
+     "pk": 14,
+     "fields": {
+      "reference_type": "article",
+      "title": "A genome resource for green millet Setaria viridis enables discovery of agronomically valuable loci",
+      "author_name": "Mamidi",
+      "public_year": "2020-01-01",
+      "abstract": "Wild and weedy relatives of domesticated crops harbor genetic variants that can advance agricultural biotechnology. Here we provide a genome resource for the wild plant green millet (Setaria viridis), a model species for studies of C4 grasses, and use the resource to probe domestication genes in the close crop relative foxtail millet (Setaria italica). We produced a platinum-quality genome assembly of S. viridis and de novo assemblies for 598 wild accessions and exploited these assemblies to identify loci underlying three traits: response to climate, a ‘loss of shattering’ trait that permits mechanical harvest and leaf angle, a predictor of yield in many grass crops. With CRISPR–Cas9 genome editing, we validated Less Shattering1 (SvLes1) as a gene whose product controls seed shattering. In S. italica, this gene was rendered nonfunctional by a retrotransposon insertion in the domesticated loss-of-shattering allele SiLes1-TE (transposable element). This resource will enhance the utility of S. viridis for dissection of complex traits and biotechnological improvement of panicoid crops.",
+      "journal": "Nature",
+      "doi": "10.1038/s41587-020-0681-2",
+      "pmid": 33020633
+     }
+    },
+    {
+     "model": "pcwkb_core.literature",
+     "pk": 15,
+     "fields": {
+         "doi": "10.3389/fpls.2012.00266",
+         "author_name": "Rancour",
+         "title": "Cell wall composition throughout development for the model grass Brachypodium distachyon",
+         "public_year": "2012-01-01"
+     }
+   },
+   {
+     "model": "pcwkb_core.literature",
+     "pk": 16,
+     "fields": {
+         "doi": "10.3389/fpls.2022.757810",
+         "author_name": "Harman-Ware",
+         "title": "Abundance of Major Cell Wall Components in Natural Variants and Pedigrees of Populus trichocarpa",
+         "public_year": "2022-01-01"
+     }
+   }
+   ] 
+      
