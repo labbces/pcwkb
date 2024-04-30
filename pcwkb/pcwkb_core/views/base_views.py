@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+import simplejson as json
 from haystack.query import SearchQuerySet
 
 def index(request):
@@ -18,9 +19,8 @@ def ontologies(request):
     return render(request, 'ontologies.html')
 
 def search(request):
-    query = request.GET.get('q', '')  # Obtain the search query from the URL parameter
+    query = request.GET.get('q', '') 
 
-    # Filter search results based on the 'content_auto' field in the indexed model
     scientific_name_results = SearchQuerySet().autocomplete(scientific_name_auto__contains=query)
     common_name_results = SearchQuerySet().autocomplete(common_name_auto__contains=query)
 

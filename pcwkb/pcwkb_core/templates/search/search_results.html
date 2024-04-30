@@ -2,10 +2,6 @@
 {% load static %}
 
 {% block content %}
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{% static 'script/search.js' %}"></script>
-
 <section class="background-color-aac0b218 py-3 py-md-5 py-xl-8">
     <div class="container">
         <div class="row justify-content-md-center">
@@ -24,10 +20,14 @@
                 <input type="text" id="search-input" placeholder="Search...">
                 <button type="submit">Search</button> <!-- Submit button -->
             </form>
+            <ul id="search-suggestions"></ul> <!-- Suggestions container -->
         </div>
 
-        <div id="search-results"></div>
+        <div id="search-results"></div> <!-- Search results container -->
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'script/search.js' %}"></script>
 
 {% endblock %}
