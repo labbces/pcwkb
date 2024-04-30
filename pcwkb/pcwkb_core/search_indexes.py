@@ -11,8 +11,9 @@ class SpeciesIndex(indexes.SearchIndex, indexes.Indexable):
     photosystem = indexes.CharField(model_attr='photosystem')
 
     # Autocomplete
-    content_auto = indexes.EdgeNgramField(model_attr='scientific_name')
-    content_auto2 = indexes.EdgeNgramField(model_attr='common_name', null=True)
+    scientific_name_auto = indexes.EdgeNgramField(model_attr='scientific_name')
+    common_name_auto = indexes.EdgeNgramField(model_attr='common_name', null=True)
+    species_code_auto = indexes.EdgeNgramField(model_attr='species_code')
 
     def get_model(self):
         return Species
