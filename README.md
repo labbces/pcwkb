@@ -40,7 +40,8 @@ extensions = ["myst_parser"]
 ```
 
 # Reseach and Development Team
-
+ 
+ * João Vitor Leite Novoletti (IFSP, Piracicaba)
  * Bianca Sagiorato (UFSCar, São Carlos)
  * Danielli Teixeira (UFSCar, São Carlos)
  * Dr. Diego M. Riaño Pachón (associate professor, CENA/USP Piracicaba)
