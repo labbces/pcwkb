@@ -37,6 +37,7 @@ Once the database is created we can create the migration using:
 
 ```bash
 python manage.py makemigrations
+python manage.py makemigrations pcwkb_core
 python manage.py check
 python manage.py migrate
 ```
