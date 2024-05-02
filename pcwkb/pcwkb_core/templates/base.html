@@ -34,6 +34,9 @@
             <a class="nav-link active text-white" href="/pcwkb_core/browse_species">Species</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link active text-white" href="/pcwkb_core/experiment_form">Submit data</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link active text-white" href="/pcwkb_core/team">Contact Us</a>
           </li>
           <li class="nav-item">
@@ -49,9 +52,8 @@
               </ul>
           </li>
         </ul>
-        <form class="d-flex" method="get" action="{% url 'search' %}">
-            <input type="text" name="q" value="{{ query }}" placeholder="Search...">
-            <input class="button" type="submit" value="Search">
+        <form class="d-flex" method="get" action="{% url 'search_engine' %}">
+            <input class="button" type="submit" value="Try out our search engine">
         </form>
       </div>
     </div>

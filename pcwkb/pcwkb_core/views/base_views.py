@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-import simplejson as json
 from haystack.query import SearchQuerySet
 
 def index(request):
@@ -18,44 +17,43 @@ def funding(request):
 def ontologies(request):
     return render(request, 'ontologies.html')
 
-def search(request):
-    query = request.GET.get('q', '') 
+def search_engine(request):
+    return render(request, 'search/search_results.html')
 
-    scientific_name_results = SearchQuerySet().autocomplete(scientific_name_auto__contains=query)
-    common_name_results = SearchQuerySet().autocomplete(common_name_auto__contains=query)
 
-    print(type(scientific_name_results),type(common_name_results))
+def search_pcwkb(request):
 
-    search_results = scientific_name_results | common_name_results
+    print("chegou no search_pcwkb")
+    query = request.GET.get('q', '')
 
-    print(search_results)
+    print (query)
 
-    print(query)
+    search_results = SearchQuerySet().filter(text=query)
 
-    context = {
-        'query': query,
-        'results': search_results,
-    }
-
+    results={}
     for result in search_results:
-        print(result)
+        url_species=f"pcwkb_core/species_page/{result.object.species_code}"
+        results['label']=result.object.scientific_name
+        results['url']=url_species
 
-    return render(request, 'search/search_results.html', context)
+    print(results)
+
+    return JsonResponse({'results': results})
 
 def autocomplete(request):
     query = request.GET.get('q', '')
     # Perform autocomplete query
-    scientific_name_results = SearchQuerySet().autocomplete(scientific_name_auto=query)[:10]
-    common_name_results = SearchQuerySet().autocomplete(common_name_auto=query)[:10]
+    scientific_name_results = SearchQuerySet().autocomplete(scientific_name_auto__contains=query)[:10]
+    common_name_results = SearchQuerySet().autocomplete(common_name_auto__contains=query)[:10]
 
     # Combine and format the results
     results = []
     for result in scientific_name_results:
         url_species=f"pcwkb_core/species_page/{result.object.species_code}"
-        results.append({'label': result.object.scientific_name, 'url': url_species})
+        results.append({'label': result.object.scientific_name})
     for result in common_name_results:
         url_species=f"pcwkb_core/species_page/{result.object.species_code}"
-        results.append({'label': result.object.common_name, 'url': url_species})
+        results.append({'label': result.object.common_name})
     
     print(results)
 
