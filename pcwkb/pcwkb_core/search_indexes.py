@@ -13,7 +13,7 @@ class SpeciesIndex(indexes.SearchIndex, indexes.Indexable):
     # Autocomplete
     scientific_name_auto = indexes.EdgeNgramField(model_attr='scientific_name')
     common_name_auto = indexes.EdgeNgramField(model_attr='common_name', null=True)
-    species_code_auto = indexes.EdgeNgramField(model_attr='species_code')
+    #species_code_auto = indexes.EdgeNgramField(model_attr='species_code')
 
     def get_model(self):
         return Species
