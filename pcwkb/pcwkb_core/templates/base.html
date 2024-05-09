@@ -53,12 +53,19 @@
           </li>
         </ul>
         <form class="d-flex" method="get" action="{% url 'search_engine' %}">
-            <input class="button" type="submit" value="Try out our search engine">
+          <input class="button" type="submit" value="Try out our search engine">
         </form>
+        <ul class="navbar-nav ml-auto">
+          {% if not request.user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link active text-white" href="{% url 'registration' %}">Register</a></li>
+          <li class="nav-item"><a class="nav-link active text-white" href="{% url 'login' %}">Login</a></li>
+          {% else %}
+          <li class="nav-item"><a class="nav-link active text-white" href="{% url 'logout' %}">Logout</a></li>
+          {% endif %}
+        </ul>
       </div>
     </div>
   </nav>
-
 </header>
 
 <style>

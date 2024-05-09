@@ -8,6 +8,7 @@ from pcwkb_core.views.forms import data_submission
 from pcwkb_core.views.forms import species_submission
 from pcwkb_core.views.relationships import orthogroup
 from pcwkb_core.views.experiment import experiment
+from pcwkb_core.views import accounts
 
 urlpatterns = [
     path('browse_species', species.browse_species, name='browse_species'),
@@ -28,4 +29,6 @@ urlpatterns = [
     path('ontologies', base_views.ontologies, name='ontologies'),
     path('experiment_page/<str:experiment_name>', experiment.exp_page, name='experiment_page'),
     path('experiment_form', data_submission.experiment_form_view, name='experiment_form'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/registration', accounts.registration, name='registration')
 ]
