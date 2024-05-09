@@ -21,11 +21,12 @@ for (var part in biomasscomp) {
 console.log(zValues);
 
 var data = [{
-  x: xValues,
+  x: xValues, 
   y: yValues,
   z: zValues,
   type: 'heatmap',
-  showscale: true
+  showscale: true,
+  hoverinfo: 'x+y',
 }];
 
 var layout = {
