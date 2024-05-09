@@ -4,6 +4,16 @@
 
 {% if scientific_name %}
 
+<div class="container-fluid px-4 py-3">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb background-color-aac0b218">
+      <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
+      <li class="breadcrumb-item"><a href="pcwkb_core/browse_species">Species</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><i>{{ scientific_name }}</i></li>
+    </ol>
+  </nav>
+</div>
+
 <header class="py-3 py-md-5 py-xl-8">
   <div class="container">
     <div class="row justify-content-md-center">
@@ -46,6 +56,7 @@
     const biomasscomp = JSON.parse(document.getElementById('biomass_composition').textContent);
   </script>
   <div id="grafico" class="overflow-auto"></div>
+    <p class="d-flex justify-content-end">Referência: <a href="https://doi.org/{{biomass_composition_literature.doi}}" target="_blank">"{{ biomass_composition_literature.title }}"</a></p>
 
   {% if biomass_composition|length > 1 %}
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
