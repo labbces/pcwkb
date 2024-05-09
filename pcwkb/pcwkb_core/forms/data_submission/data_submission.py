@@ -1,6 +1,6 @@
 from django import forms
 from openpyxl import load_workbook
-from pcwkb_core.models.molecular_components.relationships.biomass_experiemnte_assoc import Experimentalevidenceplanttrait
+from pcwkb_core.models.molecular_components.relationships.biomass_experiment_assoc import Experimentalevidenceplanttrait
 import xml.etree.ElementTree as ET
 
 
