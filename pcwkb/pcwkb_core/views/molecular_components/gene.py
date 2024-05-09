@@ -53,7 +53,8 @@ def gene_page(request, gene_name):
     context = {'gene_id': gene.id,
                'gene_name': gene,
                'description': gene.description,
-               'proteins': proteins}
+               'proteins': proteins,
+               'species':gene.species}
     print(context)
 
     return render(request, 'gene/gene_page.html', context)

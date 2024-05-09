@@ -24,7 +24,8 @@ def species_page(request, species_code):
                 'common_name': '',
                 'experimental_genes': {},
                 'genes_paginated': {},
-                'biomass_composition':{}
+                'biomass_composition':{},
+                'biomass_composition_literature': '',
                 }
 
     context['species_id'] = Species.objects.get(species_code=species_code).id
@@ -35,11 +36,10 @@ def species_page(request, species_code):
         for obj in BiomassComponent_objects:
             po_name = str(obj.po.po_name)
             context['biomass_composition'][po_name]=obj.components_percentage[0]
+            context['biomass_composition_literature']=obj.literature
 
     context['common_name'] = Species.objects.get(species_code=species_code).common_name
     context['scientific_name'] = Species.objects.get(species_code=species_code).scientific_name
-
-    print(context)
     
     return render(request, 'species/species_page.html', context)
 
@@ -49,7 +49,6 @@ def browse_species(request):
     that gets the information from the database and shows in the tree.
     """
     species_data = Species.objects.values('species_code', 'scientific_name', 'common_name', 'family', 'clade', 'photosystem')
-    print(species_data)
 
     data = {"name": "Angiospermae", "children": []}
 
