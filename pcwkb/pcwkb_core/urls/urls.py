@@ -30,5 +30,5 @@ urlpatterns = [
     path('experiment_page/<str:experiment_name>', experiment.exp_page, name='experiment_page'),
     path('experiment_form', data_submission.experiment_form_view, name='experiment_form'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/registration', accounts.registration, name='registration')
+    path('accounts/registration', accounts.registration, name='registration'),
 ]
