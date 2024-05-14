@@ -4,8 +4,9 @@ from django.http import Http404
 
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
-from pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
 from pcwkb_core.models.molecular_components.relationships.pcw_genetics_association import BiomassComposition
+from pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
+from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_experiment_assoc import Experimentalevidenceplanttrait
 
 def species_page(request, species_code):
     """
@@ -48,7 +49,7 @@ def browse_species(request):
     Function that shows a cladogram in the browse species page,
     that gets the information from the database and shows in the tree.
     """
-    species_data = Species.objects.values('species_code', 'scientific_name', 'common_name', 'family', 'clade', 'photosystem')
+    species_data = Species.objects.order_by('scientific_name').values('species_code', 'scientific_name', 'family', 'clade')
 
     data = {"name": "Angiospermae", "children": []}
 
@@ -66,7 +67,20 @@ def browse_species(request):
             family_node = {"name": family_name, "children": []}
             clade_dict[clade_name]["children"].append(family_node)
 
-        family_node["children"].append({"name": f"{species['scientific_name']} ({species['species_code']})"})
+
+        """
+        Idetifying if species has any experimental data associated based on 
+        GeneExperimentAssociation and Experimentalevidenceplanttrait models
+        and adding to the tree
+        """
+        specie = Species.objects.get(scientific_name=species['scientific_name'])
+
+        genes = Gene.objects.filter(species_id=specie)
+
+        if GeneExperimentAssociation.objects.filter(gene__in=genes) or Experimentalevidenceplanttrait.objects.filter(species=specie):
+            family_node["children"].append({"name": f"✓ {species['scientific_name']} ({species['species_code']})"})
+        else:
+            family_node["children"].append({"name": f"{species['scientific_name']} ({species['species_code']})"})
 
     data["children"] = list(clade_dict.values())
 
