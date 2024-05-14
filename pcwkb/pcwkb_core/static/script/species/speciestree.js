@@ -80,6 +80,7 @@ function update(event, source) {
             return "pcwkb_core/species_page/" + d.data.name.match(/\((.*?)\)/)?.[1];
           })
           .text(d => d.data.name)
+          .attr("fill", "green")
           .attr("stroke-linejoin", "round")
           .attr("stroke-width", 3)
           .attr("stroke", "white")
