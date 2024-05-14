@@ -1,7 +1,7 @@
 // Collapsible tree based on https://observablehq.com/@d3/collapsible-tree by Mike Bostock
 console.log(data);
 
-const width = 1200;
+const width = 1250;
 const marginTop = 100;
 const marginRight = 100;
 const marginBottom = 100;
@@ -140,4 +140,6 @@ root.descendants().forEach((d, i) => {
 
 update(null, root);
 
-document.body.appendChild(svg.node());
+var div = document.getElementById('species_tree');
+
+div.appendChild(svg.node());
