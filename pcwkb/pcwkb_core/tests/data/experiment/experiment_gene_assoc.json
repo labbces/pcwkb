@@ -1,0 +1,68 @@
+[
+ {
+  "model": "pcwkb_core.geneexperimentassociation",
+  "pk": 1,
+  "fields": {
+   "po": 1,
+   "experiment": 4,
+   "literature": 7,
+   "gene": 6,
+   "effect": "Decreased expression"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneexperimentassociation",
+  "pk": 2,
+  "fields": {
+   "po": 3,
+   "experiment": 3,
+   "literature": 10,
+   "gene": 7,
+   "effect": "Highly expressed"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneexperimentassociation",
+  "pk": 3,
+  "fields": {
+   "po": 4,
+   "experiment": 3,
+   "literature": 10,
+   "gene": 7,
+   "effect": "Highly expressed"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneexperimentassociation",
+  "pk": 4,
+  "fields": {
+   "po": 5,
+   "experiment": 3,
+   "literature": 10,
+   "gene": 7,
+   "effect": "Highly expressed"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneexperimentassociation",
+  "pk": 5,
+  "fields": {
+   "po": 6,
+   "experiment": 3,
+   "literature": 10,
+   "gene": 7,
+   "effect": "Lowly expressed"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneexperimentassociation",
+  "pk": 6,
+  "fields": {
+   "po": 7,
+   "experiment": 3,
+   "literature": 10,
+   "gene": 7,
+   "effect": "Lowly expressed"
+  }
+ }
+]
