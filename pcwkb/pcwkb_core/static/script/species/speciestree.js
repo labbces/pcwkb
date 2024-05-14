@@ -18,7 +18,7 @@ const svg = d3.create("svg")
   .attr("width", width)
   .attr("height", dy)
   .attr("viewBox", [-marginLeft, -marginTop, width, dy])
-  .attr("style", "max-width: 100%; height: auto; font: 20px sans-serif; user-select: none;");
+  .attr("style", "max-width: 100%; height: auto; font: 18px sans-serif; user-select: none;");
 
 const gLink = svg.append("g")
   .attr("fill", "none")
