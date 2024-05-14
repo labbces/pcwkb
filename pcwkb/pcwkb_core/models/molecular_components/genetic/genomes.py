@@ -10,9 +10,12 @@ class Genome(models.Model):
     We also require that this gene need to be related to a specie and a literature that 
     explain about the genome assembly, reason why we included the cascade ForeingKey. 
     """
-    genome_version = models.CharField(max_length=50, unique=True)
+    version = models.CharField(max_length=50, unique=True)
     description = models.TextField(null=True, blank=True)
     source_db = models.CharField(max_length=50)
+    genome_size = models.CharField(max_length=50)
+    coding_genes_count = models.CharField(max_length=50)
+    coding_transcripts_count = models.CharField(max_length=50)
 
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
     species = models.ForeignKey(Species, on_delete=models.CASCADE)
