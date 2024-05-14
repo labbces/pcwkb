@@ -32,9 +32,14 @@ def search_pcwkb(request):
 
     results={}
     for result in search_results:
-        url_species=f"pcwkb_core/species_page/{result.object.species_code}"
-        results['label']=result.object.scientific_name
-        results['url']=url_species
+        if hasattr(result.object, 'species_code'):
+            url_species = f"pcwkb_core/species_page/{result.object.species_code}"
+            results['label']=result.object.scientific_name
+            results['url']=url_species
+        elif hasattr(result.object, 'gene_name'):
+            url_species = f"pcwkb_core/gene_page/{result.object.gene_name}"
+            results['label']=result.object.gene_name
+            results['url']=url_species
 
     print(results)
 
@@ -45,15 +50,19 @@ def autocomplete(request):
     # Perform autocomplete query
     scientific_name_results = SearchQuerySet().autocomplete(scientific_name_auto__contains=query)[:10]
     common_name_results = SearchQuerySet().autocomplete(common_name_auto__contains=query)[:10]
+    gene_name_results = SearchQuerySet().autocomplete(gene_name_auto__contains=query)[:10]
+    gene_description_results = SearchQuerySet().autocomplete(gene_description_auto__contains=query)[:10]
 
     # Combine and format the results
     results = []
     for result in scientific_name_results:
-        url_species=f"pcwkb_core/species_page/{result.object.species_code}"
         results.append({'label': result.object.scientific_name})
     for result in common_name_results:
-        url_species=f"pcwkb_core/species_page/{result.object.species_code}"
         results.append({'label': result.object.common_name})
+    for result in gene_name_results:
+        results.append({'label': result.object.gene_name})
+    for result in gene_description_results:
+        results.append({'label': result.object.description})
     
     print(results)
 

@@ -1,0 +1,2 @@
+{{ object.gene_name }}
+{{ object.description }}

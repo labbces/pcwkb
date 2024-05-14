@@ -1,5 +1,6 @@
 from haystack import indexes
 from .models.taxonomy.ncbi_taxonomy import Species
+from .models.molecular_components.genetic.genes import Gene
 
 class SpeciesIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
@@ -21,3 +22,20 @@ class SpeciesIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
         return self.get_model().objects.all()
+    
+class GeneIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    gene_name = indexes.CharField(model_attr='gene_name')
+    gene_description = indexes.CharField(model_attr='description', null=True)
+
+    # Autocomplete
+    gene_name_auto = indexes.EdgeNgramField(model_attr='gene_name')
+    gene_description_auto = indexes.EdgeNgramField(model_attr='description', null=True)
+
+    def get_model(self):
+        return Gene
+
+    def index_queryset(self, using=None):
+        """Used when the entire index for model is updated."""
+        return self.get_model().objects.all()
+
