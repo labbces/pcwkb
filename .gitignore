@@ -5,3 +5,4 @@ docs/build/
 solr-9.4.0/
 migrations/
 chebi.obo
+chebi_data.json
