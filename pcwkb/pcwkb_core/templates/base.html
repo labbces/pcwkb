@@ -34,9 +34,6 @@
             <a class="nav-link active text-white" href="/pcwkb_core/browse_species">Species</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-white" href="/pcwkb_core/experiment_form">Submit data</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link active text-white" href="/pcwkb_core/team">Contact Us</a>
           </li>
           <li class="nav-item">
@@ -60,13 +57,42 @@
           <li class="nav-item"><a class="nav-link active text-white" href="{% url 'registration' %}">Register</a></li>
           <li class="nav-item"><a class="nav-link active text-white" href="{% url 'login' %}">Login</a></li>
           {% else %}
-          <li class="nav-item"><a class="nav-link active text-white" href="{% url 'logout' %}">Logout</a></li>
+          <li class="nav-item dropdown">
+            <button class="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Perfil
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li class="nav-item">
+                <a class="nav-link active" href="/pcwkb_core/experiment_form">Submit data</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
           {% endif %}
         </ul>
       </div>
     </div>
   </nav>
 </header>
+
+{% if messages %}
+<div id="message" class="messages">
+  <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<script>
+    setTimeout(function() {
+        var messageDiv = document.getElementById('message');
+        if (messageDiv) {
+            messageDiv.style.display = 'none';
+        }
+    }, 15000);
+</script>
 
 <style>
   body {

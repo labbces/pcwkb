@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from pcwkb_core.forms.data_submission.data_submission import DataSubmissionForm, ExperimentForm
 
@@ -31,7 +32,8 @@ def experiment_form_view(request):
             # Get the instance from the form but don't save it yet
             instance = form.save(commit=False) # Save the instance to the 'temporary_data' database
             instance.save(using='temporary_data')
-            return redirect('home.html') 
+            messages.success(request, 'Experiment form submitted successfully.')
+            return redirect('/pcwkb_core/') 
     else:
         form = ExperimentForm()
     
