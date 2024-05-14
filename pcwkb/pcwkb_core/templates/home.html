@@ -4,28 +4,24 @@
 
 {% load static %}
 
-
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 
 <div class="container" id="home_container">
   <div class="content"></div>
   <div class="text-column">
     <h1>Welcome to Plant Cell Wall KnowledgeBase!</h1>
-    <p style="text-align: justify;"> Our database facilitates the conection between molecular biology experiments and
-      changes in composition of plant cell wall and biomass.<br> It mainly comprises grass species (including the main
-      grass C3 and C4 models), but we also include dicot models (such as <em>Arabidopsis thaliana</em>).<br> We expect
-      that this resource acelerate research aiming to study elements involved in biomass recalcitrance and finally use
-      this information in molecular breeding programs.</p>
+    <p style="text-align: justify;"> Our database facilitates the connection between molecular biology experiments and
+      changes in the composition of plant cell wall and biomass.<br> It mainly comprises grass species (including the main
+      grass C3 and C4 models), but we also include dicot models (such as <i>Arabidopsis thaliana</i>).<br> We expect
+      that this resource accelerates research aiming to study elements involved in biomass recalcitrance, energy production, 
+      and any other cell wall-related research you wish.</p>
     <a href="/pcwkb_core/browse_species" class="browse-species-btn">Browse Species</a>
   </div>
   <div class="image-column">
     <img src="{% static 'img/pcwkb.jpg' %}" alt="Plant Cell Wall KnowledgeBase" class="full-width-image">
   </div>
 </div>
-
-
 
 {% endblock %}
