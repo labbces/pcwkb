@@ -1,6 +1,3 @@
-
-console.load(response.results);
-
 $(document).ready(function () {
     $('#search-form').submit(function (event) {
         event.preventDefault(); // Prevent default form submission
@@ -16,7 +13,9 @@ $(document).ready(function () {
                     // Clear previous results
                     $('#search-results').empty();
                     // Display species names
-                    $('#search-results').append('<p>Last search result: <a href="' + response.results.url + '" target="_blank">' + response.results.label + '</a></p>');
+                    $('#search-results').html('<p>Search result: <a href="' + response.results.url + '" target="_blank">' + response.results.label + '</a></p>');
+                    // Update object data
+                    updateObjectData(response);
                 },
                 error: function (xhr, status, error) {
                     // Handle error
@@ -25,5 +24,13 @@ $(document).ready(function () {
             });
         }
     });
-});
 
+    function updateObjectData(response) {
+        // Update the HTML with the objectData content
+        var speciesHtml = `<p>Species: ${response.results.specie}</p>`;
+        var geneHtml = `<p>Gene: ${response.results.genes}</p>`;
+        
+        $('#species-data').html(speciesHtml);
+        $('#gene-data').html(geneHtml);
+    }
+});

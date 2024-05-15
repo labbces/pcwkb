@@ -20,31 +20,6 @@ def ontologies(request):
 def search_engine(request):
     return render(request, 'search/search_results.html')
 
-
-def search_pcwkb(request):
-
-    print("chegou no search_pcwkb")
-    query = request.GET.get('q', '')
-
-    print (query)
-
-    search_results = SearchQuerySet().filter(text=query)
-
-    results={}
-    for result in search_results:
-        if hasattr(result.object, 'species_code'):
-            url_species = f"pcwkb_core/species_page/{result.object.species_code}"
-            results['label']=result.object.scientific_name
-            results['url']=url_species
-        elif hasattr(result.object, 'gene_name'):
-            url_species = f"pcwkb_core/gene_page/{result.object.gene_name}"
-            results['label']=result.object.gene_name
-            results['url']=url_species
-
-    print(results)
-
-    return JsonResponse({'results': results})
-
 def autocomplete(request):
     query = request.GET.get('q', '')
     # Perform autocomplete query

@@ -17,17 +17,20 @@
     <div class="bg-white container py-3 py-md-5 py-xl-8 rounded-2">
         <div class="rounded-5 p-4 background-color-aac0b218">
             <form id="search-form">
-                <input type="text" id="search-input" placeholder="Search...">
+                <input type="text" class="w-75" id="search-input" placeholder="Search...">
                 <button type="submit">Search</button> <!-- Submit button -->
             </form>
-            <ul id="search-suggestions"></ul> <!-- Suggestions container -->
+            <div id="last-search"></div> <!-- Search results container -->
         </div>
-
-        <div id="search-results"></div> <!-- Search results container -->
+        <div id="search-results"></div>
+        <div id="species-data"></div> <!-- Container for species data -->
+        <div id="gene-data"></div> <!-- Container for gene data -->
     </div>
 </div>
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="{% static 'script/search/search.js' %}"></script>
-<script src="{% static 'script/search/autocomplete.js' %}"></script>
+<script src="{% static 'script/search/autocomplete1.js' %}"></script>
 {% endblock %}

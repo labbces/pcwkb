@@ -9,6 +9,7 @@ from pcwkb_core.views.forms import species_submission
 from pcwkb_core.views.relationships import orthogroup
 from pcwkb_core.views.experiment import experiment
 from pcwkb_core.views import accounts
+from pcwkb_core.views.search import search_view
 
 urlpatterns = [
     path('browse_species', species.browse_species, name='browse_species'),
@@ -21,7 +22,7 @@ urlpatterns = [
     path('funding', base_views.funding, name='funding'),
     path('faq', base_views.faq, name='faq'),    
     path('search/', include('haystack.urls')),
-    path('search_pcwkb/', base_views.search_pcwkb, name='search_pcwkb'),
+    path('search_pcwkb/', search_view.search_pcwkb, name='search_pcwkb'),
     path('search_engine/', base_views.search_engine, name='search_engine'),
     path('autocomplete/', base_views.autocomplete, name='autocomplete'),
     path('data_submission', data_submission.get_data_file, name='data_submission'),
