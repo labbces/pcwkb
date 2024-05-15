@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -21,6 +22,9 @@
   </div>
   <div class="image-column">
     <img src="{% static 'img/pcwkb.jpg' %}" alt="Plant Cell Wall KnowledgeBase" class="full-width-image">
+  </div>
+  <div id="svginterativo">
+    <object type="image/svg+xml" data="{% static 'img/plantcellwall.svg' %}" class="svg-object"></object>
   </div>
 </div>
 
