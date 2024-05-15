@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -58,7 +59,7 @@
   <div id="grafico" class="overflow-auto"></div>
     <p class="d-flex justify-content-end">Referência: <a href="https://doi.org/{{biomass_composition_literature.doi}}" target="_blank">"{{ biomass_composition_literature.title }}"</a></p>
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-  <script src="/static/script/species/species_plotyheatmap.js"></script>
+  <script src="{% static 'script/species/species_plotyheatmap.js' %}"></script>
 </div>
 {% else %}
 <div class="row justify-content-md-center">
