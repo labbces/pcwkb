@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-     'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'pcwkb.urls'
 TEMPLATES = [
     {
         'BACKEND':'django.template.backends.jinja2.Jinja2',
-	    'DIRS': [ PROJECT_DIR / 'jinjatemplates' ],
+	    'DIRS': [ PROJECT_DIR / 'jinjatemplates'],
         'APP_DIRS': True,
     },
     {
@@ -82,10 +82,11 @@ WSGI_APPLICATION = 'pcwkb.wsgi.application'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://0.0.0.0:8983/solr/tester',                 # Assuming you created a core named 'tester' as described in installing search engines.
-        'ADMIN_URL': 'http://0.0.0.0:8983/solr/admin/cores'
+        'URL': 'http://0.0.0.0:8983/solr/testeconfiguration',                 # Assuming you created a core named 'tester' as described in installing search engines.
+        'ADMIN_URL': 'http://0.0.0.0:8983/solr/admin/cores',
+        'INCLUDE_SPELLING': True,
         # ...or for multicore...
-        # 'URL': 'http://127.0.0.1:8983/solr/mysite',
+        #'URL': 'http://127.0.0.1:8983/solr/mysite',
     },
 }
 
@@ -93,9 +94,17 @@ HAYSTACK_CONNECTIONS = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-      'default': {
+      "default": {
          'ENGINE': 'django.db.backends.mysql',
          'NAME': 'pcwkb_db',
+         'USER': 'pcwkb_db_admin',
+         'PASSWORD': 'password1',
+         'HOST': '127.0.0.1',
+         'PORT': '',
+      },
+      "temporary_data":{
+        'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'pcwkb_db_temp_data',
          'USER': 'pcwkb_db_admin',
          'PASSWORD': 'password1',
          'HOST': '127.0.0.1',
@@ -138,9 +147,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/pcwkb_core'
+LOGOUT_REDIRECT_URL = '/pcwkb_core'
