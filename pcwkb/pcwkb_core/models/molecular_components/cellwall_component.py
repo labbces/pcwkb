@@ -13,4 +13,4 @@ class CellWallComponent(models.Model):
     chebi = models.ForeignKey(ChEBI, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.gene_name
+        return self.name
