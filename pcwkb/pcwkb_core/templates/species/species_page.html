@@ -67,12 +67,12 @@
 </div>
 {% endif %}
 
-{% if genes_paginated %}
 
-<div class="p-4 mt-4">
+
+<section class="p-4 mt-4" id="genes_section">
   <h3 class="text-center">Plant Cell Wall related genes</h3>
 
-
+  {% if genes_paginated %}
   <table class="table table-striped table-responsive" text-align="center" id="data-table">
     <thead>
       <tr>
@@ -88,7 +88,15 @@
   <div id="pagination-links">
 
   </div>
-</div>
+  {% else %}
+
+  <p>No genes found for this species.</p>
+
+  {% endif %}
+
+</section>
+
+
 <script>
 
   function loadTableData(page) {
@@ -124,13 +132,5 @@
   loadTableData(1);
 
 </script>
-
-{% else %}
-
-<p>No genes found for this species.</p>
-
-{% endif %}
-
-</html>
 
 {% endblock %}
