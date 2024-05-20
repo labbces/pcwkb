@@ -50,7 +50,7 @@ $(document).ready(function () {
         if (result.gene_name) {
             geneHtml = geneTemplate({ genes: '<a href="' + result.url_gene + '" target="_blank">' + result.gene_name + '</a></p>' });
         } else {
-            geneHtml = geneTemplate({ genes: '<a href="' + result.url_species + '#data-table" target="_blank">' + result.genes_count + '</a></p>' });
+            geneHtml = geneTemplate({ genes: '<a href="' + result.url_species + '#pagination-links" target="_blank">' + result.genes_count + '</a></p>' });
         }
 
         $('#species-data').append(speciesHtml);
