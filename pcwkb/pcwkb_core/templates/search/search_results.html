@@ -16,19 +16,39 @@
 <div class="background-color-aac0b218 py-5">
     <div class="bg-white container py-3 py-md-5 py-xl-8 rounded-2">
         <div class="rounded-5 p-4 background-color-aac0b218">
-            <form id="search-form">
-                <input type="text" class="w-75" id="search-input" placeholder="Search...">
-                <button type="submit">Search</button> <!-- Submit button -->
+            <form id="search-form" role="search">
+                {% csrf_token %}
+                <label for="search-input" class="visually-hidden">Search</label>
+                <input type="text" class="w-75" id="search-input" placeholder="Search..." aria-label="Search">
+                <button type="submit">Search</button>
             </form>
-            <div id="last-search"></div> <!-- Search results container -->
+            <div id="last-search"></div>
         </div>
         <div id="search-results"></div>
-        <div id="species-data"></div> <!-- Container for species data -->
-        <div id="gene-data"></div> <!-- Container for gene data -->
+
+        <div id="species-data"></div>
+        <script type="text/template" id="species-card-template">
+            <div class="card border-success mb-3">
+                <h5 class="card-header">Species</h5>
+                <div class="card-body"><p class="card-text"><i><%= specie %></i></p></div>
+                <div class="card-footer"></div>
+            </div>
+        </script>
+
+        <div id="gene-data"></div>
+        <script type="text/template" id="gene-card-template">
+            <div class="card border-success mb-3">
+                <h5 class="card-header">Molecular components</h5>
+                <div class="card-body"><p class="card-text">Gene: <%= genes %></p></div>
+                <div class="card-footer"></div>
+            </div>
+        </script>
+        
     </div>
 </div>
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="{% static 'script/search/search.js' %}"></script>
