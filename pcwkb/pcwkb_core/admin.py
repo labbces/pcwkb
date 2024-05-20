@@ -18,7 +18,7 @@ from .models.functional_annotation.computational.kegg import MetabolicMap
 from .models.functional_annotation.computational.transcriptional_regulation import TranscriptionalRegulatorFamily
 from .models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
 from .models.functional_annotation.experimental.experiment import Experiment
-from .models.molecular_components.pcw.biomass_composition import CellWallComponent
+from .models.molecular_components.cellwall_component import CellWallComponent
 from .models.ontologies.experiment_related.eco import ECOTerm
 from .models.ontologies.molecular_related.chebi import ChEBI
 from .models.ontologies.plant_related.peco import PECOTerm
