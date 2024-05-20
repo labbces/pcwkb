@@ -12,7 +12,7 @@ from pcwkb_core.models.functional_annotation.experimental.relationships.gene_exp
 def paginated_gene_list(request, species_id):
     page_number = request.GET.get('page', 1)
     data_list = Gene.objects.filter(species_id=species_id)
-    paginator = Paginator(data_list, 500)
+    paginator = Paginator(data_list, 15)
 
     try:
         data = paginator.page(page_number)
