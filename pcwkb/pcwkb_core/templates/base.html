@@ -28,19 +28,19 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active text-white" aria-current="page" href="/pcwkb_core">Home</a>
+            <a class="nav-link text-white btn btn-success" aria-current="page" href="/pcwkb_core">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-white" href="/pcwkb_core/browse_species">Species</a>
+            <a class="nav-link text-white btn btn-success" href="/pcwkb_core/browse_species">Species</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-white" href="/pcwkb_core/team">Contact Us</a>
+            <a class="nav-link text-white btn btn-success" href="/pcwkb_core/team">Contact Us</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active text-white" href="/pcwkb_core/funding">Funding</a>
+            <a class="nav-link text-white btn btn-success" href="/pcwkb_core/funding">Funding</a>
           </li>
           <li class="nav-item dropdown">
-              <button class="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="btn btn-success dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Help
               </button>
               <ul class="dropdown-menu">
@@ -50,23 +50,21 @@
           </li>
         </ul>
         <form class="d-flex" method="get" action="{% url 'search_engine' %}">
-          <input class="button" type="submit" value="Try out our search engine">
+          <input class="btn btn-success" type="submit" value="Try out our search engine">
         </form>
         <ul class="navbar-nav ml-auto">
           {% if not request.user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link active text-white" href="{% url 'registration' %}">Register</a></li>
-          <li class="nav-item"><a class="nav-link active text-white" href="{% url 'login' %}">Login</a></li>
+          <li class="nav-item"><a class="nav-link text-white btn btn-success" href="{% url 'registration' %}">Register</a></li>
+          <li class="nav-item"><a class="nav-link text-white btn btn-success" href="{% url 'login' %}">Login</a></li>
           {% else %}
           <li class="nav-item dropdown">
-            <button class="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-success dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Profile
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li class="nav-item">
-                <a class="nav-link active" href="/pcwkb_core/experiment_form">Submit data</a>
-              </li>
+              <li><a class="dropdown-item" href="/pcwkb_core/experiment_form">Submit data</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">Logout</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
             </ul>
           {% endif %}
         </ul>
@@ -145,20 +143,6 @@
     .image-column {
       width: 100% !important;
     }
-  }
-
-  .browse-species-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #218838;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 20px;
-  }
-
-  .browse-species-btn:hover {
-    background-color: #218838;
   }
 
 </style>
