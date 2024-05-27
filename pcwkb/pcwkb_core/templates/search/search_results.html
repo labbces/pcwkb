@@ -16,11 +16,11 @@
 <div class="pcwkb-bg-color py-5">
     <div class="bg-white container py-3 py-md-5 py-xl-8 rounded-2">
         <div class="rounded-5 p-4 pcwkb-bg-color">
-            <form id="search-form" role="search">
+            <form id="search-form" role="search" class="d-flex">
                 {% csrf_token %}
                 <label for="search-input" class="visually-hidden">Search</label>
-                <input type="text" class="w-75" id="search-input" placeholder="Search..." aria-label="Search">
-                <button type="submit">Search</button>
+                <input type="text" class="form-control flex-grow-1 me-2" id="search-input" placeholder="Search..." aria-label="Search">
+                <button type="submit" class="btn btn-outline-success">Search</button>
             </form>
             <div id="last-search"></div>
         </div>
