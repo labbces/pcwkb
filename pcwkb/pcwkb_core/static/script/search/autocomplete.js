@@ -1,32 +1,30 @@
 $(document).ready(function () {
-    $('#search-input').keyup(function () {
-        var query = $(this).val().trim();
-        if (query.length >= 0) {
+    $('#id_q').autocomplete({
+        source: function (request, response) {
             $.ajax({
                 url: '/pcwkb_core/autocomplete/',
                 method: 'GET',
-                data: { 'q': query },
+                data: { q: request.term },
                 success: function (data) {
-                    displaySuggestions(data);
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.label,
+                            value: item.label
+                        };
+                    }));
                 }
             });
-        } else {
-            $('#search-suggestions').empty();
+        },
+        autoFocus: true,
+        minLength: 1,
+        select: function (event, ui) {
+            $('#id_q').val(ui.item.label);
+            return false; // Previne o comportamento padrão
         }
     });
 
-    function displaySuggestions(suggestions) {
-        var html = '';
-        for (var i = 0; i < suggestions.length; i++) {
-            var label = suggestions[i].label;
-            html += '<li class="suggestion">' + label + '</li>';
-        }
-        $('#search-suggestions').html(html);
-    }
-
-    $(document).on('click', '.suggestion', function () {
-        var suggestion = $(this).text();
-        $('#search-input').val(suggestion);
-        $('#search-suggestions').empty();
+    $('#id_q').on('autocompleteselect', function(event, ui) {
+        // Opcional: Faça algo quando um item for selecionado
+        console.log('Selected: ' + ui.item.value);
     });
 });
