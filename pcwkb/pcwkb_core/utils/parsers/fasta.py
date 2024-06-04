@@ -82,7 +82,10 @@ class Fasta:
                 print(v, file=f)
     
     @staticmethod
-    def add_from_fasta(filename, seq_type, compressed=False, verbose=True):
+    def add_from_fasta(filename, seq_type, source="",compressed=False, verbose=True):
+
+        # the correct order to input is transcript, cds and protein
+        
         print("filename:")
         print(filename)
         fasta_data = Fasta()
@@ -128,69 +131,73 @@ class Fasta:
                                                            transcript_id = fa_id,
                                                            sequence = sequence,
                                                            gene = gene,
-                                                           source = "")
+                                                           source = source)
                 else:
-                    print("Já existe1")
-
-            elif seq_type == 'protein':
-                
-                from pcwkb_core.models.molecular_components.genetic.transcripts import Transcript
-                from pcwkb_core.models.molecular_components.genetic.proteins import Protein
-
-                if Transcript.objects.filter(transcript_name=transcript_name).exists():
-                    transcript = Transcript.objects.get(transcript_name=transcript_name)
-                else:
-                    transcript = None
-                
-                if not Protein.objects.filter(protein_name = name,
-                                              protein_id = fa_id,
-                                              sequence = sequence,
-                                              gene = gene,
-                                              transcript = transcript):
-
-                    model_data = Protein.objects.create(protein_name = name,
-                                                        protein_id = fa_id,
-                                                        sequence = sequence,
-                                                        gene = gene,
-                                                        transcript = transcript,
-                                                        source = "",
-                                                        )
-                else:
-                    print("Já existe2")
-                    
+                    print("This transcript fasta data is already in the database")                 
 
             elif seq_type == 'cds':
                 from pcwkb_core.models.molecular_components.genetic.transcripts import Transcript
-                from pcwkb_core.models.molecular_components.genetic.proteins import Protein
                 from pcwkb_core.models.molecular_components.genetic.cds import CDS
 
                 if Transcript.objects.filter(transcript_name=name).exists():
                     transcript = Transcript.objects.get(transcript_name=name)
                 else:
                     transcript = ""
-
-                if Protein.objects.filter(protein_name=protein_name).exists():
-                    protein = Protein.objects.get(protein_name=protein_name)
-                else:
-                    protein = ""
                 
                 if not CDS.objects.filter(cds_name = name,
                                           cds_id = fa_id,
                                           sequence = sequence,
                                           gene = gene,
                                           transcript = transcript,
-                                          protein = protein):
+                                          protein_name = protein_name):
                     
                     model_data = CDS.objects.create(cds_name = name,
                                                cds_id = fa_id,
                                                sequence = sequence,
                                                gene = gene,
                                                transcript = transcript,
-                                               protein = protein,
-                                               source = "",
+                                               protein_name = protein_name,
+                                               source = source,
                                                )
                 else:
-                    print("Já existe3")
+                    print("This cds fasta data is already in the database")
+
+            elif seq_type == 'protein':
+                
+                from pcwkb_core.models.molecular_components.genetic.transcripts import Transcript
+                from pcwkb_core.models.molecular_components.genetic.proteins import Protein
+                from pcwkb_core.models.molecular_components.genetic.cds import CDS
+
+                if Transcript.objects.filter(transcript_name=transcript_name).exists():
+                    transcript = Transcript.objects.get(transcript_name=transcript_name)
+                else:
+                    transcript = None
+                
+                if CDS.objects.filter(protein_name=name).exists():
+                    cds = CDS.objects.get(protein_name=name)
+                else:
+                    cds = None
+            
+                
+                if not Protein.objects.filter(protein_name = name,
+                                              protein_id = fa_id,
+                                              sequence = sequence,
+                                              gene = gene,
+                                              transcript = transcript,
+                                              cds = cds):
+
+                    model_data = Protein.objects.create(protein_name = name,
+                                                        protein_id = fa_id,
+                                                        sequence = sequence,
+                                                        gene = gene,
+                                                        transcript = transcript,
+                                                        cds = cds,
+                                                        source = source,
+                                                        )
+                else:
+                    print("This protein fasta data is already in the database")
+
+
             print(i)
             i=i+1
         
