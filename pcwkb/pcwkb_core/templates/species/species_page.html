@@ -170,7 +170,7 @@
         // Page number links
         for (let i = startPage; i <= endPage; i++) {
           const pageItem = document.createElement('li');
-          pageItem.className = `page-item ${i === page ? 'active' : ''}`;
+          pageItem.className = `page-item ${i === page ? 'active disabled' : ''}`;
           pageItem.innerHTML = `<a class="page-link" href="?page=${i}">${i}</a>`;
           if (i !== page) {
             pageItem.addEventListener('click', (event) => {
