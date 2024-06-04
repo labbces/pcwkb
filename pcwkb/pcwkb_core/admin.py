@@ -17,6 +17,7 @@ from .models.functional_annotation.computational.interpro import InterPro, Inter
 from .models.functional_annotation.computational.kegg import MetabolicMap
 from .models.functional_annotation.computational.transcriptional_regulation import TranscriptionalRegulatorFamily
 from .models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
+from .models.functional_annotation.experimental.relationships.gene_interation_experiment_assoc import GeneInterationExperimentAssociation
 from .models.functional_annotation.experimental.experiment import Experiment
 from .models.molecular_components.cellwall_component import CellWallComponent
 from .models.ontologies.experiment_related.eco import ECOTerm

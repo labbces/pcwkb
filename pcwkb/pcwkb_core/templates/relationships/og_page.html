@@ -57,7 +57,7 @@
         <p><strong>Proteins in this Orthogroup:</strong></p>
         <ul>
             {% for og in proteins %}
-            <li><a href="pcwkb_core/gene_page/{{og.protein.gene}}">{{ og.protein.protein_name }}</a></li>
+            <li><a href="pcwkb_core/gene_page/{{og.protein.gene.gene_name}}">{{ og.protein.protein_name }}</a></li>
             {% empty %}
             <li>No proteins found in this orthogroup.</li>
             {% endfor %}

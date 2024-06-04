@@ -52,11 +52,13 @@ class GFF3Parser:
 #            print(gene, species_id)
 
             if not Gene.objects.filter(gene_name=gene['gene_name'],
+                                       gene_id=gene['gene_id'],
                                     original_db=gene['source'],
                                     species=Species.objects.get(id=species_id),
                                     source="gff3"
                                     ):
                 g = Gene.objects.create(gene_name=gene['gene_name'],
+                                        gene_id=gene['gene_id'],
                                     original_db=gene['source'],
                                     species=Species.objects.get(id=species_id),
                                     source="gff3"

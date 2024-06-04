@@ -32,6 +32,8 @@ def paginated_gene_list(request, species_id):
 
 def gene_page(request, gene_name):
 
+    print(gene_name)
+
     gene = Gene.objects.get(gene_name=gene_name)
 
     proteins = {}
@@ -50,11 +52,12 @@ def gene_page(request, gene_name):
 
     print(gene.gene_name)
 
-    context = {'gene_id': gene.id,
-               'gene_name': gene,
+    context = {'gene_id': gene.gene_id,
+               'gene_name': gene.gene_name,
                'description': gene.description,
                'proteins': proteins,
                'species':gene.species}
+    
     print(context)
 
     return render(request, 'gene/gene_page.html', context)
