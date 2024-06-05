@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from pcwkb_core.forms.data_submission.data_submission import DataSubmissionForm, ExperimentForm
+from pcwkb_core.models.temporary_data.data_submission import DataSubmission
 
 '''def index(request):
     return render(request, 'forms/data_submission.html')
 '''
+"""
 def get_data_file(request):
     # if this is a POST request we need to process the form data
     if request.method == "POST":
@@ -23,6 +25,23 @@ def get_data_file(request):
         form = DataSubmissionForm()
     
     return render(request, "forms/data_submission.html", {"form": form})
+"""
+
+def data_submission_view(request):
+    if request.method == 'POST':
+        form = DataSubmissionForm(request.POST, request.FILES,)
+        if form.is_valid():
+            json_data = form.process_file() 
+            DataSubmission.objects.create(
+                title=form.cleaned_data['title'],
+                json_data=json_data
+            )
+            messages.success(request, 'Data submitted successfully!')
+            return redirect('data_submission')
+    else:
+        form = DataSubmissionForm()
+    
+    return render(request, 'forms/data_submission.html', {'form': form})
 
 
 def experiment_form_view(request):

@@ -1,44 +1,53 @@
 from django import forms
-from openpyxl import load_workbook
-from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_experiment_assoc import Experimentalevidenceplanttrait
 import xml.etree.ElementTree as ET
-
+import pandas as pd
+import json
+from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc
 
 class DataSubmissionForm(forms.Form):
-    """ Class were the data submitted by users can be stored for further evalluation
-
-    The fields receive only the title of the said submission and a sheet file (.xlsx or .xml) were all the informations about the gene will be received.
-    """
     title = forms.CharField(max_length=50)
     input_file = forms.FileField()
 
-    def clean_file(self):
+    def clean_input_file(self): #this is called when use forms.is_valid()
         uploaded_file = self.cleaned_data['input_file']
-
-        # Check if the file has the extension .xlsx
-        if not uploaded_file.name.endswith(('.xlsx', '.xls')):
-            raise forms.ValidationError('The file must have the extension .xlsx or .xls.')
-
-        # Check if the .xlsx file is valid
-        if uploaded_file.name.endswith('.xlsx'):
+        
+        # Check if the file has the correct extension
+        if not uploaded_file.name.endswith(('.xlsx', '.xls', '.xml')):
+            raise forms.ValidationError('The file must have the extension .xlsx, .xls, or .xml.')
+        
+        # Check if the .xlsx or .xls file is valid
+        if uploaded_file.name.endswith(('.xlsx', '.xls')):
             try:
-                load_workbook(uploaded_file)
+                pd.read_excel(uploaded_file)
             except Exception as e:
                 raise forms.ValidationError('Error loading the .xlsx file: {}'.format(str(e)))
-
-        # Check if the file has the extension .xml
-        if not uploaded_file.name.endswith('.xml'):
-            raise forms.ValidationError('The file must have the extension .xml.')
-
+        
         # Check if the .xml file is valid
         if uploaded_file.name.endswith('.xml'):
             try:
                 ET.parse(uploaded_file)
             except ET.ParseError as e:
                 raise forms.ValidationError('Error parsing the .xml file: {}'.format(str(e)))
-
-
+        
         return uploaded_file
+
+    def process_file(self): #this is called when use forms.process_file
+        uploaded_file = self.cleaned_data['input_file']
+        data = {}
+
+        if uploaded_file.name.endswith(('.xlsx', '.xls')):
+            df = pd.read_excel(uploaded_file)
+            data = df.to_dict(orient='records')
+        
+        elif uploaded_file.name.endswith('.xml'):
+            tree = ET.parse(uploaded_file)
+            root = tree.getroot()
+
+            for child in root:
+                row_data = {elem.tag: elem.text for elem in child}
+                data[len(data) + 1] = row_data
+        
+        return json.dumps(data)
 
 
 class SpeciesSubmissionForm(forms.Form):
@@ -54,5 +63,5 @@ class SpeciesSubmissionForm(forms.Form):
 
 class ExperimentForm(forms.ModelForm):
     class Meta:
-        model = Experimentalevidenceplanttrait
+        model = BiomassGeneExperimentAssoc
         fields = '__all__'
