@@ -6,7 +6,7 @@ from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 from pcwkb_core.models.molecular_components.relationships.pcw_genetics_association import BiomassComposition
 from pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
-from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_experiment_assoc import Experimentalevidenceplanttrait
+from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc
 
 def species_page(request, species_code):
     """
@@ -70,14 +70,14 @@ def browse_species(request):
 
         """
         Idetifying if species has any experimental data associated based on 
-        GeneExperimentAssociation and Experimentalevidenceplanttrait models
+        GeneExperimentAssociation and BiomassGeneExperimentAssoc models
         and adding to the tree
         """
         specie = Species.objects.get(scientific_name=species['scientific_name'])
 
         genes = Gene.objects.filter(species_id=specie)
 
-        if GeneExperimentAssociation.objects.filter(gene__in=genes) or Experimentalevidenceplanttrait.objects.filter(species=specie):
+        if GeneExperimentAssociation.objects.filter(gene__in=genes) or BiomassGeneExperimentAssoc.objects.filter(species=specie):
             family_node["children"].append({"name": f"✓ {species['scientific_name']} ({species['species_code']})"})
         else:
             family_node["children"].append({"name": f"{species['scientific_name']} ({species['species_code']})"})
