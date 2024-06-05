@@ -1,68 +1,57 @@
 [
  {
-  "model": "pcwkb_core.geneexperimentassociation",
-  "pk": 1,
-  "fields": {
-   "po": 1,
-   "experiment": 4,
-   "literature": 7,
-   "gene": 6,
-   "effect": "Decreased expression"
-  }
- },
- {
-  "model": "pcwkb_core.geneexperimentassociation",
+  "model": "pcwkb.experiment_idalevidencegene_id",
   "pk": 2,
   "fields": {
-   "po": 3,
-   "experiment": 3,
-   "literature": 10,
-   "gene": 7,
-   "effect": "Highly expressed"
+   "po_id": 1023,
+   "experiment_id": 3,
+   "literature_id": 10,
+   "gene_id": 7,
+   "gene_expression": "Highly expressed"
   }
  },
  {
-  "model": "pcwkb_core.geneexperimentassociation",
+  "model": "pcwkb.experiment_idalevidencegene_id",
   "pk": 3,
   "fields": {
-   "po": 4,
-   "experiment": 3,
-   "literature": 10,
-   "gene": 7,
-   "effect": "Highly expressed"
+   "po_id": 1022,
+   "experiment_id": 3,
+   "literature_id": 10,
+   "gene_id": 7,
+   "gene_expression": "Highly expressed"
   }
  },
  {
-  "model": "pcwkb_core.geneexperimentassociation",
+  "model": "pcwkb.experiment_idalevidencegene_id",
   "pk": 4,
   "fields": {
-   "po": 5,
-   "experiment": 3,
-   "literature": 10,
-   "gene": 7,
-   "effect": "Highly expressed"
+   "po_id": 860,
+   "experiment_id": 3,
+   "literature_id": 10,
+   "gene_id": 7,
+   "gene_expression": "Highly expressed"
   }
  },
  {
-  "model": "pcwkb_core.geneexperimentassociation",
+  "model": "pcwkb.experiment_idalevidencegene_id",
   "pk": 5,
   "fields": {
-   "po": 6,
-   "experiment": 3,
-   "literature": 10,
-   "gene": 7,
-   "effect": "Lowly expressed"
+   "po_id": 1065,
+   "experiment_id": 3,
+   "literature_id": 10,
+   "gene_id": 7,
+   "gene_expression": "Lowly expressed"
   }
  },
  {
-  "model": "pcwkb_core.geneexperimentassociation",
+  "model": "pcwkb.experiment_idalevidencegene_id",
   "pk": 6,
   "fields": {
-   "po": 7,
-   "experiment": 3,
-   "literature": 10,
-   "gene": 7,
-   "effect": "Lowly expressed"
+   "po_id": 858,
+   "experiment_id": 3,
+   "literature_id": 10,
+   "gene_id": 7,
+   "gene_expression": "Lowly expressed"
   }
  }
 ]

@@ -2,40 +2,60 @@
 {% block content %}
 {% load static %}
 
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="{% static 'script/orthogroup/d3.v3.min.js' %}"></script>
-    <script src="{% static 'script/orthogroup/phyd3.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'script/orthogroup/phyd3.css' %}" />
+<div class="container-fluid px-4 py-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb rounded-pill px-3 border border-success pcwkb-bg-color">
+        <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
+        <li class="breadcrumb-item"><a href="pcwkb_core/experiments">Experiments</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ experiment.experiment_name }}</li>
+      </ol>
+    </nav>
+  </div>
 
-</head>
-<header class="py-3 py-md-5 py-xl-8 ">
+<header class="py-3 py-md-5 py-xl-8">
     <div class="px-4">
-      <div class="row justify-content-md-center">
-        <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-          <h2 class="mb-4 display-5 text-center"> Experiment: {{ experiment.experiment_name }} </h2>
-          <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="mb-4 display-5 text-center">Experiment: {{ experiment.experiment_name }}</h2>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
+            </div>
         </div>
-      </div>
-        <table class="table table-responsive">
-            <tbody>
-                <tr>
-                    <td class="w-50">
-                        <h6>experiment_category: {{ experiment.experiment_category }}</h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="w-50">
-                        <h6>Eco term: {{experiment.eco_term.eco_id }}</h6>
-                </tr>
-            </tbody>
-        </table>
-        {% if experiment.description %}
-            <p class="mb-5 justify-content-between">
-            Description: {{ experiment.description }}
-            </p>
-        {% endif %}
+        <div class="row m-4">
+            <div class="col-12 col-md-6">
+                <h6>Experiment Category: {{ experiment.experiment_category }}</h6>
+            </div>
+            <div class="col-12 col-md-6">
+                <h6>Evidence &#38 Conclusion Ontology: {{ experiment.eco_term.eco_id }}</h6>
+            </div>
+        </div>
     </div>
 </header>
+
+{% if experiment.description %}
+<div class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
+        <p class="m-2 justify-content-between"><strong>Description:</strong><br> {{ experiment.description }}</p>
+    </div>
+</div>
+{% endif %}
+
+{% if assoc_list %}
+    <div class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
+        <h5 class="m-2 justify-content-between"><strong>Biomass and gene associations</strong></h5>
+        {% for assoc in assoc_list %}
+        <div class="card border-success mb-3">
+            <div class="card-body">
+                <p class="card-text">Species: {{ assoc.species.scientific_name }}</p>
+                <p class="card-text">Plant Ontology Term: {{ assoc.po.po_name }}</p>
+                <p class="card-text">Chemical Entity: {{ assoc.chebi.chebi_name }}</p>
+                <p class="card-text">Gene: {{ assoc.gene.gene_name }}</p>
+                <p class="card-text">Trait Ontology: {{assoc.to.to_name }}</p>
+                <p class="card-text">Gene Expression: {{ assoc.gene_expression }}</p>
+                <p class="card-text">Effect on plant cell wall component: {{ assoc.effect_on_plant_cell_wall_component }}</p>
+                <p class="card-text">Literature: {{ assoc.literature.title }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
 
 {% endblock %}

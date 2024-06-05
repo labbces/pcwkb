@@ -1,0 +1,46 @@
+[
+ {
+  "model": "pcwkb_core.biomassgeneexperimentassoc",
+  "pk": 1,
+  "fields": {
+   "species_id": 15,
+   "po_id": 856,
+   "experiment_id": 4,
+   "literature_id": 7,
+   "gene_id": 6,
+   "chebi_id": 191688, 
+   "gene_expression": "Decreased expression",
+   "effect_on_plant_cell_wall_component": "Decreased xylose content"
+  }
+ },
+ {
+  "model": "pcwkb_core.biomassgeneexperimentassoc",
+  "pk": 2,
+  "fields": {
+   "species_id": 15,
+   "po_id": 856,
+   "experiment_id": 2,
+   "literature_id": 10,
+   "gene_id": 7,
+   "to_id": 3964,
+   "chebi_id": 167847,
+   "gene_expression": "Decreased expressed",
+   "effect_on_plant_cell_wall_component": "Decreased"
+  }
+ },
+ {
+  "model": "pcwkb_core.biomassgeneexperimentassoc",
+  "pk": 3,
+  "fields": {
+   "species_id": 6,
+   "po_id": 856,
+   "chebi_id": 167847,
+   "experiment_id": 2,
+   "literature_id": 6,
+   "gene_id": 5,
+   "to_id": 3964,
+   "gene_expression": "Increased expressed",
+   "effect_on_plant_cell_wall_component": "Decreased"
+  }
+ }
+]
