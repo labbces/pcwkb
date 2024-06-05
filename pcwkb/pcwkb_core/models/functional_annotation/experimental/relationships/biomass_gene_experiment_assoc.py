@@ -7,15 +7,16 @@ from pcwkb_core.models.functional_annotation.experimental.experiment import Expe
 from pcwkb_core.models.literature.literature import Literature
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
-class Experimentalevidenceplanttrait(models.Model):
-    species = models.ForeignKey(Species, on_delete=models.CASCADE)
-    po = models.ForeignKey(PlantOntologyTerm, on_delete=models.CASCADE)
-    chebi = models.ForeignKey(ChEBI, on_delete=models.CASCADE, null=True, blank=True)
+class BiomassGeneExperimentAssoc(models.Model):
+    species = models.ForeignKey(Species, on_delete=models.CASCADE) #seria obrigatório?
+    po = models.ForeignKey(PlantOntologyTerm, on_delete=models.CASCADE)  #seria obrigatório?
+    chebi = models.ForeignKey(ChEBI, on_delete=models.CASCADE, null=True, blank=True)  #seria obrigatório?
     experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
-    gene = models.ForeignKey(Gene, on_delete=models.CASCADE)
-    to = models.ForeignKey(TOTerm, on_delete=models.CASCADE)
-    effect = models.CharField(max_length=100)
+    gene = models.ForeignKey(Gene, on_delete=models.CASCADE) 
+    to = models.ForeignKey(TOTerm, on_delete=models.CASCADE, null=True, blank=True)  #seria obrigatório?
+    gene_expression = models.CharField(max_length=100, null=True, blank=True)  #seria obrigatório?
+    effect_on_plant_cell_wall_component = models.CharField(max_length=100)  #seria obrigatório?
     model_name = models.CharField(max_length=100, blank=True)
 
     def save(self, *args, **kwargs):
