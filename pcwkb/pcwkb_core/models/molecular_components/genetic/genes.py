@@ -19,4 +19,4 @@ class Gene(models.Model):
     source = models.CharField(max_length=100, blank=True) #gff3, individual study, etc.
 
     def __str__(self):
-        return self.gene_id
+        return self.gene_name

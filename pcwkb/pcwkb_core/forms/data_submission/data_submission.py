@@ -64,4 +64,9 @@ class SpeciesSubmissionForm(forms.Form):
 class ExperimentForm(forms.ModelForm):
     class Meta:
         model = BiomassGeneExperimentAssoc
-        fields = '__all__'
+        fields = ['species', 'po', 'chebi', 'experiment', 'literature', 'gene', 'to', 'gene_expression', 'effect_on_plant_cell_wall_component']
+        labels = {
+            'to': 'Trait Ontology',
+            'po': 'Plant Ontology',
+            'chebi': 'Chemical Component (Cell Wall Component)',
+        }

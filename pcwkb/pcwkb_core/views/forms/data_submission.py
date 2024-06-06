@@ -48,12 +48,16 @@ def experiment_form_view(request):
     if request.method == 'POST':
         form = ExperimentForm(request.POST)
         if form.is_valid():
-            # Get the instance from the form but don't save it yet
-            instance = form.save(commit=False) # Save the instance to the 'temporary_data' database
-            instance.save(using='temporary_data')
-            messages.success(request, 'Experiment form submitted successfully.')
-            return redirect('/pcwkb_core/') 
+            instance = form.save(commit=False)
+            try:
+                instance.save(using='temporary_data')
+                messages.success(request, 'Experiment form submitted successfully.')
+                return redirect('/pcwkb_core/')
+            except Exception as e:
+                messages.error(request, f'Error saving form: {str(e)}')
+        else:
+            messages.error(request, 'Form is not valid.')
     else:
         form = ExperimentForm()
-    
+
     return render(request, 'forms/experiment_form.html', {'form': form})

@@ -15,14 +15,9 @@ class BiomassGeneExperimentAssoc(models.Model):
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
     gene = models.ForeignKey(Gene, on_delete=models.CASCADE) 
     to = models.ForeignKey(TOTerm, on_delete=models.CASCADE, null=True, blank=True)  #seria obrigatório?
-    gene_expression = models.CharField(max_length=100, null=True, blank=True)  #seria obrigatório?
-    effect_on_plant_cell_wall_component = models.CharField(max_length=100)  #seria obrigatório?
-    model_name = models.CharField(max_length=100, blank=True)
-
-    def save(self, *args, **kwargs):
-        if not self.model_name:  # Gerar og_name somente se não estiver definido
-            self.model_name = f"{self.experiment}_{self.species}_{self.to}"
-        super().save(*args, **kwargs)
+    gene_expression = models.CharField("Gene expression",max_length=100, null=True, blank=True)  #seria obrigatório?
+    effect_on_plant_cell_wall_component = models.CharField("Effect on plant", max_length=100)  #seria obrigatório?
+    model_name = models.CharField("Model name", max_length=100, blank=True)
 
     def __str__(self):
-        return self.model_name
+        return f"{self.experiment}_{self.species}_{self.to or 'N/A'}"
