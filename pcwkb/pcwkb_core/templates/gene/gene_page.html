@@ -25,8 +25,8 @@
       <thead>
         {% if description %}
         <tr>
-          <td>
-            <h3 class="text-center text-break">{{ description }}</h3>
+          <td colspan="2">
+            <h5 class="text-center text-break">Description: {{ description }}</h5>
           </td>
         </tr>
         {% endif %}
@@ -86,5 +86,25 @@
     {% endif %}
   </div>
 </section>
+
+{% if assoc_list %}
+    <section class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
+        <h3 class="m-2 text-center"><strong>Biomass and gene associations</strong></h3>
+        {% for assoc in assoc_list %}
+        <div class="card border-success mb-3">
+            <h5 class="card-header"><strong>Chemical Entity Term: {{ assoc.chebi.chebi_name }}</strong></h5>
+            <div class="card-body">
+                <p class="card-text">Plant Ontology Term: {{ assoc.po.po_name }}</p>
+                {%if assoc.to_name%}
+                <p class="card-text">Trait Ontology Term: {{assoc.to_name }}</p>
+                {%endif%}
+                <p class="card-text">Gene Expression: {{ assoc.gene_expression }}</p>
+                <p class="card-text">Effect on plant cell wall component: {{ assoc.effect_on_plant_cell_wall_component }}</p>
+                <p class="card-text">Literature: <a href="https://doi.org/{{ assoc.literature.doi }}" target="_blank">"{{ assoc.literature.title }}"</a></p>
+            </div>
+        </div>
+        {% endfor %}
+      </section>
+{% endif %}
 
 {% endblock %}

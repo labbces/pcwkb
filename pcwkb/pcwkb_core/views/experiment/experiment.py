@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 
 from pcwkb_core.models.functional_annotation.experimental.experiment import Experiment
-from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc
 
 def experiment(request):
 
@@ -24,10 +23,19 @@ def exp_page(request, experiment_name):
     biomass_gene_assocs = experiment.biomassgeneexperimentassoc_set.all()
 
     if biomass_gene_assocs.exists():
-        assoc_list = []
+        assoc_list = {}
+        assoc_list['species']=[]
+        assoc_list['genes']=[]
 
         for assoc in biomass_gene_assocs:
-            assoc_list.append(assoc)
+            assoc_list['species'].append(assoc.species)
+            assoc_list['genes'].append(assoc.gene)
+
+        assoc_list['genes_count']=len(assoc_list['genes'])
+        assoc_list['apecies_count']=len(assoc_list['species'])
+
+        print(assoc_list['species'])
+
 
         context = {
             "experiment": experiment,

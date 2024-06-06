@@ -40,21 +40,26 @@
 
 {% if assoc_list %}
     <div class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
-        <h5 class="m-2 justify-content-between"><strong>Biomass and gene associations</strong></h5>
-        {% for assoc in assoc_list %}
+        <h5 class="m-2 justify-content-between"><strong>Related information</strong></h5>
         <div class="card border-success mb-3">
+            <h5 class="card-header"><strong>Species</strong></h5>
             <div class="card-body">
-                <p class="card-text">Species: {{ assoc.species.scientific_name }}</p>
-                <p class="card-text">Plant Ontology Term: {{ assoc.po.po_name }}</p>
-                <p class="card-text">Chemical Entity: {{ assoc.chebi.chebi_name }}</p>
-                <p class="card-text">Gene: {{ assoc.gene.gene_name }}</p>
-                <p class="card-text">Trait Ontology: {{assoc.to.to_name }}</p>
-                <p class="card-text">Gene Expression: {{ assoc.gene_expression }}</p>
-                <p class="card-text">Effect on plant cell wall component: {{ assoc.effect_on_plant_cell_wall_component }}</p>
-                <p class="card-text">Literature: {{ assoc.literature.title }}</p>
+                {% for assoc in assoc_list.species %}
+                <p class="card-text"><a href="pcwkb_core/species_page/{{assoc.species_code}}"><i>{{assoc.scientific_name}}</i></a></p>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
+
+        
+        <div class="card border-success mb-3">
+            <h5 class="card-header"><strong>Genes</strong></h5>
+            <div class="card-body">
+                {% for assoc in assoc_list.genes %}
+                <p class="card-text"><a href="pcwkb_core/gene_page/{{assoc.gene_name}}"><i>{{assoc.gene_name}}</i></a></p>
+                {% endfor %}
+            </div>
+        </div>
+        
     </div>
 {% endif %}
 

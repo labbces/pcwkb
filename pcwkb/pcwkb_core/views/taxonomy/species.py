@@ -31,6 +31,7 @@ def species_page(request, species_code):
 
     context['species_id'] = Species.objects.get(species_code=species_code).id
     context['genes_paginated'] = Gene.objects.filter(species_id=context['species_id'])
+    context['genes_biomass_assoc'] = BiomassGeneExperimentAssoc.objects.filter(species_id=context['species_id'])
 
     if BiomassComposition.objects.filter(species_id=context['species_id']).exists():
         BiomassComponent_objects = BiomassComposition.objects.filter(species_id=context['species_id'])
