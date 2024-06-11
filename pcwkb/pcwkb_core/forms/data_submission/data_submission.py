@@ -18,9 +18,22 @@ class DataSubmissionForm(forms.Form):
         # Check if the .xlsx or .xls file is valid
         if uploaded_file.name.endswith(('.xlsx', '.xls')):
             try:
-                pd.read_excel(uploaded_file)
+                df = pd.read_excel(uploaded_file)
             except Exception as e:
                 raise forms.ValidationError('Error loading the .xlsx file: {}'.format(str(e)))
+            
+            fields = ['species', 'po', 'chebi', 'experiment', 'literature', 'gene', 'to', 'gene_expression', 'effect_on_plant_cell_wall_component']
+
+            missing_fields=[]
+
+            for field in fields:
+                if field not in df.columns:
+                    missing_fields.append(field)
+
+            if not missing_fields:
+                print("All required columns are present.")
+            else:
+                 raise forms.ValidationError(f"Missing columns")
         
         # Check if the .xml file is valid
         if uploaded_file.name.endswith('.xml'):
@@ -38,7 +51,7 @@ class DataSubmissionForm(forms.Form):
         if uploaded_file.name.endswith(('.xlsx', '.xls')):
             df = pd.read_excel(uploaded_file)
             data = df.to_dict(orient='records')
-        
+      
         elif uploaded_file.name.endswith('.xml'):
             tree = ET.parse(uploaded_file)
             root = tree.getroot()
