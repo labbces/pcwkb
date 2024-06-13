@@ -31,8 +31,10 @@ def paginated_gene_list(request, species_id):
     })
 
 def paginated_gene_experiment_list(request, species_id):
+    species_gene = Gene.objects.filter(species_id=species_id)
+
     page_number = request.GET.get('page', 1)
-    data_list = BiomassGeneExperimentAssoc.objects.filter(species_id=species_id)
+    data_list = BiomassGeneExperimentAssoc.objects.filter(gene__in=species_gene)
     paginator = Paginator(data_list, 15)
 
     try:
@@ -42,7 +44,7 @@ def paginated_gene_experiment_list(request, species_id):
 
     serialized_data = list(data.object_list.values())
 
-    assoc_objects = BiomassGeneExperimentAssoc.objects.filter(species_id=species_id)
+    assoc_objects = BiomassGeneExperimentAssoc.objects.filter(gene__in=species_gene)
 
     if assoc_objects:
         associations = []
@@ -92,6 +94,8 @@ def gene_page(request, gene_name):
         associations = []
         for assoc in assoc_objects:
             associations.append(assoc)
+            experiment_names = [experiment.experiment_name for experiment in assoc.experiment.all()]
+            print("Experiment Names:", experiment_names)
 
         context = {'gene_id': gene.gene_id,
                 'gene_name': gene.gene_name,

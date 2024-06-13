@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid px-4 py-3">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb rounded-pill px-3 border border-success pcwkb-bg-color">
+      <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Cell Wall Components</li>
+    </ol>
+  </nav>
+</div>
+
+<header class="py-3 py-md-5 py-xl-8">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+        <h2 class="mb-4 display-5 text-center">Cell Wall Components</h2>
+        <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
+        <p class="text-secondary mb-5 text-center">
+          Choose one experiment to go see its content
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="py-4 rounded-5 pcwkb-bg-color">
+  <div class="p-4">
+    {% for chebi_name, chebi_data in cellwallcomponents.items %}
+    <div class="card border-success mb-3">
+      <h5 class="card-header"><a href="pcwkb_core/cellwallcomponent_page/{{chebi_name}}">
+        {{ chebi_name | upper }}<br>
+        Chebi Ontology: {{ chebi_data.chebi_id }}
+      </a></h5>
+      <div class="card-body">
+        <p class="card-text">{{ chebi_data.definition }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

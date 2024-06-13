@@ -13,30 +13,3 @@ class PlantOntologyTerm(models.Model):
 
     def __str__(self):
         return self.po_name
-
-class PlantComponent(models.Model):
-    name = models.CharField('Plant Anatomy name (based on Plant Ontology)',
-                            max_length=30)
-    plant_anatomy_po = models.CharField('Plant Anatomy PO Identifier',
-                                        max_length=12)
-    description = models.TextField('Description of plant structure',
-                                   max_length=2000)
-
-        
-
-class PlantComponentDevStage(models.Model):
-    plant_dev_stage_po = models.CharField('Plant Structure Development Stage PO Identifier',
-                                        max_length=12,
-                                        null=True,
-                                        blank=True)
-    dev_stage_name_po = models.TextField('Plant Structure Development Stage PO Name',
-                                        max_length=2000,
-                                        null=True,
-                                        blank=True)
-    description = models.TextField('Description of plant dev stage (PO Definition)',
-                                   max_length=2000,
-                                   null=False,
-                                   blank=False)
-
-    def __str__(self):
-        return self.description

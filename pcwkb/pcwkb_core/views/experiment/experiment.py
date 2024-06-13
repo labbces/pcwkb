@@ -28,7 +28,7 @@ def exp_page(request, experiment_name):
         assoc_list['genes']=[]
 
         for assoc in biomass_gene_assocs:
-            assoc_list['species'].append(assoc.species)
+            assoc_list['species'].append(assoc.gene.species)
             assoc_list['genes'].append(assoc.gene)
 
         assoc_list['genes_count']=len(assoc_list['genes'])

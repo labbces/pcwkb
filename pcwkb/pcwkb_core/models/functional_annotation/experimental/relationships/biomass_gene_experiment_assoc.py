@@ -8,16 +8,32 @@ from pcwkb_core.models.literature.literature import Literature
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
 class BiomassGeneExperimentAssoc(models.Model):
-    species = models.ForeignKey(Species, on_delete=models.CASCADE) #seria obrigatório?
-    po = models.ForeignKey(PlantOntologyTerm, on_delete=models.CASCADE)  #seria obrigatório?
-    chebi = models.ForeignKey(ChEBI, on_delete=models.CASCADE, null=True, blank=True)  #seria obrigatório?
-    experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
+    experiment_species = models.ForeignKey(Species, on_delete=models.CASCADE) #explicar melhor
+    po = models.ForeignKey(PlantOntologyTerm, on_delete=models.CASCADE,  null=True, blank=True)  
+    chebi = models.ForeignKey(ChEBI, on_delete=models.CASCADE)  
+    experiment = models.ManyToManyField(Experiment)
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
     gene = models.ForeignKey(Gene, on_delete=models.CASCADE) 
-    to = models.ForeignKey(TOTerm, on_delete=models.CASCADE, null=True, blank=True)  #seria obrigatório?
-    gene_expression = models.CharField("Gene expression",max_length=100, null=True, blank=True)  #seria obrigatório?
-    effect_on_plant_cell_wall_component = models.CharField("Effect on plant", max_length=100)  #seria obrigatório?
-    model_name = models.CharField("Model name", max_length=100, blank=True)
+    to = models.ForeignKey(TOTerm, on_delete=models.CASCADE, null=True, blank=True)  
+    gene_expression = models.CharField("Gene expression",max_length=100, null=True, blank=True)
+    effect_on_plant_cell_wall_component = models.CharField("Effect on plant", max_length=100)
 
     def __str__(self):
-        return f"{self.experiment}_{self.species}_{self.to or 'N/A'}"
+        return f"{self.experiment}_{self.experiment_species}_{self.to or 'N/A'}"
+    
+#uma tabela para cada categoria
+#checar o tipo
+class RelationshipsExpressionExperiment(models.Model):
+    expression = models.CharField(max_length=100)
+    biomass_gene_experiment_assoc  = models.ForeignKey(BiomassGeneExperimentAssoc, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.expression
+
+class RelationshipsMutationExperiment(models.Model):
+    mutation = models.CharField(max_length=100)
+    effect_on_gene = models.CharField(max_length=100)
+    biomass_gene_experiment_assoc  = models.ForeignKey(BiomassGeneExperimentAssoc, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.mutation
