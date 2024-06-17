@@ -42,7 +42,7 @@
         {{ wikipedia_content.extract_html|safe }}<br>
         </div>
     </div>
-    <p class="text-end"><a href="https://en.wikipedia.org/wiki/{{cellwallcomponent.chebi_name}}">See more on Wikipedia</a><p>
+    <p class="text-end"><a href="{{ wikipedia_content.page|safe }}">See more on Wikipedia</a><p>
 </div>
 {% endif %}
 
