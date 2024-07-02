@@ -25,7 +25,7 @@ urlpatterns = [
     path('faq', base_views.faq, name='faq'),    
     path('search/', include('haystack.urls')),
     path('search_pcwkb/', search_view.search_pcwkb, name='search_pcwkb'),
-    path('search_engine/', base_views.search_engine, name='search_engine'),
+    path('search_engine/', search_view.search_engine, name='search_engine'),
     path('autocomplete/', base_views.autocomplete, name='autocomplete'),
     path('data_submission', data_submission.data_submission_view, name='data_submission'),
     path('species_submission', species_submission.get_data_file, name='species_submission'),
