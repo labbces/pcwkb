@@ -214,8 +214,7 @@ class Parser:
 
         for i, term in enumerate(obo_parser.terms):
             if target_id and target_id not in term.extended_go:
-                continue     """This line prevents the use of the entire obo 
-                                and select just those that is related to a expecific id"""
+                continue     #This line prevents the use of the entire obo and select just those that is related to a expecific id
 
             kwargs = {f"{ont}_id":term.id,
                       f"{ont}_name":term.name,
