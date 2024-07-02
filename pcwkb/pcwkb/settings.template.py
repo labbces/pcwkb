@@ -86,7 +86,7 @@ HAYSTACK_CONNECTIONS = {
         'ADMIN_URL': 'http://0.0.0.0:8983/solr/admin/cores',
         'INCLUDE_SPELLING': True,
         # ...or for multicore...
-        #'URL': 'http://127.0.0.1:8983/solr/mysite',
+        #'URL': 'http://127.0.0.1:8983/solr/tester3',
     },
 }
 
