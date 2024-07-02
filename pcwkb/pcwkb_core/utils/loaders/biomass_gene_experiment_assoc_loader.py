@@ -5,17 +5,18 @@ import os
 import sys
 from django.core.exceptions import ObjectDoesNotExist
 
+# Set up Django environment
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 sys.path.append(str(BASE_DIR))
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pcwkb.settings")
 print((str(BASE_DIR)), "DJANGO_SETTINGS_MODULE:", os.environ.get("DJANGO_SETTINGS_MODULE"))
 django.setup()
 
+# Import updated models
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
-from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
-from pcwkb_core.models.ontologies.plant_related.to import TOTerm
-from pcwkb_core.models.ontologies.molecular_related.chebi import ChEBI
+from pcwkb_core.models.biomass.plant_trait import PlantTrait
+from pcwkb_core.models.biomass.cellwall_component import CellWallComponent
+from pcwkb_core.models.biomass.plant_component import PlantComponent
 from pcwkb_core.models.functional_annotation.experimental.experiment import Experiment
 from pcwkb_core.models.literature.literature import Literature
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
@@ -23,6 +24,7 @@ from pcwkb_core.models.molecular_components.genetic.genes import Gene
 def get_id(model, **fields):
     for field, value in fields.items():
         if value is not None:
+            print(value, field)
             try:
                 return model.objects.get(**{field: value}).id
             except ObjectDoesNotExist:
@@ -34,10 +36,10 @@ def get_id(model, **fields):
 
 # Load the original JSON file
 if len(sys.argv) != 2:
-        print("Usage: python preprocess_data.py <json_file>")
-        sys.exit(1)
+    print("Usage: python preprocess_data.py <json_file>")
+    sys.exit(1)
 
-json_data=sys.argv[1]
+json_data = sys.argv[1]
 
 with open(json_data, 'r') as file:
     data = json.load(file)
@@ -50,17 +52,18 @@ for record in data:
 
     # Fetch the IDs based on the readable names or IDs
     fields['experiment_species'] = get_id(Species, pk=fields.get('experiment_species'), species_code=fields.get('experiment_species'), scientific_name=fields.get('experiment_species'), taxid=fields.get('experiment_species'))
-    fields['po'] = get_id(PlantOntologyTerm, pk=fields.get('po'), po_name=fields.get('po'), po_id=fields.get('po'))
-    fields['chebi'] = get_id(ChEBI, pk=fields.get('chebi'), chebi_name=fields.get('chebi'), chebi_id=fields.get('chebi'))
+    fields['plantcomponent'] = [get_id(PlantComponent, pk=value, name=value, po__po_id=value) for value in fields.get('plantcomponent', [])]
+    fields['cellwall_component'] = get_id(CellWallComponent, pk=fields.get('cellwall_component'), name=fields.get('cellwall_component'), chebi__chebi_id=fields.get('cellwall_component'))
     fields['experiment'] = [get_id(Experiment, experiment_name=value, pk=value, eco_term=value) for value in fields.get('experiment', [])]
     fields['literature'] = get_id(Literature, doi=fields.get('literature'), title=fields.get('literature'), pk=fields.get('literature'), pmid=fields.get('literature'))
     fields['gene'] = get_id(Gene, gene_name=fields.get('gene'), gene_id=fields.get('gene'), pk=fields.get('gene'))
-    fields['to'] = get_id(TOTerm, to_name=fields.get('to'), to_id=fields.get('to'), pk=fields.get('to'))
+    fields['plant_trait'] = get_id(PlantTrait, pk=fields.get('plant_trait'), name=fields.get('plant_trait'), to__to_id=fields.get('plant_trait'))
 
     # Append the processed record
     processed_data.append(record)
 
 print(processed_data)
+
 # Save the processed data to a temporary JSON file
 temp_json_path = 'processed_data.json'
 with open(temp_json_path, 'w') as file:
