@@ -21,6 +21,7 @@ from .models.functional_annotation.experimental.relationships.gene_interation_ex
 from .models.functional_annotation.experimental.experiment import Experiment
 from .models.biomass.cellwall_component import CellWallComponent
 from .models.biomass.plant_component import PlantComponent
+from .models.biomass.plant_trait import PlantTrait
 from .models.ontologies.experiment_related.eco import ECOTerm
 from .models.ontologies.molecular_related.chebi import ChEBI
 from .models.ontologies.plant_related.peco import PECOTerm
