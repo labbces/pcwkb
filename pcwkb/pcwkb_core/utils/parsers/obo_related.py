@@ -179,9 +179,7 @@ class Parser:
         return [term.get_dict() for term in self.terms]
 
     @staticmethod
-    def add_from_obo(filename, ont, empty=False, compressed=False):
-
-        count=1
+    def add_from_obo(filename, ont, empty=False, compressed=False, target_id=False):
 
         if ont == "po":
             from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
@@ -215,6 +213,10 @@ class Parser:
         obo_parser.extend_go()
 
         for i, term in enumerate(obo_parser.terms):
+            if target_id and target_id not in term.extended_go:
+                continue     """This line prevents the use of the entire obo 
+                                and select just those that is related to a expecific id"""
+
             kwargs = {f"{ont}_id":term.id,
                       f"{ont}_name":term.name,
                       "definition":term.definition,
@@ -225,6 +227,5 @@ class Parser:
                 print(f"Created {model.__name__} object:", new_object)
             else:
                 print("Já existe")
-            print(count)
-            count += 1
+            print(i)
         return new_object
