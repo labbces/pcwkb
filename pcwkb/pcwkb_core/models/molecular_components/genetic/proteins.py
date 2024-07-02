@@ -9,7 +9,6 @@ class Protein(models.Model):
     This class stores information about a protein, such as its name, 
     the description of the protein and an ID. 
     """
-
     protein_id = models.CharField(max_length=100, unique=True, null=True, blank=True) #unico | checar se o id já existe
     protein_name = models.CharField(max_length=100, null=True, blank=True) 
     description = models.TextField(null=True, blank=True)

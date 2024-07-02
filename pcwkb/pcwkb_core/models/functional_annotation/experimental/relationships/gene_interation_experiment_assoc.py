@@ -12,7 +12,7 @@ class GeneInterationExperimentAssociation(models.Model):
     it using the literature that brings this experiment.
     """
 
-    gene_regulator = models.ForeignKey(Gene, on_delete=models.CASCADE, related_name='regulator_association')
+    putative_gene_regulator = models.ForeignKey(Gene, on_delete=models.CASCADE, related_name='regulator_association')
     gene_target = models.ForeignKey(Gene, on_delete=models.CASCADE, related_name='target_association')
     experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE, null=False, blank=False)

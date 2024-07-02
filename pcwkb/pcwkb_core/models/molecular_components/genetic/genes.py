@@ -11,12 +11,15 @@ class Gene(models.Model):
     We also require that this gene need to be related to a species, reason 
     why we included the cascade ForeingKey. 
     """
-    gene_name = models.CharField(max_length=100, unique=True, null=True, blank=True) #unicoF
+    gene_name = models.CharField(max_length=100, unique=True, null=True, blank=True)
     gene_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
-    description = models.TextField(blank=True) 
-    original_db = models.CharField(max_length=50, blank=True)
+    description = models.TextField(blank=True, null=True) 
+    original_db = models.CharField(max_length=50, blank=True, null=True)
     species = models.ForeignKey(Species, on_delete=models.CASCADE)
-    source = models.CharField(max_length=100, blank=True) #gff3, individual study, etc.
+    variety = models.CharField(max_length=50, blank=True, null=True)
+    source = models.CharField(max_length=100, blank=True, null=True) #gff3, individual study, etc.
+
+    #include variety field
 
     def __str__(self):
         return self.gene_name
