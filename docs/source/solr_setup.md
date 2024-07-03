@@ -37,7 +37,7 @@ A schema in Solr is a fundamental component that defines the structure and behav
     Here, we build the schema:
 
 ```bash
-./manage.py build_solr_schema --configure-directory=<path_to_tester_core_managed-schema.xml_file>
+./manage.py build_solr_schema > <path_to_tester_core_managed-schema.xml_file>
 ```
 Instead of "path to tester core config folder" you should have something like: pcwkb/solr-9.4.0/server/solr/tester/conf/managed-schema.xml
 

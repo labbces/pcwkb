@@ -1,2 +1,4 @@
 {{ object.gene_name }}
+{{ object.gene_id }}
 {{ object.description }}
+{{ object.species }}
