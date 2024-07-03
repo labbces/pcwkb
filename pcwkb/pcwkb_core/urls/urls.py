@@ -33,7 +33,7 @@ urlpatterns = [
     path('experiments', experiment.experiment, name='experiments'),
     path('experiment_page/<str:experiment_name>', experiment.exp_page, name='experiment_page'),
     path('cellwallcomponents', cellwallcomponent.cellwallcomponent, name='cellwallcomponents'),
-    path('cellwallcomponent_page/<str:chebi_name>', cellwallcomponent.cell_wall_comp_page, name='cellwallcomponent_page'),
+    path('cellwallcomponent_page/<str:cellwallcomp_name>', cellwallcomponent.cell_wall_comp_page, name='cellwallcomponent_page'),
     path('experiment_form', data_submission.experiment_form_view, name='experiment_form'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/registration', accounts.registration, name='registration'),

@@ -52,7 +52,7 @@ def paginated_gene_experiment_list(request, species_id):
             associations.append({
                 'gene_id': assoc.gene.gene_id,
                 'gene_name': assoc.gene.gene_name,
-                'chebi': assoc.chebi.chebi_name if assoc.chebi else None,
+                'chebi': assoc.cellwall_component.cellwallcomp_name if assoc.cellwall_component else None,
                 'effect_on_plant_cell_wall_component': assoc.effect_on_plant_cell_wall_component,
             })
     

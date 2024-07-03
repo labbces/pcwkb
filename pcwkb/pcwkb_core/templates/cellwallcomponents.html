@@ -28,14 +28,14 @@
 
 <section class="py-4 rounded-5 pcwkb-bg-color">
   <div class="p-4">
-    {% for chebi_name, chebi_data in cellwallcomponents.items %}
+    {% for cellwallcomp_name, cellwallcomp_data in cellwallcomponents.items %}
     <div class="card border-success mb-3">
-      <h5 class="card-header"><a href="pcwkb_core/cellwallcomponent_page/{{chebi_name}}">
-        {{ chebi_name | upper }}<br>
-        Chebi Ontology: {{ chebi_data.chebi_id }}
+      <h5 class="card-header"><a href="pcwkb_core/cellwallcomponent_page/{{cellwallcomp_name}}">
+        {{ cellwallcomp_name | upper }}<br>
+        Chebi Ontology: {{ cellwallcomp_data.chebi_id }}
       </a></h5>
       <div class="card-body">
-        <p class="card-text">{{ chebi_data.definition }}</p>
+        <p class="card-text">{{ cellwallcomp_data.description }}</p>
       </div>
     </div>
     {% endfor %}

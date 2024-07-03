@@ -23,6 +23,7 @@ def species_page(request, species_code):
     context = { 'species_code': species_code,
                 'species_id': '',
                 'scientific_name': '',
+                'photosystem': '',
                 'common_name': '',
                 'experimental_genes': {},
                 'genes_paginated': {},
@@ -45,6 +46,7 @@ def species_page(request, species_code):
 
     context['common_name'] = Species.objects.get(species_code=species_code).common_name
     context['scientific_name'] = Species.objects.get(species_code=species_code).scientific_name
+    context['photosystem'] = Species.objects.get(species_code=species_code).photosystem
 
     name=context['scientific_name'].replace(" ","_")
 

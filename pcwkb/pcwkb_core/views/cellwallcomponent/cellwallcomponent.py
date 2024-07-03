@@ -2,25 +2,25 @@ from django.shortcuts import render, get_object_or_404
 import requests
 
 from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc
-from pcwkb_core.models.ontologies.molecular_related.chebi import ChEBI
+from pcwkb_core.models.biomass.cellwall_component import CellWallComponent
 
 def cellwallcomponent(request):
 
     context={"cellwallcomponents":{}}
 
     for info in BiomassGeneExperimentAssoc.objects.all():
-        chebi_name = info.chebi.chebi_name
-        context["cellwallcomponents"][chebi_name] = {
-            "definition": info.chebi.definition,
-            "chebi_id": info.chebi.chebi_id
+        cellwallcomp_name = info.cellwall_component.cellwallcomp_name
+        context["cellwallcomponents"][cellwallcomp_name] = {
+            "description": info.cellwall_component.description,
+            "chebi_id": info.cellwall_component.chebi.chebi_id
         }
 
     return render(request, 'cellwallcomponents.html',  context)
 
-def cell_wall_comp_page(request, chebi_name):
+def cell_wall_comp_page(request, cellwallcomp_name):
     context = {}
     
-    cellwallcomponent = get_object_or_404(ChEBI, chebi_name=chebi_name)
+    cellwallcomponent = get_object_or_404(CellWallComponent, cellwallcomp_name=cellwallcomp_name)
     biomass_gene_assocs = cellwallcomponent.biomassgeneexperimentassoc_set.all()
 
     if biomass_gene_assocs.exists():
@@ -36,7 +36,7 @@ def cell_wall_comp_page(request, chebi_name):
     else:
         assoc_list = None
 
-    wiki_url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{chebi_name}"
+    wiki_url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{cellwallcomp_name}"
     response = requests.get(wiki_url)
     if response.status_code == 200:
         wikipedia_content = response.json()

@@ -7,7 +7,7 @@
         <ol class="breadcrumb rounded-pill px-3 border border-success pcwkb-bg-color">
             <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
             <li class="breadcrumb-item"><a href="/pcwkb_core/cellwallcomponents">Cell Wall Components</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ cellwallcomponent.chebi_name }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ cellwallcomponent.cellwallcomp_name }}</li>
         </ol>
     </nav>
 </div>
@@ -16,7 +16,7 @@
     <div class="px-4">
         <div class="row justify-content-md-center">
             <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                <h2 class="mb-4 display-5 text-center">{{ cellwallcomponent.chebi_name | upper }}</h2>
+                <h2 class="mb-4 display-5 text-center">{{ cellwallcomponent.cellwallcomp_name | upper }}</h2>
                 <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
             </div>
         </div>
@@ -28,9 +28,9 @@
     </div>
 </header>
 
-{% if cellwallcomponent.definition %}
+{% if cellwallcomponent.description %}
 <div class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
-    <p class="m-2 justify-content-between"><strong>Description:</strong><br> {{ cellwallcomponent.definition }}</p>
+    <p class="m-2 justify-content-between"><strong>Description:</strong><br> {{ cellwallcomponent.description }}</p>
 </div>
 {% endif %}
 
