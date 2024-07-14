@@ -1,0 +1,13 @@
+[
+ {"model": "pcwkb.metabolicmap",
+ "pk": 1,
+ "fields": {
+  "name": "Phenylpropanoid biosynthesis",
+  "description": "Phenylpropanoids are a group of plant secondary metabolites derived from phenylalanine and having a wide variety of functions both as structural and signaling molecules. Phenylalanine is first converted to cinnamic acid by deamination. It is followed by hydroxylation and frequent methylation to generate coumaric acid and other acids with a phenylpropane (C6-C3) unit. Reduction of the CoA-activated carboxyl groups of these acids results in the corresponding aldehydes and alcohols. The alcohols are called monolignols, the starting compounds for biosynthesis of lignin.",
+  "kegg_map_id": "map00940",
+  "map_class": "Metabolism; Biosynthesis of other secondary metabolites",
+  "ko_pathway": "ko00940"
+  }
+ }
+]
+    

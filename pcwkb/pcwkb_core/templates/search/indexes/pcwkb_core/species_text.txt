@@ -1,0 +1,3 @@
+{{ object.scientific_name }}
+{{ object.common_name }}
+{{ object.species_code }}

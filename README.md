@@ -25,6 +25,7 @@ Install all dependencies:
 sudo apt-get install python3.8-dev default-libmysqlclient-dev build-essential python3.8-distutils
 pip install -r requirements.txt
 ```
+Django has a settings.py documment, heve we supply a settings.template.py, that you can use as model to create a setting.py in the pcwkb folder. Inside it you can change to use your database/user configuration.
 
 To build the documentation, go to `docs/` and run:
 
@@ -39,7 +40,8 @@ extensions = ["myst_parser"]
 ```
 
 # Reseach and Development Team
-
+ 
+ * João Vitor Leite Novoletti (IFSP, Piracicaba)
  * Bianca Sagiorato (UFSCar, São Carlos)
  * Danielli Teixeira (UFSCar, São Carlos)
  * Dr. Diego M. Riaño Pachón (associate professor, CENA/USP Piracicaba)

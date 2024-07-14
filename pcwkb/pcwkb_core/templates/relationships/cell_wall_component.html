@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="container-fluid px-4 py-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb rounded-pill px-3 border border-success pcwkb-bg-color">
+            <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
+            <li class="breadcrumb-item"><a href="/pcwkb_core/cellwallcomponents">Cell Wall Components</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ cellwallcomponent.cellwallcomp_name }}</li>
+        </ol>
+    </nav>
+</div>
+
+<header class="py-3 py-md-5 py-xl-8">
+    <div class="px-4">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="mb-4 display-5 text-center">{{ cellwallcomponent.cellwallcomp_name | upper }}</h2>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
+            </div>
+        </div>
+        <div class="row m-4">
+            <div class="col-12 col-md-6">
+                <h6>Chebi id: {{ cellwallcomponent.chebi_id }}</h6>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% if cellwallcomponent.description %}
+<div class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
+    <p class="m-2 justify-content-between"><strong>Description:</strong><br> {{ cellwallcomponent.description }}</p>
+</div>
+{% endif %}
+
+{% if wikipedia_content %}
+<div class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
+    <h5 class="m-2 justify-content-between"><strong>Wikipedia</strong></h5>
+    <div class="card border-success mb-3">
+        <div class="card-body">
+        {{ wikipedia_content.extract_html|safe }}<br>
+        </div>
+    </div>
+    <p class="text-end"><a href="{{ wikipedia_content.page|safe }}">See more on Wikipedia</a><p>
+</div>
+{% endif %}
+
+{% if assoc_list %}
+<div class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
+    <h5 class="m-2 justify-content-between"><strong>Related information</strong></h5>
+    <div class="card border-success mb-3">
+        <h5 class="card-header"><strong>Species</strong></h5>
+        <div class="card-body">
+            {% for assoc in assoc_list.species %}
+            <p class="card-text"><a href="pcwkb_core/species_page/{{ assoc.species_code }}"><i>{{ assoc.scientific_name }}</i></a></p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card border-success mb-3">
+        <h5 class="card-header"><strong>Genes</strong></h5>
+        <div class="card-body">
+            {% for assoc in assoc_list.genes %}
+            <p class="card-text"><a href="pcwkb_core/gene_page/{{ assoc.gene_name }}"><i>{{ assoc.gene_name }}</i></a></p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

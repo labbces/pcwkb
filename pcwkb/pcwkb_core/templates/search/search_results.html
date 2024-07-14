@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="pcwkb-bg-color py-3 py-md-5 py-xl-8">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="mb-4 display-5 text-center">Search engine</h2>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="pcwkb-bg-color py-5">
+    <div class="bg-white container py-3 py-md-5 py-xl-8 rounded-2">
+        <div class="rounded-5 p-4 pcwkb-bg-color">
+
+            <form id="search-form" role="search" class="d-flex">
+                {% csrf_token %}
+                <label for="search-input" class="visually-hidden">Search</label>
+                <input type="text" class="form-control flex-grow-1 me-2" id="search-input" placeholder="Search..." aria-label="Search">
+                
+                <label for="model-select" class="visually-hidden">Model</label>
+                <select id="model-select" class="form-select me-2">
+                    <option value="all">All</option>
+                    <option value="species">Species</option>
+                    <option value="genes">Genes</option>
+                    <option value="cellwallcomp">Cell Wall Components</option>
+                </select>
+                
+                <label for="species-select" class="visually-hidden">Species</label>
+                <select id="species-select" class="form-select me-2" style="display: none;">
+                    <option value="all">All Species</option>
+                    {% for species in species_list %}
+                    <option value="{{ species.id }}">{{ species.scientific_name }}</option>
+                    {% endfor %}
+                </select>
+                
+                <button type="submit" class="btn btn-outline-success">Search</button>
+            </form>
+                      
+            <div id="last-search"></div>
+        </div>
+        <div id="search-results"></div>
+
+        <div class="card border-success mb-3">
+            <h5 class="card-header">Species</h5>
+            <div id="species-data"></div>
+                <script type="text/template" id="species-card-template">
+                    <div id = "species-card-body" class="card-body"><p class="card-text"><i><%= species %></i></p></div>
+                </script>
+            <div class="card-footer"></div>
+        </div>
+
+        
+        <div class="card border-success mb-3">
+            <h5 class="card-header">Genes</h5>
+            <div id="gene-data"></div>
+                <script type="text/template" id="gene-card-template">
+                    <div class="card-body"><p class="card-text">Gene: <%= genes %></p></div>
+                </script>
+            <div class="card-footer"></div>
+        </div>
+        
+
+        <div class="card border-success mb-3">
+            <h5 class="card-header">Cell Wall Components</h5>
+            <div id="cellwallcomp-data"></div>
+                <script type="text/template" id="cellwallcomp-card-template">
+                    <div class="card-body"><p class="card-text">Cell Wall Component: <%= cellwallcomp %></p></div>
+                </script>
+            <div class="card-footer"></div>
+        </div>
+
+        <div class="card border-success mb-3">
+            <h5 class="card-header">Experiments</h5>
+            <div id="experiment-data"></div>
+                <script type="text/template" id="experiment-card-template">
+                    <div class="card-body"><p class="card-text">Experiment: <%= experiment %></p></div>
+                </script>
+            <div class="card-footer"></div>
+        </div>
+
+        
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="{% static 'script/search/search.js' %}"></script>
+<script src="{% static 'script/search/autocomplete1.js' %}"></script>
+{% endblock %}

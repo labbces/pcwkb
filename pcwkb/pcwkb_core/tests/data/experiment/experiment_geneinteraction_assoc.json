@@ -1,0 +1,79 @@
+[
+ {
+  "model": "pcwkb_core.geneinterationexperimentassociation",
+  "pk": 1,
+  "fields": {
+   "experiment": 1,
+   "literature": 1,
+   "gene_regulator": 1,
+   "gene_target": 2,
+   "effect_on_target": "Y1H only indicates an interaction occurs in vitro"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneinterationexperimentassociation",
+  "pk": 2,
+  "fields": {
+   "experiment": 1,
+   "literature": 1,
+   "gene_regulator": 1,
+   "gene_target": 3,
+   "effect_on_target": "Y1H only indicates an interaction occurs in vitro"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneinterationexperimentassociation",
+  "pk": 3,
+  "fields": {
+   "experiment": 1,
+   "literature": 1,
+   "gene_regulator": 1,
+   "gene_target": 4,
+   "effect_on_target": "Y1H only indicates an interaction occurs in vitro"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneinterationexperimentassociation",
+  "pk": 4,
+  "fields": {
+   "experiment": 3,
+   "literature": 12,
+   "gene_regulator": 8,
+   "gene_target": 13,
+   "effect_on_target": "Positive regulation (indirect evidence)"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneinterationexperimentassociation",
+  "pk": 5,
+  "fields": {
+   "experiment": 3,
+   "literature": 12,
+   "gene_regulator": 8,
+   "gene_target": 14,
+   "effect_on_target": "Positive regulation (indirect evidence)"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneinterationexperimentassociation",
+  "pk": 6,
+  "fields": {
+   "experiment": 3,
+   "literature": 12,
+   "gene_regulator": 8,
+   "gene_target": 15,
+   "effect_on_target": "Positive regulation (indirect evidence)"
+  }
+ },
+ {
+  "model": "pcwkb_core.geneinterationexperimentassociation",
+  "pk": 7,
+  "fields": {
+   "experiment": 3,
+   "literature": 12,
+   "gene_regulator": 8,
+   "gene_target": 16,
+   "effect_on_target": "Positive regulation (indirect evidence)"
+  }
+ }
+]

@@ -5,24 +5,17 @@ First create a MySQL/MariaDB user with root:
 ```sql
 CREATE USER pcwkb_db_admin@localhost IDENTIFIED BY 'password1';
 ```
-
-The character set and collate are important as sqlalchemy-migrate doesn't work with utf8mb4 (the default).
+Create Database:
 
 ```sql
-CREATE DATABASE pcwkb_db CHARACTER SET latin1 COLLATE latin1_general_ci;
+CREATE DATABASE pcwkb_db;
 ```
-    
+
 Give permissions to that user to access the database:
 
 ```sql
 GRANT INDEX, CREATE, DROP, SELECT, UPDATE, DELETE, ALTER, EXECUTE, INSERT on pcwkb_db.* TO pcwkb_db_admin@localhost;
 GRANT FILE on *.* TO pcwkb_db_admin@localhost;
-```
-
-Creating the database:
-
-```SQL
-CREATE DATABASE pcwkb_db;
 ```
 
 Edit `settings.py` to add the database connection information as follows:
@@ -44,6 +37,7 @@ Once the database is created we can create the migration using:
 
 ```bash
 python manage.py makemigrations
+python manage.py makemigrations pcwkb_core
 python manage.py check
 python manage.py migrate
 ```

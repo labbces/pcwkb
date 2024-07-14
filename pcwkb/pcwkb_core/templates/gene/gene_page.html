@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4 py-3">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb rounded-pill px-3 border boder-success pcwkb-bg-color">
+      <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
+      <li class="breadcrumb-item"><a href="pcwkb_core/browse_species">Species</a></li>
+      <li class="breadcrumb-item"><a href="pcwkb_core/species_page/{{species.species_code}}"><i>{{species.scientific_name}}</i></a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ gene_name }}</li>
+    </ol>
+  </nav>
+</div>
+
+<header class="py-3 py-md-5 py-xl-8 ">
+  <div class="px-4">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+        <h2 class="mb-4 display-5 text-center"> {{ gene_name }}</h2>
+        <hr class="w-50 mx-auto mb-5 mb-xl-9 border-success-subtle">
+      </div>
+    </div>
+    <table class="table table-responsive">
+      <thead>
+        {% if description %}
+        <tr>
+          <td colspan="2">
+            <h5 class="text-center text-break">Description: {{ description }}</h5>
+          </td>
+        </tr>
+        {% endif %}
+        <tr>
+          <th scope="col">Source</th>
+          <th scope="col">Identifier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ source }}</td>
+          <td>{{ gene_name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</header>
+
+{% if proteins %}
+<section class="mx-auto overflow-auto p-4">
+  <div class="rounded-top-5 pcwkb-bg-color">
+    <h2 class="text-center p-2">Proteins</h2>
+    <table class="table mt-1 table-responsive">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">Protein</th>
+          <th scope="col" colspan="2" class="text-center">Info</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for protein_name, attributes in proteins.items %}
+        <tr>
+          <td class="align-middle text-center" rowspan="4">
+            <h5><strong>{{ protein_name }}</strong></h5>
+          </td>
+        </tr>
+        <tr>
+          <th scope="col" class="align-middle text-center">Description</th>
+          <td class="text-break align-middle">{{ attributes.description }}</td>
+        </tr>
+        <tr>
+          <th scope="col" class="align-middle text-center">Orthogroup</th>
+          {% if attributes.orthogroup %}
+          <td class="align-middle"><a href="pcwkb_core/og_page/{{ attributes.orthogroup }}">{{ attributes.orthogroup }}</a></td>
+          {% else %}
+          <td class="align-middle">None</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <th scope="col" class="align-middle text-center">Sequence</th>
+          <td colspan="2" class="text-break align-middle"> {{ attributes.sequence }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+  </div>
+</section>
+
+{% if assoc_list %}
+    <section class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
+        <h3 class="m-2 text-center"><strong>Biomass and gene associations</strong></h3>
+        {% for assoc in assoc_list %}
+        <div class="card border-success mb-3">
+            <h5 class="card-header"><strong>Chemical Entity Term: {{ assoc.cellwall_component.cellwallcomp_name }}</strong></h5>
+            <div class="card-body">
+                {%if assoc.plantcomponent%}
+                  {% for pc in assoc.plantcomponent.all %}
+                    <p class="card-text">Plant Ontology Term: {{pc.name}} </p>
+                  {%endfor%}
+                {%endif%}
+                {%if assoc.plant_trait%}
+                <p class="card-text">Trait Ontology Term: {{assoc.plant_trait.name }}</p>
+                {%endif%}
+                <p class="card-text">Gene Expression: {{ assoc.gene_expression }}</p>
+                <p class="card-text">Effect on plant cell wall component: {{ assoc.effect_on_plant_cell_wall_component }}</p>
+                <p class="card-text">Literature: <a href="https://doi.org/{{ assoc.literature.doi }}" target="_blank">"{{ assoc.literature.title }}"</a></p>
+                {% for experiment in assoc.experiment.all %}
+                  <p class="card-text">Experiment: <a href="pcwkb_core/experiment_page/{{ experiment.experiment_name }}" target="_blank">{{ experiment.experiment_name }}</a></p>
+                {% endfor %}
+                {% if assoc.experiment_species.scientific_name != species.scientific_name %}
+                  <p class="card-text alert alert-info">Experiment with heterologous expression using <a href="pcwkb_core/species_page/{{ assoc.experiment_species.species_code }}" target="_blank">{{ assoc.experiment_species.scientific_name }}</a></p>
+                {%endif%}
+            </div>
+        </div>
+        {% endfor %}
+      </section>
+{% endif %}
+
+{% endblock %}

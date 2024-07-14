@@ -1,0 +1,16 @@
+[
+    {
+     "model": "pcwkb_core.experimentalevidenceplanttrait",
+     "pk": 1,
+     "fields": {
+      "species_id": 6,
+      "po_id": 856,
+      "chebi_id": 167847,
+      "experiment_id": 2,
+      "literature_id": 6,
+      "gene_id": 5,
+      "to_id": 3964,
+      "effect": "Decreased"
+      }
+     }
+]

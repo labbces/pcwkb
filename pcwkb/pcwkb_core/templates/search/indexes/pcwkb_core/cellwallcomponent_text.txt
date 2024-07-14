@@ -1,0 +1,2 @@
+{{ object.cellwallcomp_name }}
+{{ object.cellwallcomp_description }}

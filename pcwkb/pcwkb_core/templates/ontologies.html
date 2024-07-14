@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<section class="pcwkb-bg-color py-3 py-md-5 py-xl-8">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <h2 class="mb-4 display-5 text-center">Ontologies</h2>
+                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+                <p class="text-secondary mb-5 justify-content-evenly">
+                    Ontologies serve as conceptual frameworks for organizing information
+                    in a way that enables machines to understand and interpret data more effectively.
+                    The PECO (Phenotypic Entity, Entity, Context, and Quality Ontology), ECO (Environment Ontology),
+                    and PO (Plant Ontology) are exemplary models in this field, playing crucial roles in various
+                    scientific
+                    disciplines.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="pcwkb-bg-color">
+    <section class="bg-white container py-3 py-md-5 py-xl-8">
+        <h3 class="mb-4 display-6">PO</h3>
+        <p class="mb-5 justify-content-between">
+            PO ontology, dedicated to plants and their attributes, offers a rich taxonomy for
+            describing plant anatomy, morphology, and development stages. By providing a standardized
+            vocabulary for plant-related data, PO ontology enables researchers to annotate and compare plant
+            traits across species, supporting advancements in agriculture, ecology, and plant biology.
+        </p>
+        <p class="d-flex mb-5 justify-content-end"><a href="https://www.plantontology.org/"
+                target="_blank">https://www.plantontology.org/</a></p>
+
+    </section>
+
+    <section class="bg-light container py-3 py-md-5 py-xl-8">
+        <h3 class="mb-4 display-6">PECO</h3>
+        <p class="mb-5 justify-content-between">
+            PECO ontology, with its focus on phenotypic traits, entities, contexts, and qualities,
+            provides a structured vocabulary for describing phenotypes in biological research.
+            Researchers utilize PECO to standardize the representation of phenotypic data, facilitating data
+            integration and knowledge discovery across diverse studies.
+        </p>
+        <p class="d-flex mb-5 justify-content-end"><a
+                href="https://github.com/Planteome/plant-experimental-conditions-ontology"
+                target="_blank">https://github.com/Planteome/plant-experimental-conditions-ontology</a></p>
+    </section>
+
+    <section class="bg-white container py-3 py-md-5 py-xl-8">
+        <h3 class="mb-4 display-6">ECO</h3>
+        <p class="mb-5 justify-content-between">
+            ECO ontology offers a comprehensive framework for describing environmental factors and conditions.
+            From ecosystems to environmental processes, ECO provides researchers with a standardized
+            vocabulary for annotating and analyzing environmental data, contributing to the understanding of
+            complex ecological systems and their interactions.
+        </p>
+        <p class="d-flex mb-5 justify-content-end"><a href="https://www.evidenceontology.org/"
+                target="_blank">https://www.evidenceontology.org/</a></p>
+
+    </section>
+
+    <section class="bg-light container py-3 py-md-5 py-xl-8">
+        <h3 class="mb-4 display-6">Chebi</h3>
+        <p class="mb-5 justify-content-between">
+            ChEBI, short for Chemical Entities of Biological Interest, is a prominent ontology specializing
+            in small chemical compounds and their biological functions. It provides a structured vocabulary
+            for categorizing molecules based on their chemical structures and biological roles.
+            Widely utilized in bioinformatics and chemical research, ChEBI facilitates accurate annotation
+            and classification of compounds, supporting various scientific endeavors such as drug discovery
+            and metabolomics.
+        </p>
+        <p class="d-flex mb-5 justify-content-end"><a href="https://www.ebi.ac.uk/chebi/"
+                target="_blank">https://www.ebi.ac.uk/chebi/</a></p>
+
+    </section>
+</div>
+{% endblock %}

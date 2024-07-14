@@ -1,0 +1,345 @@
+[
+    {
+     "model": "pcwkb_core.species",
+     "pk": 1,
+     "fields": {
+      "species_code": "Osa",
+      "taxid": 4530,
+      "scientific_name": "Oryza sativa",
+      "common_name": "Rice",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C3"
+      }
+     },
+     {
+     "model": "pcwkb_core.species",
+     "pk": 2,
+     "fields": {
+      "species_code": "Svi",
+      "taxid": 4556,
+      "scientific_name": "Setaria viridis",
+      "common_name": "Green foxtail",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C4"
+      }
+     },
+     {
+     "model": "pcwkb_core.species",
+     "pk": 3,
+     "fields": {
+      "species_code": "Sit",
+      "taxid": 4555,
+      "scientific_name": "Setaria italica",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C4"
+      }
+     },
+     {
+     "model": "pcwkb_core.species",
+     "pk": 4,
+     "fields": {
+       "species_code": "Msi",
+       "taxid": 62337,
+       "scientific_name": "Miscanthus sinensis",
+       "family": "Poaceae",
+       "clade": "Monocot",
+       "photosystem": "C4"
+       }
+     },
+     {
+     "model": "pcwkb_core.species",
+     "pk": 5,
+     "fields": {
+       "species_code": "Pva",
+       "taxid": 158149,
+       "scientific_name": "Paspalum vaginatum",
+       "family": "Poaceae",
+       "clade": "Monocot",
+       "photosystem": "C4"
+       }
+     },
+     {
+       "model": "pcwkb_core.species",
+       "pk": 6,
+       "fields": {
+         "species_code": "Sbi",
+         "taxid": 4558,
+         "scientific_name": "Sorghum bicolor",
+         "family": "Poaceae",
+         "clade": "Monocot",
+         "photosystem": "C4"
+         }
+     },
+     {
+     "model": "pcwkb_core.species",
+     "pk": 7,
+     "fields": {
+       "species_code": "Ssp",
+       "taxid": 62335,
+       "scientific_name": "Saccharum spontaneum",
+       "common_name": "sugarcane",
+       "family": "Poaceae",
+       "clade": "Monocot",
+       "photosystem": "C4"
+       }
+     },
+     {
+       "model": "pcwkb_core.species",
+       "pk": 8,
+       "fields": {
+         "species_code": "Zma",
+         "taxid": 4577,
+         "scientific_name": "Zea mays",
+         "common_name": "Maize",
+         "family": "Poaceae",
+         "clade": "Monocot",
+         "photosystem": "C4"
+       }
+     },
+     {
+       "model": "pcwkb_core.species",
+       "pk": 9,
+       "fields": {
+         "species_code": "Ath",
+         "taxid": 3702,
+         "scientific_name": "Arabidopsis thaliana",
+         "family": "Brassicaceae",
+         "clade": "Eudicot",
+         "photosystem": "C3"
+       }
+     },
+     {
+     "model": "pcwkb_core.species",
+     "pk": 10,
+     "fields": {
+      "species_code": "Ppu",
+      "taxid": 154765,
+      "scientific_name": "Pennisetum purpureum",
+      "family": "Poaceae",
+      "common_name": "elephant or Napier grass",
+      "clade": "Monocot",
+      "photosystem": "C4"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 11,
+     "fields": {
+      "species_code": "Pvi",
+      "taxid": 38727,
+      "scientific_name": "Panicum virgatum",
+      "family": "Poaceae",
+      "common_name": "Switchgrass",
+      "clade": "Monocot",
+      "photosystem": "C4"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 12,
+     "fields": {
+      "species_code": "Tae",
+      "taxid": 4565,
+      "scientific_name": "Triticum aestivum",
+      "family": "Poaceae",
+      "common_name": "Bread wheat",
+      "clade": "Monocot",
+      "photosystem": "C3"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 13,
+     "fields": {
+      "species_code": "Pno",
+      "taxid": 147272,
+      "scientific_name": "Paspalum notatum",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C4"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 14,
+     "fields": {
+      "species_code": "Dex",
+      "taxid": 1010633,
+      "scientific_name": "Digitaria exilis",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C4"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 15,
+     "fields": {
+      "species_code": "Bdi",
+      "taxid": 15368,
+      "scientific_name": "Brachypodium distachyon",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C3"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 16,
+     "fields": {
+      "species_code": "Nta",
+      "taxid": 4097,
+      "scientific_name": "Nicotiana tabacum",
+      "family": "Solanaceae",
+      "clade": "Eudicot",
+      "photosystem": "C3"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 17,
+     "fields": {
+      "species_code": "Hvu",
+      "taxid": 4513,
+      "scientific_name": "Hordeum vulgare",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C3"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 18,
+     "fields": {
+      "species_code": "Mlu",
+      "taxid": 422564,
+      "scientific_name": "Miscanthus lutarioriparius",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C4"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 19,
+     "fields": {
+      "species_code": "Oth",
+      "taxid": 1148796,
+      "scientific_name": "Oropetium thomaeum",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C4"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 20,
+     "fields": {
+      "species_code": "Sce",
+      "taxid": 4550,
+      "scientific_name": "Secale cereale",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C3"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 21,
+     "fields": {
+      "species_code": "Lpe",
+      "taxid": 4522,
+      "scientific_name": "Lolium perenne",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C3"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 22,
+     "fields": {
+      "species_code": "Ped",
+      "taxid": 38705,
+      "scientific_name": "Phyllostachys edulis",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C4"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 23,
+     "fields": {
+      "species_code": "Ecu",
+      "taxid": 38414,
+      "scientific_name": "Eragrostis curvula",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C4"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 24,
+     "fields": {
+      "species_code": "Bna",
+      "taxid": 3708,
+      "scientific_name": "Brassica napus",
+      "family": "Brassicaceae",
+      "clade": "Eudicot",
+      "photosystem": "C3"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 25,
+     "fields": {
+      "species_code": "Dol",
+      "taxid": 888268,
+      "scientific_name": "Dichanthelium oligosanthes",
+      "family": "Poaceae",
+      "clade": "Monocot",
+      "photosystem": "C3"
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 26,
+     "fields":{
+      "species_code": "Pto",
+      "taxid": 118781,
+      "scientific_name": "Populus tomentosa",
+      "family": "Salicaceae",
+      "clade": "Eudicot",
+      "photosystem": ""
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 27,
+     "fields":{
+      "species_code": "Ptr",
+      "taxid": 3694,
+      "scientific_name": "Populus trichocarpa",
+      "family": "Salicaceae",
+      "clade": "Eudicot",
+      "photosystem": ""
+     }
+    },
+    {
+     "model": "pcwkb_core.species",
+     "pk": 28,
+     "fields":{
+      "species_code": "Egr",
+      "taxid": 71139,
+      "scientific_name": "Eucalyptus grandis",
+      "family": "Myrtaceae",
+      "clade": "Eudicot",
+      "photosystem": "C3"
+     }
+    }
+   ]

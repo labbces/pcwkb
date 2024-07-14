@@ -1,0 +1,11 @@
+[
+    {
+     "model": "pcwkb_core.planttrait",
+     "pk": null,
+     "fields": {
+      "name": "xylose content",
+      "description": "Measures the xylose content in a plant or plant part.",
+      "to": null
+      }
+     }
+]
