@@ -4,7 +4,9 @@
   "pk": 1,
   "fields": {
    "gene_name": "OsMYB61a",
-   "description": "no description available",
+   "gene_id": "LOC_Os01g18240.1",
+   "description": "MYB transcription factor",
+   "original_db_info": [{"Funricegenes":"https://funricegenes.github.io/geneInfo.table.txt"}],
    "species_id": 1
    }
   },
@@ -13,8 +15,11 @@
   "pk": 2,
   "fields": {
    "gene_name": "OsCESA4",
-   "description": "cellulose synthase, expressed",
-   "species_id": 1
+   "gene_id": "LOC_Os01g54620.1",
+   "description": "cellulose synthase",
+   "original_db_info": [{"Funricegenes":"https://funricegenes.github.io/geneInfo.table.txt"}],
+   "species_id": 1,
+   "genome": 1
    }
   },
   {
@@ -22,26 +27,32 @@
   "pk": 3,
   "fields": {
    "gene_name": "OsAT5",
-   "description": "no description available",
+   "gene_id": " LOC_Os05g19910.1",
+   "description": "Acyl transferase",
+   "original_db_info": [{"Uniprot":"https://www.uniprot.org/uniprotkb/Q0DJH7/entry"}],
+   "species_id": 1
+  }
+ },
+ {  
+  "model": "pcwkb_core.gene",
+  "pk": 4,
+  "fields": {
+   "gene_name": "OsCSLH1",
+   "gene_id": "LOC_Os10g20090.1",
+   "description": "cellulose synthase-like family H",
+   "original_db_info": [{"Uniprot":"https://www.uniprot.org/uniprotkb/Q339N5/entry"}],
    "species_id": 1
   }
  },
  {
   "model": "pcwkb_core.gene",
-  "pk": 4,
+  "pk": 5,
   "fields": {
-   "gene_name": "OsCSLH1",
-   "description": "cellulose synthase-like family H, expressed",
-   "species_id": 1
-  }
- },
- {
-    "model": "pcwkb_core.gene",
-    "pk": 5,
-    "fields": {
-     "gene_name": "OsAT10",
-     "description": "Acyltransferase",
-     "species_id": 1
+    "gene_name": "OsAT10",
+    "gene_id": "LOC_Os06g39390.1",
+    "description": "Acyltransferase",
+    "original_db_info": [{"Uniprot":"https://www.uniprot.org/uniprotkb/Q339N5/entry"}],
+    "species_id": 1
     }
    },
  {
@@ -49,8 +60,11 @@
   "pk": 6,
   "fields": {
    "gene_name": "BdGT43A",
+   "gene_id": "Bradi5g24290.1",
    "description": "glycosyl transferase",
-   "species_id": 15
+   "species_id": 15,
+   "genome": 2,
+   "source": [{"individual study": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5947151/"}]
   }
  },
  {
@@ -58,8 +72,11 @@
   "pk": 7,
   "fields": {
    "gene_name": "LAC8",
+   "gene_id": "Bradi2g23370.1",
    "description": "di-, tri-valent inorganic cation transmembrane transporter activity",
-   "species_id": 15
+   "species_id": 15,
+   "genome": 2,
+   "source": [{"individual study": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5947151/"}]
   }
  },
  {
@@ -67,8 +84,11 @@
   "pk": 8,
   "fields": {
    "gene_name": "ZmNST3",
-   "description": "No apical meristem (NAM) protein (NAM)",
-   "species_id": 8
+   "gene_id": "Zm00001d036050",
+   "description": "No apical meristem (NAM) protein (NAM), NAC domain-containing protein 43",
+   "species_id": 8,
+   "genome": 3,
+   "source": [{"individual study":"https://www.sciencedirect.com/science/article/pii/S0168945217300249#sec0140"}]
   }
  },
  {
@@ -76,8 +96,11 @@
   "pk": 9,
   "fields": {
    "gene_name": "ZmNST4",
+   "gene_id": "Zm00001d045463",
    "description": "No apical meristem (NAM) protein (NAM)",
-   "species_id": 8
+   "species_id": 8,
+   "genome": 3,
+   "source": [{"individual study":"https://www.sciencedirect.com/science/article/pii/S0168945217300249#sec0140"}]
   }
  },
  {
@@ -85,8 +108,10 @@
   "pk": 10,
   "fields": {
    "gene_name": "ZmMYB109",
+   "gene_id": "Zm00001d023931",
    "description": "PTHR10641//PTHR10641:SF577 - MYB-LIKE DNA-BINDING PROTEIN MYB // SUBFAMILY NOT NAMED",
-   "species_id": 8
+   "species_id": 8,
+   "source": [{"individual study":"https://www.sciencedirect.com/science/article/pii/S0168945217300249#sec0140"}]
   }
  },
  {
@@ -94,8 +119,10 @@
   "pk": 11,
   "fields": {
    "gene_name": "ZmMYB128",
+   "gene_id": "ZEAMMB73_Zm00001d023931",
    "description": "PTHR10641//PTHR10641:SF582 - MYB-LIKE DNA-BINDING PROTEIN MYB // SUBFAMILY NOT NAMED",
-   "species_id": 8
+   "species_id": 8,
+   "source": [{"individual study":"https://www.sciencedirect.com/science/article/pii/S0168945217300249#sec0140"}]
   }
  },
  {
@@ -103,8 +130,10 @@
   "pk": 12,
   "fields": {
    "gene_name": "ZmMYB149",
+   "gene_id": "ZEAMMB73_Zm00001d024784",
    "description": "PTHR10641//PTHR10641:SF582 - MYB-LIKE DNA-BINDING PROTEIN MYB // SUBFAMILY NOT NAMED",
-   "species_id": 8
+   "species_id": 8,
+   "source": [{"individual study":"https://www.sciencedirect.com/science/article/pii/S0168945217300249#sec0140"}]
   }
  },
  {
@@ -112,8 +141,10 @@
   "pk": 13,
   "fields": {
    "gene_name": "ZmCESA4",
+   "gene_id": "ZEAMMB73_Zm00001d043477 (NEED REVISION)",
    "description": "Cellulose synthase (UDP-forming) / UDP-glucose-cellulose glucosyltransferase",
-   "species_id": 8
+   "species_id": 8,
+   "source": [{"individual study":"https://www.sciencedirect.com/science/article/pii/S0168945217300249#sec0140"}]
   }
  },
  {
@@ -148,8 +179,11 @@
   "pk": 17,
   "fields": {
    "gene_name": "SvBAHD01",
+   "gene_id": "Sevir.5G130000",
    "description": "Transferase family (Transferase)",
-   "species_id": 2
+   "species_id": 2,
+   "genome": 4,
+   "source": [{"individual study":"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5873385/#nph14970-sup-0001"}]
   }
  }
 ]
