@@ -7,11 +7,6 @@ class OrthogroupMethods(models.Model):
     personal_identifier = models.CharField('Personal researcher identifier to easy find the method you insert (optional)', max_length=10, null=True, blank=True)
     description = models.CharField('Description about the process', max_length=100, blank=True, null=True)
 
-#    def save(self, *args, **kwargs):
-#        if not self.og_name:  # Gerar og_name somente se não estiver definido
-#            self.og_name = f"{self.orthogroup_id}.{self.og_method.id}"
-#        super().save(*args, **kwargs)
-
     def __str__(self):
         return f"{self.tool}.v{self.version}.{self.run}_{self.personal_identifier}"
 
