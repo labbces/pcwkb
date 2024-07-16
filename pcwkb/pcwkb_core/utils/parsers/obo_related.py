@@ -196,6 +196,9 @@ class Parser:
         elif ont == "to":
             from pcwkb_core.models.ontologies.plant_related.to import TOTerm
             model=TOTerm
+        elif ont == "go":
+            from pcwkb_core.models.ontologies.molecular_related.gene_ontology import GeneOntologyTerm
+            model=GeneOntologyTerm
         else:
             raise ValueError("Unsupported ontology type. Only 'po', 'eco', 'peco', 'chebi', 'to' are supported.")
 
