@@ -18,6 +18,7 @@ Give permissions to that user to access the database:
 
 ```sql
 GRANT INDEX, CREATE, DROP, SELECT, UPDATE, DELETE, ALTER, EXECUTE, INSERT on pcwkb_db.* TO pcwkb_db_admin@localhost;
+GRANT INDEX, CREATE, DROP, SELECT, UPDATE, DELETE, ALTER, EXECUTE, INSERT on pcwkb_db_temp_data.* TO pcwkb_db_admin2@localhost;
 GRANT FILE on *.* TO pcwkb_db_admin@localhost;
 ```
 
@@ -46,14 +47,14 @@ DATABASES = {
 
 Note that the databases, user and password should match those in settings.py "DATABASES section".
 
-Once the database is created we can create the migration using:
+Once the database is created we can create the migration, first go to pcwkb/pcwkb and them using:
 
 ```bash
 python manage.py makemigrations
 python manage.py makemigrations pcwkb_core
 python manage.py check
 python manage.py migrate
-./manage.py migrate --database=pcwkb_db_temp_data
+./manage.py migrate --database=temporary_data
 ```
 
 By default, management command operates on the default database, the --database option is for to synchronizing a different database.
