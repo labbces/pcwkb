@@ -1,6 +1,6 @@
 [
  {
-  "model": "pcwkb.genome",
+  "model": "pcwkb_core.genome",
   "pk": 1,
   "fields": {
    "literature": 3,
@@ -10,7 +10,7 @@
   }
  },
  {
-  "model": "pcwkb.genome",
+  "model": "pcwkb_core.genome",
   "pk": 2,
   "fields": {
    "literature": 8,
@@ -20,7 +20,7 @@
   }
  },
  {
-  "model": "pcwkb.genome",
+  "model": "pcwkb_core.genome",
   "pk": 3,
   "fields": {
    "literature": 11,
@@ -30,7 +30,7 @@
   }
  },
  {
-    "model": "pcwkb.genome",
+    "model": "pcwkb_core.genome",
     "pk": 4,
     "fields": {
      "literature": 14,
