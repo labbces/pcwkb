@@ -8,5 +8,7 @@ The command that will be used is manage.py loaddata that based on a json file, i
 
 ```
 python manage.py loaddata pcwkb_core/tests/data/taxonomy/species.json
+python manage.py loaddata pcwkb_core/tests/data/literature/literature.json
+python manage.py loaddata pcwkb_core/tests/data/molecular_components/genome.json
 python manage.py loaddata pcwkb_core/tests/data/molecular_components/genes.json
 ```
