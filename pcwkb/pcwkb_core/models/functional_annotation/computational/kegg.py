@@ -15,8 +15,6 @@ class MetabolicMap(models.Model):
     kegg_pathway = models.CharField('KO pathway entry', max_length=7)
     description = models.TextField('KEGG map description', max_length=4000)
 
-    protein = models.ForeignKey(Protein, on_delete=models.CASCADE)
-
     def __str__(self):
         return self.kegg_map_id
     

@@ -102,7 +102,7 @@ def gene_page(request, gene_name):
         context = {'gene_id': gene.gene_id,
                 'gene_name': gene.gene_name,
                 'description': gene.description,
-                'source': gene.source,
+                'original_db_info': gene.original_db_info,
                 'proteins': proteins,
                 'species':gene.species,
                 'assoc_list': associations}
@@ -110,7 +110,7 @@ def gene_page(request, gene_name):
         context = {'gene_id': gene.gene_id,
                 'gene_name': gene.gene_name,
                 'description': gene.description,
-                'source': gene.source,
+                'original_db_info': gene.original_db_info,
                 'proteins': proteins,
                 'species':gene.species,
                 'assoc_list': None}
