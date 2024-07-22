@@ -32,7 +32,7 @@ Within your `settings.py`, you’ll need to add a setting to indicate where your
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://0.0.0.0:8983/solr/tester',                 # Assuming you created a core named 'tester' as described in installing search engines.
+        'URL': 'http://0.0.0.0:8983/solr/pcwkb_core',                 # Assuming you created a core named 'tester' as described in installing search engines.
         'ADMIN_URL': 'http://0.0.0.0:8983/solr/admin/cores'
         # ...or for multicore...
         # 'URL': 'http://127.0.0.1:8983/solr/mysite',
@@ -53,13 +53,5 @@ Additionally, we’re providing `use_template=True` on the text field. This allo
 {{ object.body }}
 ```
 
-Step 3: Reindex
-------------
-
-You should run `./manage.py build_solr_schema` first, drop the XML output in your Solr’s schema.xml file and restart your Solr server:
-
-```bash
-./manage.py build_solr_schema --configure-directory=/home/bianca/project/pcwkb/pcwkb/solr-9.4.0/server/solr/tester/conf
-python manage.py rebuild_index
-```
+Step 3: Solr Setup
 

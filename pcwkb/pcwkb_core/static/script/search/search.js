@@ -31,6 +31,7 @@ $(document).ready(function () {
                     $('#search-results').empty();
                     $('#species-data').empty();
                     $('#gene-data').empty();
+                     $('#cellwallcomp-data').empty();
 
                     // Handle search results
                     let content = '';

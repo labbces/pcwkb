@@ -10,10 +10,10 @@ from .models.molecular_components.relationships.orthogroups import Orthogroup, O
 from .models.molecular_components.relationships.protein_orthogroup import ProteinOrthogroup
 from .models.molecular_components.relationships.pcw_genetics_association import BiomassComposition
 from .models.literature.literature import Literature
-from .models.functional_annotation.computational.annotation_method import GenomeAnnotationMethod
+from .models.functional_annotation.computational.annotation_method import AnnotationMethod
 from .models.functional_annotation.computational.cazyme import CAZyme, CAZymeProteinAssociation
-from .models.functional_annotation.computational.gene_ontology import GeneOntologyTerm, GOProteinAssociation
-from .models.functional_annotation.computational.interpro import InterPro, InterProProteinAssociation
+from .models.ontologies.molecular_related.gene_ontology import GeneOntologyTerm
+from .models.functional_annotation.computational.interpro import InterPro
 from .models.functional_annotation.computational.kegg import MetabolicMap
 from .models.functional_annotation.computational.transcriptional_regulation import TranscriptionalRegulatorFamily
 from .models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
@@ -69,12 +69,10 @@ admin.site.register(OrthogroupMethods)
 admin.site.register(Orthogroup)
 admin.site.register(BiomassComposition)
 admin.site.register(Literature, LitAdmin)
-admin.site.register(GenomeAnnotationMethod)
+admin.site.register(AnnotationMethod)
 admin.site.register(CAZyme)
 admin.site.register(GeneOntologyTerm)
-admin.site.register(GOProteinAssociation)
 admin.site.register(InterPro)
-admin.site.register(InterProProteinAssociation)
 admin.site.register(MetabolicMap)
 admin.site.register(TranscriptionalRegulatorFamily)
 admin.site.register(PlantOntologyTerm)

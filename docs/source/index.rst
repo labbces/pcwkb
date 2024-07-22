@@ -7,6 +7,6 @@ Welcome to Plant Cell Wall KnowledgeBase's documentation!
 
    connect_mysql
    add_test_data
-   solr_setup
    haystack
+   solr_setup
    automated_tests

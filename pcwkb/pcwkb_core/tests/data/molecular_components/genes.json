@@ -4,8 +4,12 @@
   "pk": 1,
   "fields": {
    "gene_name": "OsMYB61a",
-   "description": "no description available",
-   "species_id": 1
+   "gene_id": "LOC_Os01g18240",
+   "description": "MYB transcription factor",
+   "original_db_info": "Phytozome",
+   "name_id_assoc_source_site": {"Funricegenes":"https://funricegenes.github.io/geneInfo.table.txt"},
+   "species_id": 1,
+   "genome":1
    }
   },
   {
@@ -13,8 +17,12 @@
   "pk": 2,
   "fields": {
    "gene_name": "OsCESA4",
-   "description": "cellulose synthase, expressed",
-   "species_id": 1
+   "gene_id": "LOC_Os01g54620",
+   "description": "cellulose synthase",
+   "original_db_info": "Phytozome",
+   "name_id_assoc_source_site": {"Funricegenes":"https://funricegenes.github.io/geneInfo.table.txt"},
+   "species_id": 1,
+   "genome": 1
    }
   },
   {
@@ -22,26 +30,38 @@
   "pk": 3,
   "fields": {
    "gene_name": "OsAT5",
-   "description": "no description available",
-   "species_id": 1
+   "gene_id": " LOC_Os05g19910",
+   "description": "acyl transferase",
+   "original_db_info": "Phytozome",
+   "name_id_assoc_source_site": {"Funricegenes":"https://funricegenes.github.io/OSAT/"},
+   "species_id": 1,
+   "genome":1
   }
  },
- {
+ {  
   "model": "pcwkb_core.gene",
   "pk": 4,
   "fields": {
    "gene_name": "OsCSLH1",
-   "description": "cellulose synthase-like family H, expressed",
-   "species_id": 1
+   "gene_id": "LOC_Os10g20090",
+   "original_db_info": "Phytozome",
+   "description": "cellulose synthase-like family H",
+   "name_id_assoc_source_site": {"Uniprot":"https://www.uniprot.org/uniprotkb/Q339N5/entry"},
+   "species_id": 1,
+   "genome":1
   }
  },
  {
-    "model": "pcwkb_core.gene",
-    "pk": 5,
-    "fields": {
-     "gene_name": "OsAT10",
-     "description": "Acyltransferase",
-     "species_id": 1
+  "model": "pcwkb_core.gene",
+  "pk": 5,
+  "fields": {
+    "gene_name": "OsAT10",
+    "gene_id": "LOC_Os06g39390",
+    "original_db_info": "Phytozome",
+    "description": "Acyltransferase",
+    "name_id_assoc_source_site": {"Uniprot":"https://www.uniprot.org/uniprotkb/Q69UE6/entry"},
+    "species_id": 1,
+    "genome":1
     }
    },
  {
@@ -49,8 +69,12 @@
   "pk": 6,
   "fields": {
    "gene_name": "BdGT43A",
+   "gene_id": "Bradi5g24290",
+   "original_db_info": "Phytozome",
    "description": "glycosyl transferase",
-   "species_id": 15
+   "species_id": 15,
+   "genome": 2,
+   "name_id_assoc_source_lit": 7
   }
  },
  {
@@ -58,8 +82,12 @@
   "pk": 7,
   "fields": {
    "gene_name": "LAC8",
+   "gene_id": "Bradi2g23370",
+   "original_db_info": "Phytozome",
    "description": "di-, tri-valent inorganic cation transmembrane transporter activity",
-   "species_id": 15
+   "species_id": 15,
+   "genome": 2,
+   "name_id_assoc_source_lit": 12
   }
  },
  {
@@ -67,8 +95,13 @@
   "pk": 8,
   "fields": {
    "gene_name": "ZmNST3",
-   "description": "No apical meristem (NAM) protein (NAM)",
-   "species_id": 8
+   "gene_id": "Zm00001d036050",
+   "description": "No apical meristem (NAM) protein (NAM), NAC domain-containing protein 43",
+   "species_id": 8,
+   "genome": 3,
+   "original_db_info": "Phytozome",
+   "name_id_assoc_source_lit": 12,
+   "name_id_assoc_source_site": {"MaizeNucleosome":"https://www.bio.fsu.edu/bass/maizenucleosome/data/GRMZM/genes_all_NewB73v5_eb_GRMZMONYMs_Feb2021.htm"}
   }
  },
  {
@@ -76,8 +109,13 @@
   "pk": 9,
   "fields": {
    "gene_name": "ZmNST4",
+   "gene_id": "Zm00001d045463",
    "description": "No apical meristem (NAM) protein (NAM)",
-   "species_id": 8
+   "species_id": 8,
+   "genome": 3,
+   "original_db_info": "Phytozome",
+   "name_id_assoc_source_lit": 12,
+   "name_id_assoc_source_site": {"MaizeNucleosome":"https://www.bio.fsu.edu/bass/maizenucleosome/data/GRMZM/genes_all_NewB73v5_eb_GRMZMONYMs_Feb2021.htm"}
   }
  },
  {
@@ -85,8 +123,14 @@
   "pk": 10,
   "fields": {
    "gene_name": "ZmMYB109",
+   "gene_id": "Zm00001d023931",
    "description": "PTHR10641//PTHR10641:SF577 - MYB-LIKE DNA-BINDING PROTEIN MYB // SUBFAMILY NOT NAMED",
-   "species_id": 8
+   "species_id": 8,
+   "genome": 3,
+   "original_db_info": "Phytozome",
+   "name_id_assoc_source_lit": 12,
+   "name_id_assoc_source_site": {"MaizeNucleosome":"https://www.bio.fsu.edu/bass/maizenucleosome/data/GRMZM/genes_all_NewB73v5_eb_GRMZMONYMs_Feb2021.htm"}
+
   }
  },
  {
@@ -94,8 +138,14 @@
   "pk": 11,
   "fields": {
    "gene_name": "ZmMYB128",
+   "gene_id": "Zm00001d040527",
    "description": "PTHR10641//PTHR10641:SF582 - MYB-LIKE DNA-BINDING PROTEIN MYB // SUBFAMILY NOT NAMED",
-   "species_id": 8
+   "species_id": 8,
+   "genome": 3,
+   "original_db_info": "Phytozome",
+   "name_id_assoc_source_lit": 12,
+   "name_id_assoc_source_site": {"MaizeNucleosome":"https://www.bio.fsu.edu/bass/maizenucleosome/data/GRMZM/genes_all_NewB73v5_eb_GRMZMONYMs_Feb2021.htm"}
+
   }
  },
  {
@@ -103,8 +153,13 @@
   "pk": 12,
   "fields": {
    "gene_name": "ZmMYB149",
+   "gene_id": "Zm00001d024784",
    "description": "PTHR10641//PTHR10641:SF582 - MYB-LIKE DNA-BINDING PROTEIN MYB // SUBFAMILY NOT NAMED",
-   "species_id": 8
+   "species_id": 8,
+   "genome": 3,
+   "original_db_info": "Phytozome",
+   "name_id_assoc_source_lit": 12,
+   "name_id_assoc_source_site": {"MaizeNucleosome":"https://www.bio.fsu.edu/bass/maizenucleosome/data/GRMZM/genes_all_NewB73v5_eb_GRMZMONYMs_Feb2021.htm"}
   }
  },
  {
@@ -112,8 +167,13 @@
   "pk": 13,
   "fields": {
    "gene_name": "ZmCESA4",
+   "gene_id": "Zm00001d043477",
    "description": "Cellulose synthase (UDP-forming) / UDP-glucose-cellulose glucosyltransferase",
-   "species_id": 8
+   "species_id": 8,
+   "genome": 3,
+   "original_db_info": "Phytozome",
+   "name_id_assoc_source_lit": 12,
+   "name_id_assoc_source_site": {"Plaza":"https://ftp.psb.ugent.be/pub/plaza/requests/plaza_05/id_mapping_maize_b73_v3-to-v4.txt"}
   }
  },
  {
@@ -121,8 +181,13 @@
   "pk": 14,
   "fields": {
    "gene_name": "ZmCESA9",
+   "gene_id": "Zm00001d005250",
    "description": "Cellulose synthase (UDP-forming) / UDP-glucose-cellulose glucosyltransferase",
-   "species_id": 8
+   "original_db_info": "Phytozome",
+   "species_id": 8,
+   "genome": 3,
+   "name_id_assoc_source_lit": 12,
+   "name_id_assoc_source_site": {"MaizeNucleosome":"https://www.bio.fsu.edu/bass/maizenucleosome/data/GRMZM/genes_all_NewB73v5_eb_GRMZMONYMs_Feb2021.htm"}
   }
  },
  {
@@ -130,8 +195,13 @@
   "pk": 15,
   "fields": {
    "gene_name": "Zm4CL",
+   "gene_id": "Zm00001d015459",
    "description": "4-coumarate--CoA ligase / 4-coumaryl-CoA synthetase // Trans-feruloyl-CoA synthase / Trans-feruloyl-CoA synthetase",
-   "species_id": 8
+   "original_db_info": "Phytozome",
+   "species_id": 8,
+   "genome": 3,
+   "name_id_assoc_source_lit": 12,
+   "name_id_assoc_source_site": {"MaizeNucleosome":"https://www.bio.fsu.edu/bass/maizenucleosome/data/GRMZM/genes_all_NewB73v5_eb_GRMZMONYMs_Feb2021.htm"}
   }
  },
  {
@@ -139,8 +209,13 @@
   "pk": 16,
   "fields": {
    "gene_name": "ZmHCT",
+   "gene_id": "Zm00001d003129",
    "description": "Transferase family (Transferase)",
-   "species_id": 8
+   "original_db_info": "Phytozome",
+   "species_id": 8,
+   "genome": 3,
+   "name_id_assoc_source_lit": 12,
+   "name_id_assoc_source_site": {"MaizeNucleosome":"https://www.bio.fsu.edu/bass/maizenucleosome/data/GRMZM/genes_all_NewB73v5_eb_GRMZMONYMs_Feb2021.htm"}
   }
  },
  {
@@ -148,8 +223,12 @@
   "pk": 17,
   "fields": {
    "gene_name": "SvBAHD01",
+   "gene_id": "Sevir.5G130000",
+   "original_db_info": "Phytozome",
    "description": "Transferase family (Transferase)",
-   "species_id": 2
+   "species_id": 2,
+   "genome": 4,
+   "name_id_assoc_source_lit": 13
   }
  }
 ]
