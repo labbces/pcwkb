@@ -1,12 +1,12 @@
 from django.db import models
-
-class TemporaryData(models.Model):
-
-    class Meta:
-        managed = False  # Não cria uma tabela no banco de dados principal
-        db_table = 'temporary_data'  # Nome da tabela temporária
+from django.contrib.auth.models import User
 
 class DataSubmission(models.Model):
     title = models.CharField(max_length=50)
     json_data = models.TextField()
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    reviewed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

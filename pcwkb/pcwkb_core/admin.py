@@ -1,4 +1,7 @@
 from django.contrib import admin
+from .models.temporary_data.data_submission import DataSubmission
+from .utils.data_submission import create_biomass_gene_experiment_assoc
+import json
 
 from .models.taxonomy.ncbi_taxonomy import Species
 from .models.molecular_components.genetic.genes import Gene
@@ -27,7 +30,7 @@ from .models.ontologies.molecular_related.chebi import ChEBI
 from .models.ontologies.plant_related.peco import PECOTerm
 from .models.ontologies.plant_related.to import TOTerm
 from .models.ontologies.plant_related.po import PlantOntologyTerm
-from .models.temporary_data.data_submission import TemporaryData
+from .models.temporary_data.data_submission import DataSubmission
 from .models.temporary_data.species_submission import SpeciesTemporaryData
 from .models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc
 
@@ -57,7 +60,22 @@ class LitAdmin(admin.ModelAdmin):
         obj = Literature.get_lit_info(doi)
         super().save_model(request, obj, form, change)
 
+#Approve and process selected submissions
+@admin.action(description='Approve and process selected submissions')
+def approve_submissions(modeladmin, request, queryset):
+    for submission in queryset:
+        if not submission.reviewed:
+            data = json.loads(submission.json_data)
+            print(data)
+            create_biomass_gene_experiment_assoc(data)
+            submission.reviewed = True
+            submission.save()
 
+class DataSubmissionAdmin(admin.ModelAdmin):
+    list_display = ('title', 'user', 'reviewed', 'created_at')
+    actions = [approve_submissions]
+
+admin.site.register(DataSubmission, DataSubmissionAdmin)
 admin.site.register(Species, SpeciesAdmin)
 admin.site.register(Gene)
 admin.site.register(Genome)

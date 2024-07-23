@@ -9,9 +9,9 @@ from pcwkb_core.models.literature.literature import Literature
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
 class BiomassGeneExperimentAssoc(models.Model):
-    experiment_species = models.ForeignKey(Species, on_delete=models.CASCADE, null=True, blank=True) #explicar melhor
-    plantcomponent = models.ManyToManyField(PlantComponent, blank=True)
-    cellwall_component = models.ForeignKey(CellWallComponent, on_delete=models.CASCADE)
+    experiment_species = models.ForeignKey(Species, on_delete=models.CASCADE, null=True, blank=True)
+    plant_component = models.ManyToManyField(PlantComponent, blank=True)
+    plant_cell_wall_component = models.ForeignKey(CellWallComponent, on_delete=models.CASCADE)
     experiment = models.ManyToManyField(Experiment)
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
     gene = models.ForeignKey(Gene, on_delete=models.CASCADE)

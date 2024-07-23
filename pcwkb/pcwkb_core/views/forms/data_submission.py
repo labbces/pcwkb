@@ -3,6 +3,9 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from pcwkb_core.forms.data_submission.data_submission import DataSubmissionForm, ExperimentForm
 from pcwkb_core.models.temporary_data.data_submission import DataSubmission
+from django.contrib.auth.decorators import login_required
+import json
+
 
 '''def index(request):
     return render(request, 'forms/data_submission.html')
@@ -27,22 +30,39 @@ def get_data_file(request):
     return render(request, "forms/data_submission.html", {"form": form})
 """
 
+@login_required
 def data_submission_view(request):
     if request.method == 'POST':
-        form = DataSubmissionForm(request.POST, request.FILES,)
+        form = DataSubmissionForm(request.POST, request.FILES)
         if form.is_valid():
-            json_data = form.process_file() 
+            data = form.process_file()
+            # Validate data
+            errors, warnings = form.validate_data(data)
+
+            # Handle warnings
+            if warnings:
+                for field, field_warnings in warnings.items():
+                    messages.warning(request, f"Validation warnings in {field}: {field_warnings}")
+
+            # Handle errors
+            if errors:
+                for field, field_errors in errors.items():
+                    messages.error(request, f"Validation errors in {field}: {field_errors}")
+                return redirect('data_submission')
+
+            # Save valid data if there are no errors
             DataSubmission.objects.create(
                 title=form.cleaned_data['title'],
-                json_data=json_data
+                json_data=data,
+                user=request.user,
+                reviewed=False
             )
-            messages.success(request, 'Data submitted successfully!')
+            messages.success(request, f"Data submitted successfully by {request.user}!")
             return redirect('data_submission')
     else:
         form = DataSubmissionForm()
     
     return render(request, 'forms/data_submission.html', {'form': form})
-
 
 def experiment_form_view(request):
     if request.method == 'POST':
