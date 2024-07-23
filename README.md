@@ -39,6 +39,8 @@ Note that we changed the default Sphinx builder to use the Markdown parser. This
 extensions = ["myst_parser"]
 ```
 
+### falar como rodar o site
+
 # Reseach and Development Team
  
  * João Vitor Leite Novoletti (IFSP, Piracicaba)

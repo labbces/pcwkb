@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'pcwkb.wsgi.application'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://0.0.0.0:8983/solr/testeconfiguration',                 # Assuming you created a core named 'tester' as described in installing search engines.
+        'URL': 'http://0.0.0.0:8983/solr/pcwkb_core',                 # Assuming you created a core named 'pcwkb_core' as described in installing search engines.
         'ADMIN_URL': 'http://0.0.0.0:8983/solr/admin/cores',
         'INCLUDE_SPELLING': True,
         # ...or for multicore...

@@ -1,6 +1,8 @@
 Setting up Solr for Plant Cell Wall KnowledgeBase
 =====
 
+Here we are using conda to set a virtual envoroment, please install conda before proceeding with this documentation.
+
 Step 1: Installation of Java 11
 ------------
 
