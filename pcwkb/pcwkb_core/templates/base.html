@@ -81,12 +81,18 @@
 </header>
 
 {% if messages %}
-<div id="message" class="messages">
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}">
-        {{ message }}
-    </div>
-    {% endfor %}
+<div id="message" class="alert-container">
+  {% if messages %}
+      {% for message in messages %}
+          {% if message.tags == 'error' %}
+              <div class="alert alert-danger">
+          {% else %}
+              <div class="alert alert-{{ message.tags }}">
+          {% endif %}
+              {{ message }}
+          </div>
+      {% endfor %}
+  {% endif %}
 </div>
 {% endif %}
 
@@ -118,7 +124,7 @@
       if (messageDiv) {
           messageDiv.style.display = 'none';
       }
-  }, 15000);
+  }, 90000);
 </script>
 
 <style>
