@@ -42,13 +42,29 @@ def data_submission_view(request):
             # Handle warnings
             if warnings:
                 for field, field_warnings in warnings.items():
-                    messages.warning(request, f"Validation warnings in {field}: {field_warnings}")
+
+                    for field_name, warnings_list in field_warnings.items():
+                        for warnings in warnings_list:
+                            messages.warning(request, f"Validation warnings in {field} sheet:\n{warnings}")
 
             # Handle errors
+            invalid_species_error = False
             if errors:
                 for field, field_errors in errors.items():
-                    messages.error(request, f"Validation errors in {field}: {field_errors}")
-                return redirect('data_submission')
+                    # Check for specific error message
+                    if "experiment_species" in field_errors:
+                        invalid_species_error = True
+
+
+                    for field_name, error_list in field_errors.items():
+                        for error in error_list:
+                            messages.error(request, f"Validation errors in {field} sheet:\n{error}")
+                
+                if invalid_species_error:
+                    messages.error(request, "Invalid reference for species. Please complete the species_data sheet or submit a new species using the form.")
+                    return render(request, 'forms/data_submission.html', {'form': form, 'invalid_species_error': True})
+
+                return render(request, 'forms/data_submission.html', {'form': form})
 
             # Save valid data if there are no errors
             DataSubmission.objects.create(
@@ -63,6 +79,7 @@ def data_submission_view(request):
         form = DataSubmissionForm()
     
     return render(request, 'forms/data_submission.html', {'form': form})
+
 
 def experiment_form_view(request):
     if request.method == 'POST':

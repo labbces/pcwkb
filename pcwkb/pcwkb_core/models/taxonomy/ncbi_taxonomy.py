@@ -10,7 +10,7 @@ class Species(models.Model):
     where the specie is assigned and its photosystem type.  
     """
     species_code = models.CharField(max_length=10, null=False, blank=True)
-    taxid = models.IntegerField()
+    taxid = models.IntegerField(null=True, blank=True)
     scientific_name = models.CharField(max_length=50, null=False, blank=True)
     common_name = models.CharField(max_length=30, null=True, blank=True)
     family = models.CharField(max_length=30, null=False, blank=True)

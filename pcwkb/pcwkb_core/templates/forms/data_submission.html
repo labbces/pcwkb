@@ -20,4 +20,23 @@
     <input type="submit" value="Submit" class="btn btn-success">
 </form>
 
+{% if invalid_species_error %}
+<div id="species-error-box" class="alert alert-warning mt-3">
+    <p>Invalid reference for species. Please complete the species_data sheet or submit a new species using the form.</p>
+    <button id="complete-species-data" class="btn btn-primary">Complete species_data sheet</button>
+    <button id="submit-new-species" class="btn btn-secondary">Submit new species</button>
+</div>
+{% endif %}
+
+<script>
+    document.getElementById('complete-species-data').addEventListener('click', function() {
+        alert('Please complete the species_data sheet as per the given instructions.');
+        window.location.href = "{% url 'data_submission' %}";
+    });
+
+    document.getElementById('submit-new-species').addEventListener('click', function() {
+        window.location.href = "{% url 'species_submission' %}";
+    });
+</script>
+
 {% endblock %}

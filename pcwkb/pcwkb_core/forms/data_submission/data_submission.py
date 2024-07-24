@@ -3,6 +3,7 @@ import pandas as pd
 import json
 
 from pcwkb_core.models.functional_annotation.experimental.experiment import Experiment
+from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.literature.literature import Literature
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc
@@ -12,7 +13,10 @@ class DataSubmissionForm(forms.Form):
     title = forms.CharField(max_length=50)
     input_file = forms.FileField()
 
-    def clean_input_file(self): #this is called when use forms.is_valid()
+    def clean_input_file(self):
+        """
+        Checks if the uploaded file has the correct extension and data
+        """
         uploaded_file = self.cleaned_data['input_file']
         
         # Check if the file has the correct extension
@@ -47,7 +51,7 @@ class DataSubmissionForm(forms.Form):
         
         return uploaded_file
 
-    def process_file(self): #this is called when use forms.process_file
+    def process_file(self):
         uploaded_file = self.cleaned_data['input_file']
         data = {}
         
@@ -57,14 +61,41 @@ class DataSubmissionForm(forms.Form):
 
         return data
     
+    @staticmethod
+    def process_warnings_or_errors(data_dict):
+        """
+        Process the dictionary to aggregate values into lists and filter out empty lists.
+        """
+        aggregated_data = {}
+        
+        for key in data_dict:
+            aggregated_data[key] = {}
+            for sub_key, values in data_dict[key].items():
+                if isinstance(values, list):
+                    aggregated_data[key][sub_key] = list(set(values))
+                else:
+                    aggregated_data[key][sub_key] = values
+        
+        # Remove keys with empty lists
+        filtered_data = {key: value for key, value in aggregated_data.items() if value}
+        
+        return filtered_data
 
     def validate_data(self, data):
-        errors = {}
+        """
+        Validate data and categorize errors and warnings into separate dictionaries.
+        """
+        errors = {
+            'species_data': {},
+            'experiment_data': {},
+            'gene_data': {},
+            'biomass_gene_association_data': {}
+        }
         warnings = {
-        'species_data': [],
-        'experiment_data': [],
-        'gene_data': [],
-        'biomass_gene_association_data': []
+            'species_data': {},
+            'experiment_data': {},
+            'gene_data': {},
+            'biomass_gene_association_data': {}
         }
 
         # Extract specific data for validation
@@ -72,19 +103,25 @@ class DataSubmissionForm(forms.Form):
         species_data = data.get('species_data', [])
         experiment_data = data.get('experiment_data', [])
 
+        def add_errors_and_warnings(validation_results, error_dict, warning_dict):
+            for key, value in validation_results[0].items():
+                if key not in error_dict:
+                    error_dict[key] = []
+                error_dict[key].append(value)
+            for key, value in validation_results[1].items():
+                if key not in warning_dict:
+                    warning_dict[key] = []
+                warning_dict[key].append(value)
+
         # Validate species_data
         for record in species_data:
             is_valid, field_errors, field_warnings = validate_model_data(record, Species)
-            if not is_valid:
-                errors['species_data'] = field_errors
-            warnings['species_data'].extend(field_warnings.values())
+            add_errors_and_warnings((field_errors, field_warnings), errors['species_data'], warnings['species_data'])
 
         # Validate experiment_data
         for record in experiment_data:
             is_valid, field_errors, field_warnings = validate_model_data(record, Experiment)
-            if not is_valid:
-                errors['experiment_data'] = field_errors
-            warnings['experiment_data'].extend(field_warnings.values())
+            add_errors_and_warnings((field_errors, field_warnings), errors['experiment_data'], warnings['experiment_data'])
 
         # Validate Gene data
         for record in gene_data:
@@ -95,9 +132,7 @@ class DataSubmissionForm(forms.Form):
                 'species': record.get('gene_species'),
             }
             is_valid, field_errors, field_warnings = validate_model_data(gene_data_for_validation, Gene)
-            if not is_valid:
-                errors['gene_data'] = field_errors
-            warnings['gene_data'].extend(field_warnings.values())
+            add_errors_and_warnings((field_errors, field_warnings), errors['gene_data'], warnings['gene_data'])
 
         # Validate BiomassGeneExperimentAssoc data
         for record in gene_data:
@@ -113,21 +148,58 @@ class DataSubmissionForm(forms.Form):
                 'experiment': record.get('experiment'),
             }
             is_valid, field_errors, field_warnings = validate_model_data(assoc_data_for_validation, BiomassGeneExperimentAssoc)
-            if not is_valid:
-                errors['biomass_gene_association_data'] = field_errors
-            warnings['biomass_gene_association_data'].extend(field_warnings.values())
-        
+            add_errors_and_warnings((field_errors, field_warnings), errors['biomass_gene_association_data'], warnings['biomass_gene_association_data'])
+
+        # Deduplicate errors and warnings
+        errors = DataSubmissionForm.process_warnings_or_errors(errors)
+        warnings = DataSubmissionForm.process_warnings_or_errors(warnings)
+
+        print(errors)
         print(warnings)
 
-        for key in warnings:
-            warnings[key] = list(set(warnings[key]))
-        
-        filtered_warnings = {}
-        for key, value in warnings.items():
-            if value:
-                filtered_warnings[key] = value
+        # Check and remove errors if related data exists
+        if errors and errors['biomass_gene_association_data']:
+            print(errors['biomass_gene_association_data'])
+            for field_name in ['experiment_species', 'gene', 'experiment']:
+                if field_name in errors['biomass_gene_association_data']:
+                    field_errors = errors['biomass_gene_association_data'].get(field_name, [])
+                    if field_errors:
+                        # Extract the list of errors for the field
+                        field_errors_list = field_errors
 
-        warnings = filtered_warnings
+                        # Extract the list of valid values from related data
+                        if field_name == 'experiment_species':
+                            valid_values = [record.get('scientific_name') for record in species_data if record.get('scientific_name')] + \
+                                        [record.get('common_name') for record in species_data if record.get('common_name')] + \
+                                        [record.get('species_code') for record in species_data if record.get('species_code')]
+                        elif field_name == 'gene':
+                            valid_values = [record.get('gene_name') for record in gene_data if record.get('gene_name')] + \
+                                        [record.get('gene_id') for record in gene_data if record.get('gene_id')]
+                        elif field_name == 'experiment':
+                            valid_values = [record.get('experiment_name') for record in experiment_data if record.get('experiment_name')]
+                        else:
+                            valid_values = []
+                        
+                        print(valid_values)
+
+                        print(errors)
+
+                        # Filter out errors that are valid based on the related data
+                        new_field_errors = [error for error in field_errors_list if error.split(': ')[-1].strip().strip('"') not in valid_values]
+
+                        # Update the error dictionary with the filtered errors
+                        errors['biomass_gene_association_data'][field_name] = new_field_errors
+
+                        print(errors)
+
+            # Collect keys to be removed
+            keys_to_remove = [key for key in errors if all(not errors[key][sub_key] for sub_key in errors[key])]
+
+            # Remove collected keys
+            for key in keys_to_remove:
+                del errors[key]
+
+        print(errors)
 
         return errors, warnings
 

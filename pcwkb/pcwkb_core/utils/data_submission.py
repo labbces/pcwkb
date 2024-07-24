@@ -27,8 +27,6 @@ def validate_model_data(data, model_class):
         if pd.isna(field_value):
             field_value = None
 
-        #print(data, model_class, field, field_value, field_name)  # Debugging output
-
         # Skip ManyToOneRel fields (reverse relationships)
         if isinstance(field, ManyToOneRel):
             continue
@@ -66,11 +64,8 @@ def validate_model_data(data, model_class):
         # ForeignKey fields
         if isinstance(field, ForeignKey):
             if field_value is not None:
-                print("FK")
                 related_model = field.related_model
-                print(related_model)
                 if field_name == 'plant_cell_wall_component':
-                    print("chebi")
                     if not related_model.objects.filter(chebi__chebi_id=field_value).exists() or related_model.objects.filter(cellwallcomp_name=field_value).exists():
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}' 
                 elif field_name == 'gene':
@@ -106,8 +101,6 @@ def validate_model_data(data, model_class):
                     if field_name == 'plant_component':
                         for item in field_value:
                             if item.startswith('PO:'):
-                                print(related_model)
-                                print(item)
                                 if not related_model.objects.filter(po__po_id=item).exists() and not PlantOntologyTerm.objects.filter(po_id=item):
                                     errors[field_name] = f'Invalid PO term reference in {item}. Field Value: {field_value}'
                             else:
