@@ -39,7 +39,15 @@ Note that we changed the default Sphinx builder to use the Markdown parser. This
 extensions = ["myst_parser"]
 ```
 
-### falar como rodar o site
+## Running the Server
+
+To run the server and access the web page, navigate to the `pcwkb/pcwkb` folder in your terminal and execute the following command:
+
+```bash
+python manage.py runserver
+```
+
+This will start the Django development server. You can then open your web browser and go to http://127.0.0.1:8000/pcwkb_core to access the web page
 
 # Reseach and Development Team
  
