@@ -54,7 +54,7 @@ You can find the generated documentation in the `docs/build/html` directory.
 
 ## Running the Server
 
-To run the server and access the web page, navigate to the `pcwkb/pcwkb` folder in your terminal and execute the following command:
+After following the steps to set up the environment and build the documentation, you can run the server and access the web page. Navigate to the `pcwkb/pcwkb` folder in your terminal and execute the following command:
 
 ```bash
 python manage.py runserver
