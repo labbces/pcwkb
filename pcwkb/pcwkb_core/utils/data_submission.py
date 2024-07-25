@@ -3,6 +3,7 @@ from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_
 from pcwkb_core.models.ontologies.experiment_related.eco import ECOTerm
 from pcwkb_core.models.ontologies.plant_related.peco import PECOTerm
 from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
+from pcwkb_core.models.ontologies.plant_related.to import TOTerm
 from pcwkb_core.models.biomass.cellwall_component import CellWallComponent
 from pcwkb_core.models.biomass.plant_component import PlantComponent
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
@@ -20,10 +21,10 @@ def validate_model_data(data, model_class):
     # Get model fields
     model_fields = {field.name: field for field in model_class._meta.get_fields()}
 
-    for field_name, field in model_fields.items():
-        
+    for field_name, field in model_fields.items():       
         
         field_value = data.get(field_name)
+        print(field, field_name,field_value)
         if pd.isna(field_value):
             field_value = None
 
@@ -66,24 +67,27 @@ def validate_model_data(data, model_class):
             if field_value is not None:
                 related_model = field.related_model
                 if field_name == 'plant_cell_wall_component':
-                    if not related_model.objects.filter(chebi__chebi_id=field_value).exists() or related_model.objects.filter(cellwallcomp_name=field_value).exists():
+                    if not related_model.objects.filter(chebi__chebi_id=field_value).exists() or \
+                        related_model.objects.filter(cellwallcomp_name=field_value).exists():
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}' 
                 elif field_name == 'gene':
                     if not related_model.objects.filter(gene_name=field_value).exists() or related_model.objects.filter(gene_id=field_value).exists():
-                        warnings[field_name] = f'We will consider "{field_value}" as a new gene in the database'
+                        warnings[field_name] = f'Considering "{field_value}" as a new gene in the database'
                 elif field_name == 'plant_trait':
-                    if not related_model.objects.filter(name=field_value).exists():
+                    if not related_model.objects.filter(name=field_value).exists() or related_model.objects.filter(to__to_id=field_value).exists() or \
+                        TOTerm.objects.filter(to_id=field_value):
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}' 
                 elif field_name == 'species':
                     if not related_model.objects.filter(scientific_name=field_value).exists():
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}'
                 elif field_name == 'experiment_species':
                     if not related_model.objects.filter(scientific_name=field_value).exists():
+                        warnings[field_name] = f'Considering "{field_value}" a new species that does not have a corresponding record.'
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}'
                 elif field_name == 'literature':
                     if field_value.startswith('10'):
                         if not related_model.objects.filter(doi=field_value).exists():
-                            warnings[field_name] = f'We will consider "{field_value}" a new DOI that does not have a corresponding record.'
+                            warnings[field_name] = f'Considering "{field_value}" a new DOI that does not have a corresponding record.'
                     else:
                         errors[field_name] = f'Invalid DOI reference for {field_name}. DOI should start with "10". Field Value: {field_value}'
                 else:
@@ -95,7 +99,8 @@ def validate_model_data(data, model_class):
             if field_value is not None:
                 field_value=field_value.split(", ")
                 if not isinstance(field_value, list):
-                    errors[field_name] = f'Invalid format for {field_name} field. Expected a list. Your data should be like "ECO:0001050, ECO:0007045, Klason method"'
+                    errors[field_name] = f'Invalid format for {field_name} field. Expected a list. \
+                                            Your data should be like "ECO:0001050, ECO:0007045, Klason method"'
                 else:
                     related_model = field.related_model
                     if field_name == 'plant_component':
@@ -113,7 +118,8 @@ def validate_model_data(data, model_class):
                                     errors[field_name] = f'Invalid ECO term reference in {item}. Field Value: {field_value}'
                             else:
                                 if not related_model.objects.filter(experiment_name=item).exists():
-                                    warnings[field_name] = f'We will consider "{item}" a new experiment name that does not have a corresponding ECO term.'
+                                    warnings[field_name] = f'Considering "{item}" a new experiment name that does not have a corresponding ECO term.'
+                                    errors[field_name] = f'Invalid reference for {field_name}. Field Value: {item}'
                     else:
                         for item in field_value:
                             if not related_model.objects.filter(pk=item).exists():

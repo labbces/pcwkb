@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from pcwkb_core.forms.data_submission.data_submission import DataSubmissionForm, ExperimentForm
@@ -42,10 +43,12 @@ def data_submission_view(request):
             # Handle warnings
             if warnings:
                 for field, field_warnings in warnings.items():
-
                     for field_name, warnings_list in field_warnings.items():
+                        messages_list=[]
                         for warnings in warnings_list:
-                            messages.warning(request, f"Validation warnings in {field} sheet:\n{warnings}")
+                            messages_list.append(warnings)
+                        messages_list="<br>".join(messages_list)
+                        messages.warning(request, mark_safe(f"Validation warnings in <b>{field}</b> sheet <b>{field_name} column</b>:<br>{messages_list}"))
 
             # Handle errors
             invalid_species_error = False
@@ -55,10 +58,12 @@ def data_submission_view(request):
                     if "experiment_species" in field_errors:
                         invalid_species_error = True
 
-
                     for field_name, error_list in field_errors.items():
+                        messages_list=[]
                         for error in error_list:
-                            messages.error(request, f"Validation errors in {field} sheet:\n{error}")
+                            messages_list.append(error)
+                        messages_list="<br>".join(messages_list)
+                        messages.error(request, mark_safe(f"Validation errors in <b>{field}</b> sheet <b>{field_name} column</b>:<br><b>{messages_list}</b>"))
                 
                 if invalid_species_error:
                     messages.error(request, "Invalid reference for species. Please complete the species_data sheet or submit a new species using the form.")

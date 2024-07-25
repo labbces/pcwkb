@@ -1,6 +1,5 @@
 from django import forms
 import pandas as pd
-import json
 
 from pcwkb_core.models.functional_annotation.experimental.experiment import Experiment
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
@@ -12,6 +11,41 @@ from pcwkb_core.utils.data_submission import validate_model_data
 class DataSubmissionForm(forms.Form):
     title = forms.CharField(max_length=50)
     input_file = forms.FileField()
+    type_of_data = forms.ChoiceField(
+        choices=[
+            ('species_data', 'Species Data'),
+            ('experiment_data', 'Experiment Data'),
+            ('biomass_gene_association_data', 'Biomass Gene Association Data')
+        ],        required=True,
+        widget=forms.RadioSelect
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        type_of_data = cleaned_data.get('type_of_data')
+        uploaded_file = cleaned_data.get('input_file')
+
+        if not uploaded_file:
+            raise forms.ValidationError("Input file is required.")
+        
+        # Ensure `type_of_data` is present and valid
+        if not type_of_data:
+            raise forms.ValidationError("Type of data is required.")
+
+        # Validation logic specific to type_of_data
+        if type_of_data not in ['species_data', 'experiment_data', 'biomass_gene_association_data']:
+            raise forms.ValidationError(f"Invalid type of data: {type_of_data}")
+        
+        #Validate data sheet:
+        # Check if the sheet has non-empty rows based on the type_of_data
+        df_dict = pd.read_excel(uploaded_file, sheet_name=None)
+        for sheet in df_dict:
+            if type_of_data == sheet and df_dict[sheet].empty:
+                raise forms.ValidationError(f"The sheet {sheet} is empty or only contains empty rows. Please ensure that it has non-empty data.")
+
+
+        return cleaned_data
+
 
     def clean_input_file(self):
         """
@@ -28,7 +62,7 @@ class DataSubmissionForm(forms.Form):
             df_dict = pd.read_excel(uploaded_file, sheet_name=None)
         except Exception as e:
             raise forms.ValidationError(f'Error loading the .xlsx file: {str(e)}')
-
+        
         # Define required sheets and columns
         required_sheets = ['biomass_gene_association_data', 'experiment_data', 'species_data']
         required_columns = {
@@ -36,6 +70,12 @@ class DataSubmissionForm(forms.Form):
             'experiment_data': ['experiment_name', 'experiment_category', 'description', 'peco_term', 'eco_term', 'literature'],
             'species_data': ['species_code', 'taxid', 'scientific_name', 'common_name', 'family', 'clade', 'photosystem']
         }
+        row_limit=50
+
+        # Check if at least one required sheet has non-empty data
+        non_empty_sheets = [sheet for sheet in required_sheets if not df_dict.get(sheet, pd.DataFrame()).empty]
+        if not non_empty_sheets:
+            raise forms.ValidationError("All required sheets are empty. Please ensure that at least one sheet contains data.")
 
         # Check if all required sheets are present
         for sheet in required_sheets:
@@ -48,10 +88,20 @@ class DataSubmissionForm(forms.Form):
                 missing_columns = [col for col in columns if col not in df_dict[sheet].columns]
                 if missing_columns:
                     raise forms.ValidationError(f"Missing columns in {sheet}: {', '.join(missing_columns)}")
-        
+                
+                # Check if the sheet exceeds the row limit
+                if len(df_dict[sheet]) > row_limit:
+                    raise forms.ValidationError(f"The sheet {sheet} exceeds the row limit of {row_limit} rows. Please reduce the number of rows.")
+                
+               
         return uploaded_file
 
+
     def process_file(self):
+        """
+        Process the uploaded file and returns a dict
+        """
+
         uploaded_file = self.cleaned_data['input_file']
         data = {}
         
@@ -113,53 +163,55 @@ class DataSubmissionForm(forms.Form):
                     warning_dict[key] = []
                 warning_dict[key].append(value)
 
-        # Validate species_data
-        for record in species_data:
-            is_valid, field_errors, field_warnings = validate_model_data(record, Species)
-            add_errors_and_warnings((field_errors, field_warnings), errors['species_data'], warnings['species_data'])
+        # Validate data based on selected choice
+        validation_choice = self.cleaned_data.get('type_of_data')
 
-        # Validate experiment_data
-        for record in experiment_data:
-            is_valid, field_errors, field_warnings = validate_model_data(record, Experiment)
-            add_errors_and_warnings((field_errors, field_warnings), errors['experiment_data'], warnings['experiment_data'])
+        if validation_choice in ['species_data', 'biomass_gene_association_data']:
+            # Validate species_data
+            for record in species_data:
+                is_valid, field_errors, field_warnings = validate_model_data(record, Species)
+                add_errors_and_warnings((field_errors, field_warnings), errors['species_data'], warnings['species_data'])
 
-        # Validate Gene data
-        for record in gene_data:
-            gene_data_for_validation = {
-                'gene_name': record.get('gene_name'),
-                'gene_id': record.get('gene_id'),
-                'description': record.get('gene_description'),
-                'species': record.get('gene_species'),
-            }
-            is_valid, field_errors, field_warnings = validate_model_data(gene_data_for_validation, Gene)
-            add_errors_and_warnings((field_errors, field_warnings), errors['gene_data'], warnings['gene_data'])
+        if validation_choice in ['experiment_data', 'biomass_gene_association_data']:
+            # Validate experiment_data
+            for record in experiment_data:
+                is_valid, field_errors, field_warnings = validate_model_data(record, Experiment)
+                add_errors_and_warnings((field_errors, field_warnings), errors['experiment_data'], warnings['experiment_data'])
 
-        # Validate BiomassGeneExperimentAssoc data
-        for record in gene_data:
-            assoc_data_for_validation = {
-                'experiment_species': record.get('experiment_species'),
-                'gene': record.get('gene_name') or record.get('gene_id'),
-                'gene_expression': record.get('gene_genetic_condition'),
-                'effect_on_plant_cell_wall_component': record.get('effect_on_plant_cell_wall_component'),
-                'plant_cell_wall_component': record.get('plant_cell_wall_component'),
-                'literature': record.get('literature'),
-                'plant_component': record.get('plant_component'),
-                'plant_trait': record.get('plant_trait'),
-                'experiment': record.get('experiment'),
-            }
-            is_valid, field_errors, field_warnings = validate_model_data(assoc_data_for_validation, BiomassGeneExperimentAssoc)
-            add_errors_and_warnings((field_errors, field_warnings), errors['biomass_gene_association_data'], warnings['biomass_gene_association_data'])
+        if validation_choice in ['biomass_gene_association_data']:
+            # Validate Gene data
+            for record in gene_data:
+                gene_data_for_validation = {
+                    'gene_name': record.get('gene_name'),
+                    'gene_id': record.get('gene_id'),
+                    'description': record.get('gene_description'),
+                    'species': record.get('gene_species'),
+                }
+                is_valid, field_errors, field_warnings = validate_model_data(gene_data_for_validation, Gene)
+                add_errors_and_warnings((field_errors, field_warnings), errors['gene_data'], warnings['gene_data'])
+
+            # Validate BiomassGeneExperimentAssoc data
+            for record in gene_data:
+                assoc_data_for_validation = {
+                    'experiment_species': record.get('experiment_species'),
+                    'gene': record.get('gene_name') or record.get('gene_id'),
+                    'gene_expression': record.get('gene_genetic_condition'),
+                    'effect_on_plant_cell_wall_component': record.get('effect_on_plant_cell_wall_component'),
+                    'plant_cell_wall_component': record.get('plant_cell_wall_component'),
+                    'literature': record.get('literature'),
+                    'plant_component': record.get('plant_component'),
+                    'plant_trait': record.get('plant_trait'),
+                    'experiment': record.get('experiment'),
+                }
+                is_valid, field_errors, field_warnings = validate_model_data(assoc_data_for_validation, BiomassGeneExperimentAssoc)
+                add_errors_and_warnings((field_errors, field_warnings), errors['biomass_gene_association_data'], warnings['biomass_gene_association_data'])
 
         # Deduplicate errors and warnings
         errors = DataSubmissionForm.process_warnings_or_errors(errors)
         warnings = DataSubmissionForm.process_warnings_or_errors(warnings)
 
-        print(errors)
-        print(warnings)
-
         # Check and remove errors if related data exists
         if errors and errors['biomass_gene_association_data']:
-            print(errors['biomass_gene_association_data'])
             for field_name in ['experiment_species', 'gene', 'experiment']:
                 if field_name in errors['biomass_gene_association_data']:
                     field_errors = errors['biomass_gene_association_data'].get(field_name, [])
@@ -180,26 +232,25 @@ class DataSubmissionForm(forms.Form):
                         else:
                             valid_values = []
                         
-                        print(valid_values)
-
-                        print(errors)
 
                         # Filter out errors that are valid based on the related data
                         new_field_errors = [error for error in field_errors_list if error.split(': ')[-1].strip().strip('"') not in valid_values]
 
                         # Update the error dictionary with the filtered errors
                         errors['biomass_gene_association_data'][field_name] = new_field_errors
-
-                        print(errors)
-
+            
             # Collect keys to be removed
             keys_to_remove = [key for key in errors if all(not errors[key][sub_key] for sub_key in errors[key])]
+            sub_keys_to_remove = [sub_key for key in errors for sub_key in errors[key] if not errors[key][sub_key]]
 
             # Remove collected keys
             for key in keys_to_remove:
                 del errors[key]
-
-        print(errors)
+            for sub_key in sub_keys_to_remove:
+                for key in errors:
+                    del errors[key][sub_key]
+        
+        print(errors, warnings, validation_choice)
 
         return errors, warnings
 

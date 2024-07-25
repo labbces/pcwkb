@@ -9,10 +9,10 @@ def cellwallcomponent(request):
     context={"cellwallcomponents":{}}
 
     for info in BiomassGeneExperimentAssoc.objects.all():
-        cellwallcomp_name = info.cellwall_component.cellwallcomp_name
+        cellwallcomp_name = info.plant_cell_wall_component.cellwallcomp_name
         context["cellwallcomponents"][cellwallcomp_name] = {
-            "description": info.cellwall_component.description,
-            "chebi_id": info.cellwall_component.chebi.chebi_id
+            "description": info.plant_cell_wall_component.description,
+            "chebi_id": info.plant_cell_wall_component.chebi.chebi_id
         }
 
     return render(request, 'cellwallcomponents.html',  context)

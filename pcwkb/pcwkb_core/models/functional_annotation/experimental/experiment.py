@@ -14,12 +14,12 @@ class Experiment(models.Model):
     the experiment. 2
     """
     experiment_name = models.CharField(max_length=50)
-    experiment_category = models.CharField('Category of the experiment', max_length=50)
-    description = models.TextField(null=True, blank=True)
+    experiment_category = models.CharField('Category of the experiment', max_length=50, null=True, blank=True)
+    description = models.TextField('Experiment description')
 
     peco_term = models.ForeignKey(PECOTerm, on_delete=models.CASCADE, null=True, blank=True)
     eco_term = models.ForeignKey(ECOTerm, on_delete=models.CASCADE, null=True, blank=True)
-    literature = models.ForeignKey(Literature, on_delete=models.CASCADE, null=False, blank=False)
+    literature = models.ForeignKey(Literature, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.experiment_name

@@ -9,14 +9,14 @@ from pcwkb_core.models.literature.literature import Literature
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
 class BiomassGeneExperimentAssoc(models.Model):
-    experiment_species = models.ForeignKey(Species, on_delete=models.CASCADE, null=True, blank=True)
+    experiment_species = models.ForeignKey(Species, on_delete=models.CASCADE)
     plant_component = models.ManyToManyField(PlantComponent, blank=True)
     plant_cell_wall_component = models.ForeignKey(CellWallComponent, on_delete=models.CASCADE)
     experiment = models.ManyToManyField(Experiment)
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
     gene = models.ForeignKey(Gene, on_delete=models.CASCADE)
     plant_trait = models.ForeignKey(PlantTrait, on_delete=models.CASCADE, null=True, blank=True)
-    gene_expression = models.CharField("Gene expression",max_length=100, null=True, blank=True)
+    gene_expression = models.CharField("Gene expression",max_length=100)
     effect_on_plant_cell_wall_component = models.CharField("Effect on plant", max_length=100)
 
     def __str__(self):
