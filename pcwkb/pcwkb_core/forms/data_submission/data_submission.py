@@ -41,8 +41,9 @@ class DataSubmissionForm(forms.Form):
         df_dict = pd.read_excel(uploaded_file, sheet_name=None)
         for sheet in df_dict:
             if type_of_data == sheet and df_dict[sheet].empty:
+                print("empty")
+                print(f"The sheet {sheet} is empty or only contains empty rows. Please ensure that it has non-empty data.")
                 raise forms.ValidationError(f"The sheet {sheet} is empty or only contains empty rows. Please ensure that it has non-empty data.")
-
 
         return cleaned_data
 

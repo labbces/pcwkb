@@ -1,41 +1,72 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
+<div class="container mt-4">
+    <h2>Data Submission</h2>
+    <p class="text-muted">Please make sure that your data sheets have at most 50 rows</p>
 
-{% load static %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-<title>Data Submission</title>
+        <div class="form-group mb-3">
+            <label class="form-label" for="{{ form.title.id_for_label }}">Title</label>
+            {% render_field form.title class="form-control" %}
+            {% if form.title.errors %}
+                <div class="text-danger">
+                    {% for error in form.title.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
 
-<h2>Data Submission</h2>
+        <div class="form-group mb-3">
+            <label class="form-label" for="{{ form.input_file.id_for_label }}">Input File</label>
+            {% render_field form.input_file class="form-control" %}
+            {% if form.input_file.errors %}
+                <div class="text-danger">
+                    {% for error in form.input_file.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.non_field_errors %}
+                <div class="text-danger">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
 
-<h3>Please make sure that your data sheets has at most 50 rows</h3>
+        <div class="form-group mb-3">
+            <label class="form-label" for="{{ form.type_of_data.id_for_label }}">Type of Data</label>
+            <div>
+            {% render_field form.type_of_data class="form-check form-check-inline"%}
+            </div>
+            {% if form.type_of_data.errors %}
+                <div class="text-danger">
+                    {% for error in form.type_of_data.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" class="btn btn-success">
-</form>
+        <input type="submit" value="Submit" class="btn btn-success mt-3">
+    </form>
 
-{% if invalid_species_error %}
-<div id="species-error-box" class="alert alert-warning mt-3">
-    <p>Invalid reference for species. Please complete the species_data sheet or submit a new species using the form.</p>
-    <button id="complete-species-data" class="btn btn-primary">Complete species_data sheet</button>
-    <button id="submit-new-species" class="btn btn-secondary">Submit new species</button>
+    {% if invalid_species_error %}
+    <div id="species-error-box" class="alert alert-warning mt-3">
+        <p>Invalid reference for species. Please complete the species_data sheet or submit a new species using the form.</p>
+        <button id="complete-species-data" class="btn btn-primary">Complete species_data sheet</button>
+        <button id="submit-new-species" class="btn btn-secondary">Submit new species</button>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Select all elements with the class 'errorlist'
-        var errorLists = document.querySelectorAll('.errorlist');
-        console.log(errorLists)
-    
-        // Loop through each element and set the background color to red
-        errorLists.forEach(function(errorList) {
-            errorList.style.backgroundColor = '#f1aeb5';
-        });
-    });
-
     document.getElementById('complete-species-data').addEventListener('click', function() {
         alert('Please complete the species_data sheet as per the given instructions.');
         window.location.href = "{% url 'data_submission' %}";
@@ -45,5 +76,4 @@
         window.location.href = "{% url 'species_submission' %}";
     });
 </script>
-
 {% endblock %}

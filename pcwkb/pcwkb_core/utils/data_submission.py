@@ -127,6 +127,15 @@ def validate_model_data(data, model_class):
 
     return not bool(errors), errors, warnings
 
+def get_or_create_literature(doi):
+    try:
+        # Try to retrieve the literature by DOI
+        literature = Literature.objects.get(doi=doi)
+    except Literature.DoesNotExist:
+        # If not found, create the literature using get_lit_info
+        literature = Literature.get_lit_info(doi)
+    return literature
+
 def get_or_create_gene(gene_data):
     try:
         # Try to retrieve the gene by gene_id
@@ -149,20 +158,34 @@ def get_or_create_gene(gene_data):
 
 
 def get_or_create_experiment(exp_data):
-    literature = Literature.objects.get(doi=exp_data.get('literature'))
+    literature = get_or_create_literature(exp_data.get('literature'))
+    print(exp_data.get('peco_term'))
+
+    peco_term = None
+    eco_term = None
+
+    if exp_data.get('peco_term'):
+        peco_term = PECOTerm.objects.get(peco_id=exp_data.get('peco_term'))
+    
+    if exp_data.get('eco_term'):
+        eco_term = ECOTerm.objects.get(eco_id=exp_data.get('eco_term'))
+    
+    print(exp_data.get('experiment_name'))
+
     experiment, created = Experiment.objects.get_or_create(
         experiment_name=exp_data.get('experiment_name'),
         defaults={
             'experiment_category': exp_data.get('experiment_category'),
             'description': exp_data.get('description'),
-            'peco_term': PECOTerm.objects.get(peco_id=exp_data.get('peco_term')),
-            'eco_term': ECOTerm.objects.get(eco_id=exp_data.get('eco_term')),
+            'peco_term': peco_term,
+            'eco_term': eco_term,
             'literature': literature,
         }
     )
     return experiment
 
 def get_or_create_species(species_data):
+    print(species_data)
     species, created = Species.objects.get_or_create(
         scientific_name=species_data.get('scientific_name'),
         defaults={
@@ -178,8 +201,9 @@ def get_or_create_species(species_data):
 
 @transaction.atomic
 def create_biomass_gene_experiment_assoc(data):
-    for record in data['Biomass_gene_association_data']:
-        species = get_or_create_species({'scientific_name': record.get('species')})
+    for record in data['biomass_gene_association_data']:
+        literature = get_or_create_literature(record.get('literature'))
+        species = get_or_create_species({'scientific_name': record.get('experiment_species')})
         gene = get_or_create_gene(record)
         experiment = get_or_create_experiment({'experiment_name': record.get('experiment'), 'literature': record.get('literature')})
 
@@ -188,7 +212,7 @@ def create_biomass_gene_experiment_assoc(data):
             gene=gene,
             gene_expression=record.get('gene_expression'),
             effect_on_plant_cell_wall_component=record.get('effect_on_plant_cell_wall_component'),
-            literature=Literature.objects.get(doi=record.get('literature')),
+            literature=literature,
             experiment=experiment,
         )
     return

@@ -6,7 +6,7 @@ from pcwkb_core.forms.data_submission.data_submission import DataSubmissionForm,
 from pcwkb_core.models.temporary_data.data_submission import DataSubmission
 from django.contrib.auth.decorators import login_required
 import json
-
+from django.db import transaction, DatabaseError
 
 '''def index(request):
     return render(request, 'forms/data_submission.html')
@@ -72,14 +72,20 @@ def data_submission_view(request):
                 return render(request, 'forms/data_submission.html', {'form': form})
 
             # Save valid data if there are no errors
-            DataSubmission.objects.create(
-                title=form.cleaned_data['title'],
-                json_data=data,
-                user=request.user,
-                reviewed=False
-            )
-            messages.success(request, f"Data submitted successfully by {request.user}!")
-            return redirect('data_submission')
+            try:
+                with transaction.atomic():
+                    DataSubmission.objects.using('temporary_data').create(
+                        title=form.cleaned_data['title'],
+                        json_data=json.dumps(data),
+                        data_type=form.cleaned_data['type_of_data'],
+                        user=request.user,
+                        reviewed=False
+                    )
+                messages.success(request, f"Data submitted successfully by {request.user}!")
+                return redirect('data_submission')
+            except DatabaseError as e:
+                messages.error(request, "An error occurred while saving the data submission. Please try again.")
+                return render(request, 'forms/data_submission.html', {'form': form})
     else:
         form = DataSubmissionForm()
     
