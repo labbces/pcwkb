@@ -2,6 +2,10 @@ from django.contrib import admin
 from .models.temporary_data.data_submission import DataSubmission
 from .utils.data_submission import create_biomass_gene_experiment_assoc
 import json
+from rolepermissions.roles import assign_role
+
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 
 from .models.taxonomy.ncbi_taxonomy import Species
 from .models.molecular_components.genetic.genes import Gene
@@ -71,9 +75,22 @@ def approve_submissions(modeladmin, request, queryset):
             submission.reviewed = True
             submission.save()
 
+@admin.action(description='Assign Editor role to selected users')
+def assign_editor_role(modeladmin, request, queryset):
+    for user in queryset:
+        assign_role(user, 'colaborador')
+        user.save()
+        
+
 class DataSubmissionAdmin(admin.ModelAdmin):
     list_display = ('title', 'user', 'reviewed', 'created_at')
     actions = [approve_submissions]
+
+class UserAdmin(DefaultUserAdmin):
+    actions = [assign_editor_role]
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 
 admin.site.register(DataSubmission, DataSubmissionAdmin)
 admin.site.register(Species, SpeciesAdmin)
