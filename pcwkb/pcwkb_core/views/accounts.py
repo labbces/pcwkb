@@ -1,20 +1,32 @@
-from django.shortcuts import render
-from django.http.response import HttpResponse
-from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from pcwkb_core.forms.user_forms import CustomUserCreationForm
+from django.db import transaction
 
 def registration(request):
-    if request.method=="GET":
-        return render (request, 'registration/registration.html')
-    else:
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        
-        user = User.objects.filter(username=username).first()
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                # Save user to the default database
+                user = form.save()
 
-        if user:
-           return HttpResponse("Username already exists")
-        
-        user = User.objects.create_user(username=username, email=email, password=password)
-        user.save()
-        return HttpResponse("User register succeeded: "+username)
+                # Save user to the temporary_data database
+                user.save(using='temporary_data')
+
+            login(request, user)  # Log in the user after registration
+            messages.success(request, "User registered successfully.")
+            return redirect('index')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = CustomUserCreationForm()
+
+    return render(request, 'registration/registration.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    return render (request, 'registration/profile.html')

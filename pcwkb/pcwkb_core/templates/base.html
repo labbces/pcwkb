@@ -63,16 +63,20 @@
           <li class="nav-item"><a class="nav-link text-white btn btn-success" href="{% url 'registration' %}">Register</a></li>
           <li class="nav-item"><a class="nav-link text-white btn btn-success" href="{% url 'login' %}">Login</a></li>
           {% else %}
-          <li class="nav-item dropdown">
-            <button class="btn btn-success dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Profile
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="/pcwkb_core/experiment_form">Submit data</a></li>
-              <li><a class="dropdown-item" href="/pcwkb_core/data_submission">Submit data in batch</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-            </ul>
+          <li class="nav-item">
+            <div class="btn-group">
+              <button type="button" class="btn btn-light"><a href="/pcwkb_core/accounts/profile">  {{user.username}} {% for group in user.groups.all %} ({{ group.name }}) {% endfor %}</a></button>
+              <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="visually-hidden">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/pcwkb_core/experiment_form">Submit data</a></li>
+                <li><a class="dropdown-item" href="/pcwkb_core/data_submission">Submit data in batch</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <% if 
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+              </ul>
+          </div>
           {% endif %}
         </ul>
       </div>

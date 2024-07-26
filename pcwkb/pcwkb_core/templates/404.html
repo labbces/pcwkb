@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static%}
+
+{% block content %}
+
+<div class="container d-flex py-2">
+    <div class="p-5 text-column text-center d-flex align-items-center rounded-start-5 w-75 pcwkb-bg-color">
+      <h1>Sorry, this page does not exists!</h1>
+    </div>
+    <div class="w-50 p-5 justify-content-center image-column rounded-end-5 w-25" style="background-color: #88b993;">
+      <img src="{% static 'img/pcwkb.jpg' %}" alt="Plant Cell Wall KnowledgeBase" class="img-fluid object-fit-scale rounded-5">
+    </div>
+  </div>
+
+{% endblock %}

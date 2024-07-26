@@ -67,32 +67,55 @@ class LitAdmin(admin.ModelAdmin):
 #Approve and process selected submissions
 @admin.action(description='Approve and process selected submissions')
 def approve_submissions(modeladmin, request, queryset):
-    for submission in queryset:
+    for submission in queryset.using('temporary_data'):
         if not submission.reviewed:
             data = json.loads(submission.json_data)
             print(data)
             create_biomass_gene_experiment_assoc(data)
             submission.reviewed = True
-            submission.save()
+            submission.save(using='temporary_data')
 
 @admin.action(description='Assign Editor role to selected users')
 def assign_editor_role(modeladmin, request, queryset):
     for user in queryset:
         assign_role(user, 'colaborador')
         user.save()
-        
 
-class DataSubmissionAdmin(admin.ModelAdmin):
+class DataSubmissionTemporaryAdmin(admin.ModelAdmin):
     list_display = ('title', 'user', 'reviewed', 'created_at')
     actions = [approve_submissions]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.using('temporary_data')
+
+    def save_model(self, request, obj, form, change):
+        # Save the object to the temporary_data database
+        obj.save(using='temporary_data')
+
+    def delete_model(self, request, obj):
+        # Delete the object from the temporary_data database
+        obj.delete(using='temporary_data')
+
+    def save_related(self, request, form, formsets, change):
+        # Save related objects to the temporary_data database
+        form.save_m2m()
+        for formset in formsets:
+            for obj in formset.save(commit=False):
+                obj.save(using='temporary_data')
+            formset.save_m2m()
 
 class UserAdmin(DefaultUserAdmin):
     actions = [assign_editor_role]
 
+# Unregister the default User admin
 admin.site.unregister(User)
+# Register the custom User admin
 admin.site.register(User, UserAdmin)
 
-admin.site.register(DataSubmission, DataSubmissionAdmin)
+# Register the DataSubmissionTemporaryAdmin
+admin.site.register(DataSubmission, DataSubmissionTemporaryAdmin)
+
 admin.site.register(Species, SpeciesAdmin)
 admin.site.register(Gene)
 admin.site.register(Genome)

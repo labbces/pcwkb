@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-center">Profile of {{ user.username }}</h1>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h2 class="card-title">User Information</h2>
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Full Name:</strong> {{ user.get_full_name }}</p>
+                <!-- Add more user information here if needed -->
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card p-4">
+                <h2 class="card-title">Account Settings</h2>
+                <p class="btn btn-primary">Change Password</p>
+                <!-- Add links to other account-related pages here -->
+                <p class="btn btn-secondary">Update Profile Information</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

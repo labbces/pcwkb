@@ -1,18 +1,87 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
 
+<div class="container">
+    <h2 class="my-4">Register</h2>
     <form action="{% url 'registration' %}" method="POST">
         {% csrf_token %}
-        <input type="text" placeholder="Username..." name="username">
-        <br>
-        <br>
-        <input type="text" placeholder="Email..." name="email">
-        <br>
-        <br>
-        <input type="text" placeholder="Password..." name="password">
-        <br>
-        <input type="submit" value="Register">
-    </form> 
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.username.id_for_label }}">Username</label>
+            {% render_field form.username class="form-control" %}
+            {% if form.username.errors %}
+                <div class="text-danger">
+                    {% for error in form.username.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.first_name.id_for_label }}">First Name</label>
+            {% render_field form.first_name class="form-control" %}
+            {% if form.first_name.errors %}
+                <div class="text-danger">
+                    {% for error in form.first_name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.last_name.id_for_label }}">Last Name</label>
+            {% render_field form.last_name class="form-control" %}
+            {% if form.last_name.errors %}
+                <div class="text-danger">
+                    {% for error in form.last_name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
+            {% render_field form.email class="form-control" %}
+            {% if form.email.errors %}
+                <div class="text-danger">
+                    {% for error in form.email.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.password1.id_for_label }}">Password</label>
+            {% render_field form.password1 class="form-control" %}
+            {% if form.password1.errors %}
+                <div class="text-danger">
+                    {% for error in form.password1.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+            {% render_field form.password2 class="form-control" %}
+            {% if form.password2.errors %}
+                <div class="text-danger">
+                    {% for error in form.password2.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
 
 {% endblock %}
