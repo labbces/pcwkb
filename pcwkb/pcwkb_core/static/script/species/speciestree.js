@@ -77,7 +77,13 @@ function update(event, source) {
       if (d.data.name.match(/\((.*?)\)/)?.[1]) {
         d3.select(this).append("a")
           .attr("href", d => {
-            return "pcwkb_core/species_page/" + d.data.name.match(/\((.*?)\)/)?.[1];
+          const matches = d.data.name.match(/\((.*?)\)/g);
+          if (matches) {
+            const lastMatch = matches[matches.length - 1];
+            const textInside = lastMatch.slice(1, -1); 
+            return "pcwkb_core/species_page/" + textInside;
+          }
+          return "#";
           })
           .text(d => d.data.name)
           .attr("fill", "green")

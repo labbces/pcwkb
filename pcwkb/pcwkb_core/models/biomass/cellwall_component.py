@@ -16,16 +16,16 @@ class CellWallComponent(models.Model):
     def __str__(self):
         return self.cellwallcomp_name
     
-    def add_from_chebi(chebi_name):
+    def add_from_chebi(chebi_id):
         """ Gets CellWall Component information using the chebi identifier from the chebi model.
 
         Verify if chebi already exists in the CellWallComponents objects, if not, collect data and store in the fields from this class.
         """
 
         try:
-            chebi = ChEBI.objects.get(chebi_name=chebi_name)
+            chebi = ChEBI.objects.get(chebi_id=chebi_id)
         except:
-            return "chebi_name incorrect"
+            return "chebi_id incorrect"
         try:
             cellwall_component = CellWallComponent.objects.get(chebi=chebi)
             return cellwall_component

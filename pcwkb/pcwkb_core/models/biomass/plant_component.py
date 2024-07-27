@@ -15,16 +15,16 @@ class PlantComponent(models.Model):
     def __str__(self):
         return self.name
     
-    def add_from_po(po_name):
+    def add_from_po(po_id):
         """ Gets CellWall Component information using the po identifier from the po model.
 
         Verify if po already exists in the CellWallComponents objects, if not, collect data and store in the fields from this class.
         """
 
         try:
-            po = PlantOntologyTerm.objects.get(po_name=po_name)
+            po = PlantOntologyTerm.objects.get(po_id=po_id)
         except:
-            return "po_name incorrect"
+            return "po_id incorrect"
         try:
             plant_component = PlantComponent.objects.get(po=po)
             return f"Plant component already in the db {plant_component}"

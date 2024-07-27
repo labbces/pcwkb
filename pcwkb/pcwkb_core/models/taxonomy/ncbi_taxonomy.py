@@ -11,7 +11,7 @@ class Species(models.Model):
     """
     species_code = models.CharField(max_length=10, null=False, blank=True)
     taxid = models.IntegerField(null=True, blank=True)
-    scientific_name = models.CharField(max_length=50, null=False, blank=True)
+    scientific_name = models.CharField(max_length=100, null=False, blank=True)
     common_name = models.CharField(max_length=30, null=True, blank=True)
     family = models.CharField(max_length=30, null=False, blank=True)
     clade = models.CharField(max_length=50, null=False, blank=True)

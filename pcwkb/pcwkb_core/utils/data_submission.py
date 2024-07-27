@@ -6,6 +6,7 @@ from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
 from pcwkb_core.models.ontologies.plant_related.to import TOTerm
 from pcwkb_core.models.biomass.cellwall_component import CellWallComponent
 from pcwkb_core.models.biomass.plant_component import PlantComponent
+from pcwkb_core.models.biomass.plant_trait import PlantTrait
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.literature.literature import Literature
 from pcwkb_core.models.functional_annotation.experimental.experiment import Experiment
@@ -127,7 +128,18 @@ def validate_model_data(data, model_class):
 
     return not bool(errors), errors, warnings
 
+def replace_nan_with_none(data):
+    if isinstance(data, list):
+        return [replace_nan_with_none(item) for item in data]
+    elif isinstance(data, dict):
+        return {key: replace_nan_with_none(value) for key, value in data.items()}
+    elif isinstance(data, float) and (data != data):  # Check for NaN
+        return None
+    else:
+        return data
+
 def get_or_create_literature(doi):
+    print(doi)
     try:
         # Try to retrieve the literature by DOI
         literature = Literature.objects.get(doi=doi)
@@ -158,7 +170,11 @@ def get_or_create_gene(gene_data):
 
 
 def get_or_create_experiment(exp_data):
-    literature = get_or_create_literature(exp_data.get('literature'))
+    if exp_data.get('literature'):
+        literature = get_or_create_literature(exp_data.get('literature'))
+    else:
+        literature = None
+
     print(exp_data.get('peco_term'))
 
     peco_term = None
@@ -186,6 +202,7 @@ def get_or_create_experiment(exp_data):
 
 def get_or_create_species(species_data):
     print(species_data)
+    print("speciesdata---------------------------",species_data)
     species, created = Species.objects.get_or_create(
         scientific_name=species_data.get('scientific_name'),
         defaults={
@@ -199,20 +216,103 @@ def get_or_create_species(species_data):
     )
     return species
 
+def get_or_create_experiment_by_name_or_eco_id(experiment_name_or_id):
+    try:
+        experiment = Experiment.objects.get(experiment_name=experiment_name_or_id)
+    except Experiment.DoesNotExist:
+        try:
+            experiment = Experiment.objects.get(eco_term__eco_id=experiment_name_or_id)
+        except Experiment.DoesNotExist:
+            experiment = Experiment.add_from_eco(experiment_name_or_id)
+    return experiment
+
+def get_or_create_plant_component_by_name_or_po_id(plant_component_name_id):
+    try:
+        plant_component = PlantComponent.objects.get(name=plant_component_name_id)
+    except PlantComponent.DoesNotExist:
+        try:
+            plant_component = PlantComponent.objects.get(po__po_id=plant_component_name_id)
+        except PlantComponent.DoesNotExist:
+            plant_component = PlantComponent.add_from_po(plant_component_name_id)
+    return plant_component
+
+def get_or_create_plant_trait_by_name_or_to_id(plant_trait_name_id):
+    try:
+        plant_trait = PlantTrait.objects.get(name=plant_trait_name_id)
+    except PlantTrait.DoesNotExist:
+        try:
+            plant_trait = PlantTrait.objects.get(to__to_id=plant_trait_name_id)
+        except PlantTrait.DoesNotExist:
+            plant_trait = PlantTrait.add_from_to(plant_trait_name_id)
+    return plant_trait
+
+def get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_name_id):
+    try:
+        cell_wall_component = CellWallComponent.objects.get(cellwallcomp_name=cell_wall_component_name_id)
+    except CellWallComponent.DoesNotExist:
+        try:
+            cell_wall_component = CellWallComponent.objects.get(chebi__chebi_id=cell_wall_component_name_id)
+        except CellWallComponent.DoesNotExist:
+            cell_wall_component = CellWallComponent.add_from_chebi(cell_wall_component_name_id)
+    return cell_wall_component
+
 @transaction.atomic
 def create_biomass_gene_experiment_assoc(data):
+    data=replace_nan_with_none(data)
+    if data['species_data']:
+        for record in data['species_data']:
+            get_or_create_species(record)
+    if data['experiment_data']:
+        for record in data['experiment_data']:
+            get_or_create_experiment(record)
     for record in data['biomass_gene_association_data']:
+        print("RECORD da VEZ\n\n\n", record)  
         literature = get_or_create_literature(record.get('literature'))
-        species = get_or_create_species({'scientific_name': record.get('experiment_species')})
+        try:
+            species = Species.objects.get(scientific_name=record.get('experiment_species'))
+        except Species.DoesNotExist:
+            try:
+                species = Species.objects.get(common_name=record.get('experiment_species'))
+            except Species.DoesNotExist:
+                raise Species.DoesNotExist(f"Species with name '{record.get('experiment_species')}' not found.")
         gene = get_or_create_gene(record)
-        experiment = get_or_create_experiment({'experiment_name': record.get('experiment'), 'literature': record.get('literature')})
 
-        BiomassGeneExperimentAssoc.objects.create(
+        experiments = []
+        experiements_list = record.get('experiment').split(", ")
+        for experiment_name_id in experiements_list:
+            print(experiment_name_id)
+            experiment = get_or_create_experiment_by_name_or_eco_id(experiment_name_id)
+            experiments.append(experiment)
+
+        plant_components = []
+        plant_components_list = record.get('plant_component').split(", ")
+        print("adasdasdasd",plant_components_list)
+        for plant_component_name_id in plant_components_list:
+            plant_component = get_or_create_plant_component_by_name_or_po_id(plant_component_name_id)
+            print(plant_component_name_id,plant_component)
+            plant_components.append(plant_component)
+
+        plant_trait_name_id = record.get('plant_trait')
+        plant_trait = get_or_create_plant_trait_by_name_or_to_id(plant_trait_name_id)
+
+        cell_wall_component_name_id = record.get('plant_cell_wall_component')
+        cell_wall_component = get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_name_id)   
+
+        print(experiments, plant_components, plant_trait, cell_wall_component)
+        print(record)      
+
+        biomass_gene_experiment_assoc = BiomassGeneExperimentAssoc.objects.create(
             experiment_species=species,
             gene=gene,
-            gene_expression=record.get('gene_expression'),
+            gene_expression=record.get('gene_genetic_condition'),
             effect_on_plant_cell_wall_component=record.get('effect_on_plant_cell_wall_component'),
             literature=literature,
-            experiment=experiment,
+            plant_cell_wall_component=cell_wall_component,
+            plant_trait=plant_trait if record.get('plant_trait') else None,
         )
-    return
+
+        # Use .set() method for ManyToMany relationships (as Direct assignment to the forward side of a many-to-many set is prohibited.)
+        biomass_gene_experiment_assoc.experiment.set(experiments)
+        biomass_gene_experiment_assoc.plant_component.set(plant_components)
+
+    return biomass_gene_experiment_assoc
