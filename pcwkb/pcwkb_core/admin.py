@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models.temporary_data.data_submission import DataSubmission
-from .utils.data_submission import create_biomass_gene_experiment_assoc
+from .utils.data_submission import create_biomass_gene_experiment_assoc, get_or_create_species, get_or_create_experiment, replace_nan_with_none
 import json
 from rolepermissions.roles import assign_role
 
@@ -70,8 +70,20 @@ def approve_submissions(modeladmin, request, queryset):
     for submission in queryset.using('temporary_data'):
         if not submission.reviewed:
             data = json.loads(submission.json_data)
+            data=replace_nan_with_none(data)
             print(data)
-            create_biomass_gene_experiment_assoc(data)
+            
+            if submission.data_type == 'biomass_gene_association_data':
+                create_biomass_gene_experiment_assoc(data)
+
+            elif submission.data_type == 'species_data':
+                for record in data['species_data']:
+                    get_or_create_species(record)
+
+            elif submission.data_type == 'experiment_data':
+                for record in data['experiment_data']:
+                    get_or_create_experiment(record)
+
             submission.reviewed = True
             submission.save(using='temporary_data')
 

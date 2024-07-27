@@ -4,7 +4,7 @@
 <div class="container my-5">
     <div class="row mb-4">
         <div class="col-12">
-            <h1 class="text-center">Profile of {{ user.username }}</h1>
+            <h1 class="text-center">Welcome {{ user.first_name }}!</h1>
         </div>
     </div>
 
@@ -28,6 +28,107 @@
             </div>
         </div>
     </div>
+
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card p-4">
+                <h2 class="card-title">Submit data</h2>
+                <a href="/pcwkb_core/data_submission"> <button class="btn btn-success text-white" type="button">  Submit data  </button> </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card p-4">
+                <h2 class="card-title">Data Submissions</h2>
+                <ul>
+                    {% for submission in data_submissions %}
+                        <li>
+                            <a href="#" class="submission-title" data-json='{{ submission.json_data }}' data-title='{{ submission.title }}'>{{ submission.title }}</a> ({{ submission.created_at }}) - Reviewed: {{ submission.reviewed|yesno:"Yes,No" }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Placeholder for the JSON data tables -->
+    <div id="json-tables-container">
+        <!-- Tables will be dynamically added here -->
+    </div>
 </div>
 
+<!-- Include DataTables CSS and JS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Handle click event on submission titles
+    document.querySelectorAll(".submission-title").forEach(function(title) {
+        title.addEventListener("click", function(event) {
+            event.preventDefault();
+            var jsonData = JSON.parse(this.getAttribute("data-json"));
+            var baseTitle = this.getAttribute("data-title");
+            renderTables(jsonData, baseTitle);
+        });
+    });
+
+    function renderTables(jsonData, baseTitle) {
+        var tablesContainer = document.getElementById("json-tables-container");
+
+        // Clear previous tables
+        tablesContainer.innerHTML = '';
+
+        // Helper function to create and initialize a DataTable
+        function createDataTable(data, titleText) {
+            var tableContainer = document.createElement("div");
+            tableContainer.className = "row mb-3";
+            var tableInnerHtml = `
+                <div class="col-12">
+                    <div class="card p-4">
+                        <h2 class="card-title">${titleText}</h2>
+                        <div class="table-responsive">
+                            <table class="display" style="width:100%"></table>
+                    </div>
+                </div>`;
+            tableContainer.innerHTML = tableInnerHtml;
+
+            var table = tableContainer.querySelector("table");
+
+            // Extract columns
+            var columns = [];
+            if (data.length > 0) {
+                var firstRow = data[0];
+                for (var key in firstRow) {
+                    if (firstRow.hasOwnProperty(key)) {
+                        columns.push({ title: key, data: key });
+                    }
+                }
+            }
+
+            // Initialize DataTable
+            $(table).DataTable({
+                data: data,
+                columns: columns
+            });
+
+            // Append the table container to the main container
+            tablesContainer.appendChild(tableContainer);
+        }
+
+        // Render tables if data is not empty
+        if (jsonData.biomass_gene_association_data && jsonData.biomass_gene_association_data.length > 0) {
+            createDataTable(jsonData.biomass_gene_association_data, baseTitle + " Biomass Gene Association Data");
+        }
+        if (jsonData.experiment_data && jsonData.experiment_data.length > 0) {
+            createDataTable(jsonData.experiment_data, baseTitle + " Experiment Data");
+        }
+        if (jsonData.species_data && jsonData.species_data.length > 0) {
+            createDataTable(jsonData.species_data, baseTitle + " Species Data");
+        }
+    }
+});
+</script>
 {% endblock %}

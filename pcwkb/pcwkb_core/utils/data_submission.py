@@ -258,7 +258,6 @@ def get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_na
 
 @transaction.atomic
 def create_biomass_gene_experiment_assoc(data):
-    data=replace_nan_with_none(data)
     if data['species_data']:
         for record in data['species_data']:
             get_or_create_species(record)

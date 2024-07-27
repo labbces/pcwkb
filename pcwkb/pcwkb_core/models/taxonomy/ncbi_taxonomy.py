@@ -53,7 +53,7 @@ class Species(models.Model):
                 species_code = species_code + str(i)
                 db_species = Species.objects.filter(species_code=species_code).first()
             
-            common_name = 'batata' #tax_item['OtherNames']
+            common_name = tax_item['OtherNames']
             family = 'Poaceae'
             clade = 'mmonocot'
             photosystem = 'C4'

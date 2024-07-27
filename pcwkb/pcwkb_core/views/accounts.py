@@ -4,6 +4,9 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from pcwkb_core.forms.user_forms import CustomUserCreationForm
 from django.db import transaction
+from pcwkb_core.models.temporary_data.data_submission import DataSubmission
+from pcwkb_core.utils.data_submission import replace_nan_with_none
+import json
 
 def registration(request):
     if request.method == "POST":
@@ -29,4 +32,15 @@ def registration(request):
 
 @login_required
 def profile(request):
-    return render (request, 'registration/profile.html')
+    # Fetch DataSubmission instances for the logged-in user from the temporary_data database
+    data_submissions = DataSubmission.objects.using('temporary_data').filter(user=request.user)
+    for submission in data_submissions:
+        
+        json_data = json.loads(submission.json_data)
+        json_data = replace_nan_with_none(json_data)  # Replace NaN with None
+        submission.json_data = json.dumps(json_data) 
+    
+    return render(request, 'registration/profile.html', {
+        'user': request.user,
+        'data_submissions': data_submissions
+    })

@@ -44,6 +44,9 @@ class DataSubmissionForm(forms.Form):
                 print("empty")
                 print(f"The sheet {sheet} is empty or only contains empty rows. Please ensure that it has non-empty data.")
                 raise forms.ValidationError(f"The sheet {sheet} is empty or only contains empty rows. Please ensure that it has non-empty data.")
+            if type_of_data != sheet and not df_dict[sheet].empty and (sheet == 'species_data' or sheet == 'experiment_data' or sheet == 'biomass_gene_association_data'):
+                raise forms.ValidationError(f"The sheet {sheet} is not empty. Please select Biomass Gene Association Data if you have all the sheets filled. \
+                                            (Now it is not available to send experiment data and species data at the same time)")
 
         return cleaned_data
 

@@ -1,4 +1,7 @@
 from rolepermissions.roles import AbstractUserRole
 
-class Colaborador(AbstractUserRole):
-    available_permissions = {'editar_biomass_gene_assoc': True}
+class Revisor(AbstractUserRole):
+    available_permissions = {'editar_dados_submetidos': True, 'submeter_dados': True}
+
+class Colaborator(AbstractUserRole):
+    available_permissions = {'submeter_dados': True}

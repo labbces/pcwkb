@@ -14,7 +14,7 @@ class Experiment(models.Model):
     the experiment. 2
     """
     experiment_name = models.CharField(max_length=100)
-    experiment_category = models.CharField('Category of the experiment', max_length=50, null=True, blank=True)
+    experiment_category = models.CharField('Category of the experiment', max_length=50)
     description = models.TextField('Experiment description')
 
     peco_term = models.ForeignKey(PECOTerm, on_delete=models.CASCADE, null=True, blank=True)

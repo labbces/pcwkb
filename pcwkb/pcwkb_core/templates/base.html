@@ -55,9 +55,14 @@
               </ul>
           </li>
         </ul>
-        <form class="d-flex" method="get" action="{% url 'search_engine' %}">
-          <input class="btn btn-success" type="submit" value="Try out our search engine">
-        </form>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link text-white btn btn-success" href="{% url 'search_engine' %}">Try out our search engine</a>
+          </li>
+        </ul>
+
+
+
         <ul class="navbar-nav ml-auto">
           {% if not request.user.is_authenticated %}
           <li class="nav-item"><a class="nav-link text-white btn btn-success" href="{% url 'registration' %}">Register</a></li>
@@ -70,10 +75,8 @@
               <span class="visually-hidden">Toggle Dropdown</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="/pcwkb_core/experiment_form">Submit data</a></li>
-                <li><a class="dropdown-item" href="/pcwkb_core/data_submission">Submit data in batch</a></li>
+                <li><a class="dropdown-item" href="/pcwkb_core/data_submission">Submit data</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <% if 
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
               </ul>
           </div>
