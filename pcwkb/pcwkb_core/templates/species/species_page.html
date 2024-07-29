@@ -102,7 +102,6 @@
           <th scope="col">Gene Name</th>
           <th scope="col">Description</th>
           <th scope="col">Chemical entity</th>
-          <th scope="col">Effect on chemical entity</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -186,9 +185,7 @@
           const cell3 = row.insertCell(2);
           cell3.innerHTML = rowData.description;
           const cell4 = row.insertCell(3);
-          cell4.innerHTML = rowData.chebi;
-          const cell5 = row.insertCell(4);
-          cell5.innerHTML = rowData.effect_on_plant_cell_wall_component;
+          cell4.innerHTML = `<a href="/pcwkb_core/cellwallcomponent_page/${rowData.chebi}">${rowData.chebi}</a>`;
         });
 
         // Handle pagination links

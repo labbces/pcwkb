@@ -42,6 +42,7 @@
         <div class="col-12">
             <div class="card p-4">
                 <h2 class="card-title">Data Submissions</h2>
+                {%if data_submissions %}
                 <ul>
                     {% for submission in data_submissions %}
                         <li>
@@ -49,6 +50,11 @@
                         </li>
                     {% endfor %}
                 </ul>
+                {%else%}
+                <p>No data submitted</p>
+                <a href="/pcwkb_core/data_submission"> <button class="btn btn-success text-white" type="button">  Submit data  </button> </a>
+                {%endif%}
+
             </div>
         </div>
     </div>

@@ -27,8 +27,10 @@ def cell_wall_comp_page(request, cellwallcomp_name):
         assoc_list = {'species': [], 'genes': [], 'genes_count': 0, 'species_count': 0}
 
         for assoc in biomass_gene_assocs:
-            assoc_list['species'].append(assoc.gene.species)
-            assoc_list['genes'].append(assoc.gene)
+            if assoc.gene.species not in assoc_list['species']:
+                assoc_list['species'].append(assoc.gene.species)
+            if assoc.gene not in assoc_list['genes']:
+                assoc_list['genes'].append(assoc.gene)
 
         assoc_list['genes_count'] = len(assoc_list['genes'])
         assoc_list['species_count'] = len(assoc_list['species'])

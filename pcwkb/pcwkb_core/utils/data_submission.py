@@ -149,23 +149,30 @@ def get_or_create_literature(doi):
     return literature
 
 def get_or_create_gene(gene_data):
-    try:
-        # Try to retrieve the gene by gene_id
-        gene = Gene.objects.get(gene_id=gene_data.get('gene_id'))
-    except Gene.DoesNotExist:
+    gene = None
+    
+    if gene_data.get('gene_id'):
         try:
-            # If not found by gene_id, try to retrieve by gene_name
+            gene = Gene.objects.get(gene_id=gene_data.get('gene_id'))
+        except Gene.DoesNotExist:
+            pass
+
+    if gene is None and gene_data.get('gene_name'):
+        try:
             gene = Gene.objects.get(gene_name=gene_data.get('gene_name'))
         except Gene.DoesNotExist:
-            # If not found by either, create a new gene
-            species = Species.objects.get(scientific_name=gene_data.get('gene_species'))
-            gene = Gene.objects.create(
-                gene_id=gene_data.get('gene_id'),
-                gene_name=gene_data.get('gene_name'),
-                description=gene_data.get('gene_description'),
-                species=species,
-                species_variety=gene_data.get('species_variety')
-            )
+            pass
+
+    if gene is None:
+        species = Species.objects.get(scientific_name=gene_data.get('gene_species'))
+        gene = Gene.objects.create(
+            gene_id=gene_data.get('gene_id'),
+            gene_name=gene_data.get('gene_name'),
+            description=gene_data.get('gene_description'),
+            species=species,
+            species_variety=gene_data.get('species_variety')
+        )
+
     return gene
 
 
@@ -256,6 +263,36 @@ def get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_na
             cell_wall_component = CellWallComponent.add_from_chebi(cell_wall_component_name_id)
     return cell_wall_component
 
+def get_or_create_biomass_gene_experiment_assoc(record, species, gene, literature, cell_wall_component, plant_trait, experiments, plant_components):
+    # Define the unique fields to check for existence
+    unique_fields = {
+        'experiment_species': species,
+        'gene': gene,
+        'gene_expression': record.get('gene_genetic_condition'),
+        'effect_on_plant_cell_wall_component': record.get('effect_on_plant_cell_wall_component'),
+        'literature': literature,
+        'plant_cell_wall_component': cell_wall_component,
+        'plant_trait': plant_trait if record.get('plant_trait') else None
+    }
+    
+    # Check for an existing BiomassGeneExperimentAssoc object
+    try:
+        biomass_gene_experiment_assoc = BiomassGeneExperimentAssoc.objects.get(**unique_fields)
+        is_new = False
+    except BiomassGeneExperimentAssoc.DoesNotExist:
+        biomass_gene_experiment_assoc = BiomassGeneExperimentAssoc.objects.create(**unique_fields)
+        is_new = True
+    
+    # Update many-to-many relationships
+    biomass_gene_experiment_assoc.experiment.set(experiments)
+    biomass_gene_experiment_assoc.plant_component.set(plant_components)
+
+    # If you want to save the object in case any other fields were updated
+    if not is_new:
+        biomass_gene_experiment_assoc.save()
+    
+    return biomass_gene_experiment_assoc
+
 @transaction.atomic
 def create_biomass_gene_experiment_assoc(data):
     if data['species_data']:
@@ -295,23 +332,17 @@ def create_biomass_gene_experiment_assoc(data):
         plant_trait = get_or_create_plant_trait_by_name_or_to_id(plant_trait_name_id)
 
         cell_wall_component_name_id = record.get('plant_cell_wall_component')
-        cell_wall_component = get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_name_id)   
+        cell_wall_component = get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_name_id)         
 
-        print(experiments, plant_components, plant_trait, cell_wall_component)
-        print(record)      
-
-        biomass_gene_experiment_assoc = BiomassGeneExperimentAssoc.objects.create(
-            experiment_species=species,
+        biomass_gene_experiment_assoc = get_or_create_biomass_gene_experiment_assoc(
+            record=record,
+            species=species,
             gene=gene,
-            gene_expression=record.get('gene_genetic_condition'),
-            effect_on_plant_cell_wall_component=record.get('effect_on_plant_cell_wall_component'),
             literature=literature,
-            plant_cell_wall_component=cell_wall_component,
-            plant_trait=plant_trait if record.get('plant_trait') else None,
+            cell_wall_component=cell_wall_component,
+            plant_trait=plant_trait,
+            experiments=experiments,
+            plant_components=plant_components
         )
-
-        # Use .set() method for ManyToMany relationships (as Direct assignment to the forward side of a many-to-many set is prohibited.)
-        biomass_gene_experiment_assoc.experiment.set(experiments)
-        biomass_gene_experiment_assoc.plant_component.set(plant_components)
 
     return biomass_gene_experiment_assoc

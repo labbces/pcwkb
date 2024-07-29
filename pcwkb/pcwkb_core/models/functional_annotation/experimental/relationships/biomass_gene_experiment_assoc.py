@@ -20,7 +20,7 @@ class BiomassGeneExperimentAssoc(models.Model):
     effect_on_plant_cell_wall_component = models.CharField("Effect on plant", max_length=100)
 
     def __str__(self):
-        return f"{self.experiment}_{self.experiment_species}_{self.plant_trait or 'N/A'}"
+        return f"{self.experiment_species}_{self.plant_cell_wall_component}_{self.gene}_{self.literature}"
     
 #uma tabela para cada categoria
 #checar o tipo

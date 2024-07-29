@@ -92,7 +92,7 @@
         <h3 class="m-2 text-center"><strong>Biomass and gene associations</strong></h3>
         {% for assoc in assoc_list %}
         <div class="card border-success mb-3">
-            <h5 class="card-header"><strong>Chemical Entity Term: {{ assoc.cellwall_component.cellwallcomp_name }}</strong></h5>
+            <h5 class="card-header"><strong>Chemical Entity Term: {{ assoc.plant_cell_wall_component.cellwallcomp_name }}</strong></h5>
             <div class="card-body">
                 {%if assoc.plantcomponent%}
                   {% for pc in assoc.plantcomponent.all %}
