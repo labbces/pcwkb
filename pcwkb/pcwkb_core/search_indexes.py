@@ -5,12 +5,11 @@ from .models.biomass.cellwall_component import CellWallComponent
 
 class SpeciesIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    species_code = indexes.CharField(model_attr='species_code')
     scientific_name = indexes.CharField(model_attr='scientific_name')
     common_name = indexes.CharField(model_attr='common_name', null=True)
     family = indexes.CharField(model_attr='family')
     clade = indexes.CharField(model_attr='clade')
-    photosystem = indexes.CharField(model_attr='photosystem')
+    photosystem = indexes.CharField(model_attr='photosystem', null=True)
 
     # Autocomplete
     scientific_name_auto = indexes.EdgeNgramField(model_attr='scientific_name')

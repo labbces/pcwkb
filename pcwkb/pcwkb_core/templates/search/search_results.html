@@ -17,7 +17,7 @@
     <div class="bg-white container py-3 py-md-5 py-xl-8 rounded-2">
         <div class="rounded-5 p-4 pcwkb-bg-color">
 
-            <form id="search-form" role="search" class="d-flex">
+            <form id="search-form" method="GET" action="/pcwkb_core/search_engine/" role="search" class="d-flex">
                 {% csrf_token %}
                 <label for="search-input" class="visually-hidden">Search</label>
                 <input type="text" class="form-control flex-grow-1 me-2" id="search-input" placeholder="Search..." aria-label="Search">
@@ -59,7 +59,7 @@
             <h5 class="card-header">Genes</h5>
             <div id="gene-data"></div>
                 <script type="text/template" id="gene-card-template">
-                    <div class="card-body"><p class="card-text">Gene: <%= genes %></p></div>
+                    <div class="card-body"><p class="card-text"><%= genes %></p></div>
                 </script>
             <div class="card-footer"></div>
         </div>
@@ -69,7 +69,7 @@
             <h5 class="card-header">Cell Wall Components</h5>
             <div id="cellwallcomp-data"></div>
                 <script type="text/template" id="cellwallcomp-card-template">
-                    <div class="card-body"><p class="card-text">Cell Wall Component: <%= cellwallcomp %></p></div>
+                    <div class="card-body"><p class="card-text"><%= cellwallcomp %></p></div>
                 </script>
             <div class="card-footer"></div>
         </div>
@@ -78,7 +78,7 @@
             <h5 class="card-header">Experiments</h5>
             <div id="experiment-data"></div>
                 <script type="text/template" id="experiment-card-template">
-                    <div class="card-body"><p class="card-text">Experiment: <%= experiment %></p></div>
+                    <div class="card-body"><p class="card-text"><%= experiment %></p></div>
                 </script>
             <div class="card-footer"></div>
         </div>
