@@ -22,8 +22,7 @@ class BiomassGeneExperimentAssoc(models.Model):
     def __str__(self):
         return f"{self.experiment_species}_{self.plant_cell_wall_component}_{self.gene}_{self.literature}"
     
-#uma tabela para cada categoria
-#checar o tipo
+
 class RelationshipsExpressionExperiment(models.Model):
     expression = models.CharField(max_length=100)
     biomass_gene_experiment_assoc  = models.ForeignKey(BiomassGeneExperimentAssoc, on_delete=models.CASCADE)
