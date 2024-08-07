@@ -6,6 +6,7 @@ from pcwkb_core.forms.user_forms import CustomUserCreationForm
 from django.db import transaction
 from pcwkb_core.models.temporary_data.data_submission import DataSubmission
 from pcwkb_core.utils.data_submission import replace_nan_with_none
+from django.core.mail import send_mail
 import json
 
 def registration(request):
@@ -16,14 +17,24 @@ def registration(request):
                 # Save user to the default database
                 user = form.save()
 
+                user.is_active = False # Set user as inactive
+
                 # Save user to the temporary_data database
                 user.save(using='temporary_data')
-
-            login(request, user)  # Log in the user after registration
-            messages.success(request, "User registered successfully.")
+            
+                send_mail(
+                subject='New User Registration - Approval Required',
+                message=f'A new user "{user.username}" has registered and requires approval.',
+                from_email='pcwallkb@gmail.com',
+                recipient_list=['pcwallkb@gmail.com'],
+                fail_silently=False,
+            )
+                
+            messages.success(request, "Registration successful. Your account will be activated after approval.")
             return redirect('index')
         else:
             messages.error(request, "Please correct the errors below.")
+
     else:
         form = CustomUserCreationForm()
 
