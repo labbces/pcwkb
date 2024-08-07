@@ -16,37 +16,39 @@ def species_page(request, species_code):
     """
 
     try:
-        p = Species.objects.get(species_code=species_code).id
+        species = Species.objects.get(species_code=species_code)
     except Species.DoesNotExist:
         raise Http404("Species does not exist")
 
-    context = { 'species_code': species_code,
-                'species_id': '',
-                'scientific_name': '',
-                'photosystem': '',
-                'common_name': '',
-                'experimental_genes': {},
-                'genes_paginated': {},
-                'biomass_composition':{},
-                'biomass_composition_literature': '',
-                }
+    # Count genes and experiments associated with this species
+    gene_count = Gene.objects.filter(species_id=species.id).count()
+    experiment_count = BiomassGeneExperimentAssoc.objects.filter(gene__species=species).count()
 
-    context['species_id'] = Species.objects.get(species_code=species_code).id
-    context['genes_paginated'] = Gene.objects.filter(species_id=context['species_id'])
+    context = { 
+        'species_code': species_code,
+        'species_id': species.id,
+        'scientific_name': species.scientific_name,
+        'common_name': species.common_name,
+        'photosystem': species.photosystem,
+        'genes_count': gene_count,
+        'experiments_count': experiment_count,
+        'experimental_genes': {},
+        'genes_paginated': {},
+        'biomass_composition':{},
+        'biomass_composition_literature': '',
+    }
+
+    context['genes_paginated'] = Gene.objects.filter(species_id=species.id)
     
-    species_gene = Gene.objects.filter(species_id=context['species_id'])
+    species_gene = Gene.objects.filter(species_id=species.id)
     context['genes_biomass_assoc'] = BiomassGeneExperimentAssoc.objects.filter(gene__in=species_gene)
 
-    if BiomassComposition.objects.filter(species_id=context['species_id']).exists():
-        BiomassComponent_objects = BiomassComposition.objects.filter(species_id=context['species_id'])
+    if BiomassComposition.objects.filter(species_id=species.id).exists():
+        BiomassComponent_objects = BiomassComposition.objects.filter(species_id=species.id)
         for obj in BiomassComponent_objects:
             po_name = str(obj.po.po_name)
             context['biomass_composition'][po_name]=obj.components_percentage[0]
             context['biomass_composition_literature']=obj.literature
-
-    context['common_name'] = Species.objects.get(species_code=species_code).common_name
-    context['scientific_name'] = Species.objects.get(species_code=species_code).scientific_name
-    context['photosystem'] = Species.objects.get(species_code=species_code).photosystem
 
     name=context['scientific_name'].replace(" ","_")
 

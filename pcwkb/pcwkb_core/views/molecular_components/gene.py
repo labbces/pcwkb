@@ -54,6 +54,7 @@ def paginated_gene_experiment_list(request, species_id):
                 'gene_id': assoc.gene.gene_id,
                 'gene_name': assoc.gene.gene_name,
                 'chebi': assoc.plant_cell_wall_component.cellwallcomp_name if assoc.plant_cell_wall_component else None,
+                'experiment_count':BiomassGeneExperimentAssoc.objects.filter(gene=assoc.gene).count()
             })
 
     print(unique_associations)
