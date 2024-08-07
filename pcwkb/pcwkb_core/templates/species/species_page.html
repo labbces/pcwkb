@@ -61,17 +61,16 @@
   <div class="card border-success mx-4 rounded-4">
     <h5 class="card-header"> General information </h5>
     <div class="card-body">
-      <p class="card-text"> Genes count: </p>
-      <p class="card-text"> Experiments count: </p>
-      <p class="card-text"> </p>
+      <p class="card-text"> Genes count: {{ genes_count }} </p>
+      <p class="card-text"> Experiments count: {{ experiments_count }} </p>
     </div>
   </div>
 </div>
 
 {% if biomass_composition %}
 
-{{ biomass_composition|json_script:"biomass_composition" }}
-<div class="mx-auto w-75">
+  {{ biomass_composition|json_script:"biomass_composition" }}
+  <div class="mx-auto w-75">
   <script>
     const scientificName = '{{ scientific_name }}'
     const biomasscomp = JSON.parse(document.getElementById('biomass_composition').textContent);
@@ -102,6 +101,7 @@
           <th scope="col">Gene Name</th>
           <th scope="col">Description</th>
           <th scope="col">Chemical entity</th>
+          <th scope="col">Experiments</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -186,6 +186,8 @@
           cell3.innerHTML = rowData.description;
           const cell4 = row.insertCell(3);
           cell4.innerHTML = `<a href="/pcwkb_core/cellwallcomponent_page/${rowData.chebi}">${rowData.chebi}</a>`;
+          const cell5 = row.insertCell(4);
+          cell5.innerHTML = rowData.experiment_count;
         });
 
         // Handle pagination links
