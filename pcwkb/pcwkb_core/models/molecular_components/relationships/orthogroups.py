@@ -8,7 +8,8 @@ class OrthogroupMethods(models.Model):
     description = models.CharField('Description about the process', max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.tool}.v{self.version}.{self.run}_{self.personal_identifier}"
+        identifier = f"_{self.personal_identifier}" if self.personal_identifier else ""
+        return f"{self.tool}.v{self.version}.{self.run}{identifier}"
 
 class Orthogroup(models.Model):
     orthogroup_id = models.CharField(max_length=50)

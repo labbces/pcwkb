@@ -67,7 +67,7 @@ python ./pcwkb_core/utils/loaders/biomass_gene_experiment_assoc_loader.py ./pcwk
 ```
 
 
-## GFF# Parser
+## GFF Parser
 
 from pcwkb_core.utils.parsers.gff3parser import GFF3Parser
 
@@ -77,7 +77,7 @@ You can also use `compressed=True` to use compressed files
 
 Try:
 
-"GFF3Parser().add_from_gff3("/home/jnov/PlantCellWall/Phytozome/Tests/Bdi_minimal_gff3.gff3", 15, 2)"
+"GFF3Parser().add_from_gff3("./pcwkb_core/tests/data/molecular_components/Bdi_minimal_gff3.gff3", 15, 2)"
 
 
 ## Fasta parser
@@ -94,12 +94,24 @@ You can also use `compressed=True` to use compressed files
 
 Try:
 
-Fasta.add_from_fasta("/home/jnov/PlantCellWall/Phytozome/Tests/Bdi_minimal_transcripts.fa","transcript",source="Phytozome")
-Fasta.add_from_fasta("/home/jnov/PlantCellWall/Phytozome/Tests/Bdi_minimal_cds.fa","cds",source="Phytozome")
-Fasta.add_from_fasta("/home/jnov/PlantCellWall/Phytozome/Tests/Bdi_minimal_protein.fa","protein",source="Phytozome")
+Fasta.add_from_fasta("./pcwkb_core/tests/data/molecular_components/Bdi_minimal_transcripts.fa","transcript",source="Phytozome")
+Fasta.add_from_fasta("./pcwkb_core/tests/data/molecular_components/Bdi_minimal_cds.fa","cds",source="Phytozome")
+Fasta.add_from_fasta("./pcwkb_core/tests/data/molecular_components/Bdi_minimal_protein.fa","protein",source="Phytozome")
 
 
-# Ortogroup parser
+# Orthogroup parser
+
+First you need a orthogroup method:
+
+python manage.py loaddata pcwkb/pcwkb_core/tests/data/relationships/orthogroupmethods_test_data.json
+
+Then you can:
 
 from pcwkb_core.utils.parsers.orthofinder_parser import OrthogroupParser
-OrthogroupParser().add_from_orthofinder('Phytozome/Tests/Orthogroups.txt',1)
+OrthogroupParser.add_from_orthofinder("./pcwkb/pcwkb_core/tests/data/relationships/orthogroup_minimal.txt", 1)
+
+and then
+
+OrthogroupParser.import_trees_zipped_folder("./pcwkb_core/tests/data/molecular_components/Gene_Trees_Test.zip", 1)
+
+To add orthogroup trees to your data
