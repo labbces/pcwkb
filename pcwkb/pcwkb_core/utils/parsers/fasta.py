@@ -94,20 +94,19 @@ class Fasta:
         new_sequences = []
 
         # Loop over sequences, sorted by name (key here) and add to db
-        i=1
-        for header, sequence in sorted(fasta_data.sequences.items()):
+        for i, (header, sequence) in enumerate(sorted(fasta_data.sequences.items()), start=1):
 
             fa_id = ""
             transcript_name = ""
             protein_name = ""
-            gene_name = ""
+            gene_id = ""
 
             header = header.split()
             name=header[0]
             
             for str in header:
                 if str.startswith("locus"):
-                    _, gene_name = str.split("=")
+                    _, gene_id = str.split("=")
                 elif str.startswith("ID"):
                     _, fa_id = str.split("=")
                 elif str.startswith("transcript"):
@@ -115,8 +114,8 @@ class Fasta:
                 elif str.startswith("polypeptide"):
                     _, protein_name  = str.split("=")
             
-            if Gene.objects.filter(gene_name=gene_name).exists(): #could be a try and except to raise a gene obligatory request
-                gene = Gene.objects.get(gene_name=gene_name)
+            if Gene.objects.filter(gene_id=gene_id).exists(): #could be a try and except to raise a gene obligatory request
+                gene = Gene.objects.get(gene_id=gene_id)
             else:
                 gene = ""
 
@@ -198,7 +197,6 @@ class Fasta:
                     print("This protein fasta data is already in the database")
 
 
-            print(i)
-            i=i+1
+        print(f"{i} {seq_type} fasta data parsered to the database")
         
         return model_data

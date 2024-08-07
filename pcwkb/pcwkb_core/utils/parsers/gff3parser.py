@@ -1,4 +1,5 @@
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
+from pcwkb_core.models.molecular_components.genetic.genomes import Genome
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
 import gzip
@@ -30,18 +31,19 @@ class GFF3Parser:
         
         return genes
         
-        
 
     def parse_attributes(self, attribute_string):
         attributes = {}
         for attribute in attribute_string.split(';'):
             if attribute:
                 key, value = attribute.split('=')
+                if key == 'ID':
+                    value = value.split('.')[0]
                 attributes[key] = value
         return attributes
 
     @staticmethod
-    def add_from_gff3(gff3_file, species_id, compressed=False):
+    def add_from_gff3(gff3_file, species_id, genome_id, compressed=False):
         i = 1
         parser = GFF3Parser()
         genes = parser.parse(gff3_file, compressed)
@@ -53,15 +55,15 @@ class GFF3Parser:
 
             if not Gene.objects.filter(gene_name=gene['gene_name'],
                                        gene_id=gene['gene_id'],
-                                    original_db=gene['source'],
+                                    original_db_info=gene['source'],
                                     species=Species.objects.get(id=species_id),
-                                    source="gff3"
+                                    genome=Genome.objects.get(id=genome_id),
                                     ):
                 g = Gene.objects.create(gene_name=gene['gene_name'],
                                         gene_id=gene['gene_id'],
-                                    original_db=gene['source'],
+                                    original_db_info=gene['source'],
                                     species=Species.objects.get(id=species_id),
-                                    source="gff3"
+                                    genome=Genome.objects.get(id=genome_id),
                                     )
             else:
                 print("Já existe")

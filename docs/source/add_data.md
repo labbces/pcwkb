@@ -40,7 +40,7 @@ and then
 Parser.add_from_obo("<path_to_obo_file>",ont="<ontology_abbreviation>")
 ```
 
-You can also use `target_id=<ontology_id>` to parse only those ids that leads to a specific ontology id and `compressed=True` to use compressed files inseide `Parser.add_from_obo`.
+You can also use `target_id=<ontology_id>` to parse only those ids that leads to a specific ontology id and `compressed=True` to use compressed files inside `Parser.add_from_obo`.
 
 The <ontology_abbreviation> for each ontology used in this project is writeen inside `pcwkb_core/utils/parsers/obo_related.py`
 
@@ -66,12 +66,37 @@ And load the first biomass-gene-experiment association file:
 python ./pcwkb_core/utils/loaders/biomass_gene_experiment_assoc_loader.py ./pcwkb_core/tests/data/experiment/biomass_gene_experimen_assoc.json
 ```
 
+
+## GFF# Parser
+
+from pcwkb_core.utils.parsers.gff3parser import GFF3Parser
+
+GFF3Parser().add_from_gff3("<gff3_file>", <species_id>, <genome_id>)
+
+You can also use `compressed=True` to use compressed files
+
+Try:
+
+"GFF3Parser().add_from_gff3("/home/jnov/PlantCellWall/Phytozome/Tests/Bdi_minimal_gff3.gff3", 15, 2)"
+
+
 ## Fasta parser
+
+The correct order to input is transcript, cds and protein
 
 from pcwkb_core.utils.parsers.fasta import Fasta
 
-Fasta().add_from_fasta("/home/jnov/PlantCellWall/Phytozome/PhytozomeV13/Bdistachyon/v3.2/annotation/Bdistachyon_556_v3.2.transcript_primaryTranscriptOnly.fa","transcript",source="phytozomev13")
+Fasta.add_from_fasta("<fasta_file>", "<sequence_type>", source="<source>")
 
+The allowed sequence types are: protein, cds and transcript.
+
+You can also use `compressed=True` to use compressed files
+
+Try:
+
+Fasta.add_from_fasta("/home/jnov/PlantCellWall/Phytozome/Tests/Bdi_minimal_transcripts.fa","transcript",source="Phytozome")
+Fasta.add_from_fasta("/home/jnov/PlantCellWall/Phytozome/Tests/Bdi_minimal_cds.fa","cds",source="Phytozome")
+Fasta.add_from_fasta("/home/jnov/PlantCellWall/Phytozome/Tests/Bdi_minimal_protein.fa","protein",source="Phytozome")
 
 
 # Ortogroup parser
