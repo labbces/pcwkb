@@ -3,10 +3,11 @@ from .models.temporary_data.data_submission import DataSubmission
 from .utils.data_submission import create_biomass_gene_experiment_assoc, get_or_create_species, get_or_create_experiment, replace_nan_with_none
 import json
 from rolepermissions.roles import assign_role
+from rolepermissions.checkers import has_permission
 
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
-
+from .models.correctingmessages import CorrectionMessage
 from .models.taxonomy.ncbi_taxonomy import Species
 from .models.molecular_components.genetic.genes import Gene
 from .models.molecular_components.genetic.genomes import Genome
@@ -87,10 +88,17 @@ def approve_submissions(modeladmin, request, queryset):
             submission.reviewed = True
             submission.save(using='temporary_data')
 
-@admin.action(description='Assign Editor role to selected users')
-def assign_editor_role(modeladmin, request, queryset):
+@admin.action(description='Assign Collaborator role to selected users')
+def assign_collaborator_role(modeladmin, request, queryset):
     for user in queryset:
-        assign_role(user, 'colaborador')
+        assign_role(user, 'collaborator')
+        user.save()
+
+@admin.action(description='Assign Reviewer role to selected users')
+def assign_reviewer_role(modeladmin, request, queryset):
+    for user in queryset:
+        assign_role(user, 'reviewer')
+        user.is_staff = True
         user.save()
 
 class DataSubmissionTemporaryAdmin(admin.ModelAdmin):
@@ -100,6 +108,12 @@ class DataSubmissionTemporaryAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.using('temporary_data')
+
+    def has_module_permission(self, request):
+        return has_permission(request.user, 'edit_submitted_data')
+
+    def has_change_permission(self, request, obj=None):
+        return has_permission(request.user, 'edit_submitted_data')
 
     def save_model(self, request, obj, form, change):
         # Save the object to the temporary_data database
@@ -118,7 +132,7 @@ class DataSubmissionTemporaryAdmin(admin.ModelAdmin):
             formset.save_m2m()
 
 class UserAdmin(DefaultUserAdmin):
-    actions = [assign_editor_role]
+    actions = [assign_collaborator_role, assign_reviewer_role]
 
 # Unregister the default User admin
 admin.site.unregister(User)

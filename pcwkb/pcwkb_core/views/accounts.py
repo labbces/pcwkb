@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from pcwkb_core.forms.user_forms import CustomUserCreationForm
 from django.db import transaction
 from pcwkb_core.models.temporary_data.data_submission import DataSubmission
+from pcwkb_core.models.correctingmessages import CorrectionMessage
 from pcwkb_core.utils.data_submission import replace_nan_with_none
-from django.core.mail import send_mail
 import json
+from rolepermissions.checkers import has_role
 
 def registration(request):
     if request.method == "POST":
@@ -17,24 +18,14 @@ def registration(request):
                 # Save user to the default database
                 user = form.save()
 
-                user.is_active = False # Set user as inactive
-
                 # Save user to the temporary_data database
                 user.save(using='temporary_data')
-            
-                send_mail(
-                subject='New User Registration - Approval Required',
-                message=f'A new user "{user.username}" has registered and requires approval.',
-                from_email='pcwallkb@gmail.com',
-                recipient_list=['pcwallkb@gmail.com'],
-                fail_silently=False,
-            )
-                
-            messages.success(request, "Registration successful. Your account will be activated after approval.")
+
+            login(request, user)  # Log in the user after registration
+            messages.success(request, "User registered successfully.")
             return redirect('index')
         else:
             messages.error(request, "Please correct the errors below.")
-
     else:
         form = CustomUserCreationForm()
 
@@ -42,16 +33,69 @@ def registration(request):
 
 
 @login_required
+def handle_review_action(request, submission_id):
+    submission = DataSubmission.objects.using('temporary_data').get(id=submission_id)
+    
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        message_content = request.POST.get('reviewer_message', '')
+
+        if action == 'approve':
+            submission.reviewed = True
+            submission.save(using='temporary_data')
+            messages.success(request, 'Submission approved successfully.')
+
+        elif action == 'request_correction':
+            # Debugging information
+            print(f"Request user database: {request.user._state.db}")
+            print(f"Submission user: {submission.user._state.db}")
+
+            User = get_user_model()
+            reviewer = User.objects.using('default').get(pk=request.user.pk)
+            user = User.objects.using('default').get(pk=submission.user.pk) # Ensure the user is from the default database
+
+            # Debugging information
+            print(f"Reviewer database: {reviewer._state.db}")
+
+            CorrectionMessage.objects.using('default').create(
+                user=user,
+                title=f"Correction Request for {submission.title}",
+                content=message_content,
+                reviewer=reviewer
+            )
+
+            submission.reviewed = False
+            submission.save(using='temporary_data')
+            messages.success(request, 'Correction requested and message saved.')
+
+    return redirect('users-profile')
+
+
+@login_required
 def profile(request):
-    # Fetch DataSubmission instances for the logged-in user from the temporary_data database
+    is_collaborator = has_role(request.user, 'collaborator')
+    is_reviewer = has_role(request.user, 'reviewer')
+
     data_submissions = DataSubmission.objects.using('temporary_data').filter(user=request.user)
     for submission in data_submissions:
-        
         json_data = json.loads(submission.json_data)
-        json_data = replace_nan_with_none(json_data)  # Replace NaN with None
-        submission.json_data = json.dumps(json_data) 
+        json_data = replace_nan_with_none(json_data)
+        submission.json_data = json.dumps(json_data)
     
+    review_submissions = DataSubmission.objects.using('temporary_data').filter(reviewed=False)
+    for submission in review_submissions:
+        json_data = json.loads(submission.json_data)
+        json_data = replace_nan_with_none(json_data) 
+        submission.json_data = json.dumps(json_data)
+
+    user_messages = CorrectionMessage.objects.filter(user=request.user)
+
+
     return render(request, 'registration/profile.html', {
         'user': request.user,
-        'data_submissions': data_submissions
+        'user_messages': user_messages,
+        'data_submissions': data_submissions,
+        'review_submissions': review_submissions if is_reviewer else None,
+        'is_collaborator': is_collaborator,
+        'is_reviewer': is_reviewer,
     })

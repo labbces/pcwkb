@@ -7,6 +7,7 @@ from pcwkb_core.models.temporary_data.data_submission import DataSubmission
 from django.contrib.auth.decorators import login_required
 import json
 from django.db import transaction, DatabaseError
+from rolepermissions.decorators import has_permission_decorator
 
 '''def index(request):
     return render(request, 'forms/data_submission.html')
@@ -32,6 +33,7 @@ def get_data_file(request):
 """
 
 @login_required
+@has_permission_decorator('submit_data')
 def data_submission_view(request):
     if request.method == 'POST':
         form = DataSubmissionForm(request.POST, request.FILES)
@@ -109,3 +111,14 @@ def experiment_form_view(request):
         form = ExperimentForm()
 
     return render(request, 'forms/experiment_form.html', {'form': form})
+
+@login_required
+def approve_submission_DataSubmission(request, submission_id):
+    if not has_role(request.user, 'reviewer'):
+        return redirect('profile')  # Or return an error response
+
+    submission = get_object_or_404(DataSubmission, id=submission_id, reviewed=False)
+    submission.reviewed = True
+    submission.save(using='temporary_data')
+
+    return redirect('profile')

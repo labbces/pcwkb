@@ -38,4 +38,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/registration', accounts.registration, name='registration'),
     path('accounts/profile', accounts.profile, name='users-profile'),
+    path('approve_submission/<int:submission_id>/', data_submission.approve_submission_DataSubmission, name='approve_submission'),
+    path('handle_review_action/<int:submission_id>/', accounts.handle_review_action, name='handle_review_action'),
 ]

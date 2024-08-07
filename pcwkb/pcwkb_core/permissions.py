@@ -1,7 +1,7 @@
 from rolepermissions.roles import AbstractUserRole
 
-class Revisor(AbstractUserRole):
-    available_permissions = {'editar_dados_submetidos': True, 'submeter_dados': True}
+class Reviewer(AbstractUserRole):
+    available_permissions = {'edit_submitted_data': True, 'submit_data': True}
 
-class Colaborator(AbstractUserRole):
-    available_permissions = {'submeter_dados': True}
+class Collaborator(AbstractUserRole):
+    available_permissions = {'submit_data': True}
