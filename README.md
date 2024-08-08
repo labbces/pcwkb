@@ -62,6 +62,10 @@ python manage.py runserver
 
 This will start the Django development server. You can then open your web browser and go to http://127.0.0.1:8000/pcwkb_core to access the web page.
 
+
+
+If you encounter any issues while loading data or using the parsers, please refer to the project’s support resources or contact the development team for assistance.
+
 # Research and Development Team
  
  * João Vitor Leite Novoletti (IFSP, Piracicaba)
