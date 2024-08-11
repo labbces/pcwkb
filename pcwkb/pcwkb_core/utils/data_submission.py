@@ -52,6 +52,9 @@ def validate_model_data(data, model_class):
         elif isinstance(field, CharField):
             if field_value is not None and not isinstance(field_value, str):
                 errors[field_name] = 'Invalid string value. Field Value: {field_value}'
+            elif field_name == 'experiment_species':
+                if not related_model.objects.filter(scientific_name=field_value).exists():
+                    warnings[field_name] = f'Considering "{field_value}" a plant species or non-plant species that does not have a corresponding record.'
         elif isinstance(field, TextField):
             if field_value is not None and not isinstance(field_value, str):
                 errors[field_name] = 'Invalid text value. Field Value: {field_value}'
@@ -81,16 +84,35 @@ def validate_model_data(data, model_class):
                 elif field_name == 'species':
                     if not related_model.objects.filter(scientific_name=field_value).exists():
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}'
-                elif field_name == 'experiment_species':
-                    if not related_model.objects.filter(scientific_name=field_value).exists():
-                        warnings[field_name] = f'Considering "{field_value}" a new species that does not have a corresponding record.'
-                        errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}'
                 elif field_name == 'literature':
                     if field_value.startswith('10'):
                         if not related_model.objects.filter(doi=field_value).exists():
                             warnings[field_name] = f'Considering "{field_value}" a new DOI that does not have a corresponding record.'
                     else:
                         errors[field_name] = f'Invalid DOI reference for {field_name}. DOI should start with "10". Field Value: {field_value}'
+                elif field_name == 'gene_regulation':
+                    condition_dict = {
+                        'Upregulation': 'UPREG',
+                        'Downregulation': 'DOWNREG',
+                        'Knockout': 'KNOCKOUT',
+                        'Insertion': 'INSERTION',
+                        'Deletion': 'DELETION',
+                        'Point Mutation': 'POINT_MUTATION',
+                        'Substitution': 'SUBSTITUTION',
+                        'Frame Shift Mutation': 'FRAME_SHIFT',
+                        'Gene Amplification': 'GENE_AMPLIFICATION',
+                        'Gene Fusion': 'GENE_FUSION',
+                        'Translocation': 'TRANSLOCATION',
+                        'Duplication': 'DUPLICATION',
+                        'Epigenetic Modification': 'EPIGENETIC_MOD',
+                        'Overexpression': 'OVEREXPRESSION',
+                        'Gene Silencing': 'GENE_SILENCING',
+                        'Conditional Knockout': 'CONDITIONAL_KNOCKOUT',
+                        'Insertional Mutagenesis': 'INSERTIONAL_MUTAGENESIS',
+                        }
+                    field_value=condition_dict[field_value]
+                    if not related_model.objects.filter(condition_type=field_value):
+                        errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value} <br>'
                 else:
                     if not related_model.objects.filter(pk=field_value).exists():
                         errors[field_name] = f'Invalid reference for {field_name}.'
@@ -310,7 +332,7 @@ def create_biomass_gene_experiment_assoc(data):
             try:
                 species = Species.objects.get(common_name=record.get('experiment_species'))
             except Species.DoesNotExist:
-                raise Species.DoesNotExist(f"Species with name '{record.get('experiment_species')}' not found.")
+                print('Considering "{field_value}" a plant species or non-plant species that does not have a corresponding record.')
         gene = get_or_create_gene(record)
 
         experiments = []

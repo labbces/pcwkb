@@ -216,16 +216,16 @@ class DataSubmissionForm(forms.Form):
         warnings = DataSubmissionForm.process_warnings_or_errors(warnings)
 
         # Check and remove errors if related data exists
-        if errors and errors['biomass_gene_association_data']:
-            for field_name in ['experiment_species', 'gene', 'experiment']:
-                if field_name in errors['biomass_gene_association_data']:
-                    field_errors = errors['biomass_gene_association_data'].get(field_name, [])
+        if errors and (errors['biomass_gene_association_data'] or errors['gene_data']):
+            for field_name in ['experiment_species', 'gene', 'species', 'experiment']:
+               if field_name in errors['biomass_gene_association_data'] or field_name in errors['gene_data']:
+                    field_errors = errors['biomass_gene_association_data'].get(field_name, []) + errors['gene_data'].get(field_name, [])
                     if field_errors:
                         # Extract the list of errors for the field
                         field_errors_list = field_errors
 
                         # Extract the list of valid values from related data
-                        if field_name == 'experiment_species':
+                        if field_name == 'experiment_species' or field_name == 'species':
                             valid_values = [record.get('scientific_name') for record in species_data if record.get('scientific_name')] + \
                                         [record.get('common_name') for record in species_data if record.get('common_name')] + \
                                         [record.get('species_code') for record in species_data if record.get('species_code')]
@@ -236,13 +236,17 @@ class DataSubmissionForm(forms.Form):
                             valid_values = [record.get('experiment_name') for record in experiment_data if record.get('experiment_name')]
                         else:
                             valid_values = []
-                        
 
                         # Filter out errors that are valid based on the related data
                         new_field_errors = [error for error in field_errors_list if error.split(': ')[-1].strip().strip('"') not in valid_values]
 
-                        # Update the error dictionary with the filtered errors
-                        errors['biomass_gene_association_data'][field_name] = new_field_errors
+                        # Update the error dictionary with the filtered errors for 'gene_data'
+                        if field_name in errors['gene_data']:
+                            errors['gene_data'][field_name] = new_field_errors
+
+                        # Update the error dictionary with the filtered errors for 'biomass_gene_association_data'
+                        if field_name in errors['biomass_gene_association_data']:
+                            errors['biomass_gene_association_data'][field_name] = new_field_errors
             
             # Collect keys to be removed
             keys_to_remove = [key for key in errors if all(not errors[key][sub_key] for sub_key in errors[key])]
