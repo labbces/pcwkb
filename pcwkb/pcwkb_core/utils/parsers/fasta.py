@@ -1,6 +1,6 @@
 """
 Parser class for obo files (ontology structure files).
-Copied from Conekt source code (https://github.com/sepro/conekt)
+Copied and adapted Conekt source code (https://github.com/sepro/conekt)
 """
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species

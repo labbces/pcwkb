@@ -1,3 +1,7 @@
+"""
+Parser class for Orthogroup related files.
+"""
+
 from pcwkb_core.models.molecular_components.relationships.orthogroups import Orthogroup, OrthogroupMethods
 from pcwkb_core.models.molecular_components.relationships.protein_orthogroup import ProteinOrthogroup
 from pcwkb_core.models.molecular_components.genetic.proteins import Protein

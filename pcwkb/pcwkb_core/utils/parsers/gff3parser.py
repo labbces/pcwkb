@@ -1,3 +1,7 @@
+"""
+Parser class for GFF3 files.
+"""
+
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.molecular_components.genetic.genomes import Genome
 from pcwkb_core.models.molecular_components.genetic.genes import Gene

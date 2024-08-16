@@ -15,6 +15,7 @@ python manage.py loaddata pcwkb_core/tests/data/taxonomy/species.json
 python manage.py loaddata pcwkb_core/tests/data/literature/literature.json
 python manage.py loaddata pcwkb_core/tests/data/molecular_components/genome.json
 python manage.py loaddata pcwkb_core/tests/data/molecular_components/genes.json
+python manage.py loaddata pcwkb_core/tests/data/relationships/gene_regulation.json
 ```
 
 ## Django shell
@@ -125,7 +126,6 @@ After loading the orthogroup method, you can use the orthogroup parser to includ
 ```python
 from pcwkb_core.utils.parsers.orthofinder_parser import OrthogroupParser
 OrthogroupParser.add_from_orthofinder("<orthogroup_txt_file.txt>", <orthogroup_method>)
-
 ```
 
 Try it using:
@@ -133,7 +133,7 @@ Try it using:
 OrthogroupParser.add_from_orthofinder("./pcwkb/pcwkb_core/tests/data/relationships/orthogroup_minimal.txt", 1)
 ```
 
-Then you can add orthogroup trees files to each orthogroup as long as you have a zipped folder with orthogroup trees txt files inside it. The usage is as it follows:
+Then you can add orthogroup trees files to each orthogroup as long as you have a zipped folder with orthogroup trees .txt files inside it. The usage is as it follows:
 
 ```python
 OrthogroupParser.import_trees_zipped_folder("<orthogroup_tree_zipped_folder.txt>", <orthogroup_method>)
