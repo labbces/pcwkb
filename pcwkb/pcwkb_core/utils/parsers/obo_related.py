@@ -215,7 +215,6 @@ class Parser:
         else:
             raise ValueError("Unsupported ontology type. Only 'po', 'eco', 'peco', 'chebi', 'to', 'go' are supported.")
 
-        print(model.objects.all())
 
         if empty:
             model.objects.all().delete()

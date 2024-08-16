@@ -39,7 +39,6 @@ def validate_model_data(data, model_class):
 
         if (is_blank and field_value == '') or (is_null and field_value is None):
             continue  # Skip validation for this field if it's allowed to be blank or null
-        print(field, field_name,field_value)
 
         # If field is not allowed to be null/blank and value is None, it's an error
         if field_value is None and not (is_blank or is_null):
@@ -176,7 +175,6 @@ def strip_all_strings(data):
         return data
 
 def get_or_create_literature(doi):
-    print(doi)
     try:
         # Try to retrieve the literature by DOI
         literature = Literature.objects.get(doi=doi)
@@ -219,8 +217,6 @@ def get_or_create_experiment(exp_data):
     else:
         literature = None
 
-    print(exp_data.get('peco_term'))
-
     peco_term = None
     eco_term = None
 
@@ -230,7 +226,6 @@ def get_or_create_experiment(exp_data):
     if exp_data.get('eco_term'):
         eco_term = ECOTerm.objects.get(eco_id=exp_data.get('eco_term'))
     
-    print(exp_data.get('experiment_name'))
 
     experiment, created = Experiment.objects.get_or_create(
         experiment_name=exp_data.get('experiment_name'),
@@ -245,8 +240,6 @@ def get_or_create_experiment(exp_data):
     return experiment
 
 def get_or_create_species(species_data):
-    print(species_data)
-    print("speciesdata---------------------------",species_data)
     species, created = Species.objects.get_or_create(
         scientific_name=species_data.get('scientific_name'),
         defaults={
@@ -321,7 +314,6 @@ def get_gene_regulation_id(gene_regulation):
                         'insertional mutagenesis': 'INSERTIONAL_MUTAGENESIS',
                         }
     gene_regulation=condition_dict[gene_regulation.lower()]
-    print("OOOOOOOOOOi", gene_regulation)
     gene_regulation=GeneRegulation.objects.get(condition_type=gene_regulation)
 
     return gene_regulation
@@ -366,31 +358,20 @@ def create_biomass_gene_experiment_assoc(data):
         for record in data['experiment_data']:
             get_or_create_experiment(record)
     for record in data['biomass_gene_association_data']:
-        print("RECORD da VEZ\n\n\n", record)  
         literature = get_or_create_literature(record.get('literature'))
-        try:
-            species = Species.objects.get(scientific_name=record.get('experiment_species')).scientific_name
-        except Species.DoesNotExist:
-            try:
-                species = Species.objects.get(common_name=record.get('experiment_species')).scientific_name
-            except Species.DoesNotExist:
-                species=record.get('experiment_species')
-                print('Considering "{field_value}" a plant species or non-plant species that does not have a corresponding record.')
+        species=record.get('experiment_species')
         gene = get_or_create_gene(record)
 
         experiments = []
         experiements_list = record.get('experiment').split(", ")
         for experiment_name_id in experiements_list:
-            print(experiment_name_id)
             experiment = get_or_create_experiment_by_name_or_eco_id(experiment_name_id)
             experiments.append(experiment)
 
         plant_components = []
         plant_components_list = record.get('plant_component').split(", ")
-        print("adasdasdasd",plant_components_list)
         for plant_component_name_id in plant_components_list:
             plant_component = get_or_create_plant_component_by_name_or_po_id(plant_component_name_id)
-            print(plant_component_name_id,plant_component)
             plant_components.append(plant_component)
 
         plant_trait_name_id = record.get('plant_trait')

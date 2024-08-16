@@ -18,7 +18,6 @@ def paginated_gene_list(request, species_id):
         data = paginator.page(paginator.num_pages)
 
     serialized_data = list(data.object_list.values())
-    print(serialized_data)
 
     return JsonResponse({
         'data': serialized_data,
@@ -57,8 +56,6 @@ def paginated_gene_experiment_list(request, species_id):
                 'experiment_count':BiomassGeneExperimentAssoc.objects.filter(gene=assoc.gene).count()
             })
 
-    print(unique_associations)
-
     return JsonResponse({
         'data': unique_associations,
         'page': data.number,
@@ -78,9 +75,6 @@ def gene_page(request, gene_name):
             'description': obj.description,
             'orthogroup': ProteinOrthogroup.objects.get(protein=obj).orthogroup if ProteinOrthogroup.objects.filter(protein=obj).exists() else None
         }
-        print(proteins[protein])
-
-    print(gene.gene_name)
 
     assoc_objects = BiomassGeneExperimentAssoc.objects.filter(gene=gene)
     associations = list(assoc_objects) if assoc_objects.exists() else None
@@ -94,7 +88,5 @@ def gene_page(request, gene_name):
         'species': gene.species,
         'assoc_list': associations
     }
-    
-    print(context)
 
     return render(request, 'gene/gene_page.html', context)

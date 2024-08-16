@@ -86,8 +86,6 @@ class Fasta:
 
         # the correct order to input is transcript, cds and protein
         
-        print("filename:")
-        print(filename)
         fasta_data = Fasta()
         fasta_data.readfile(filename, compressed, verbose)
 
@@ -197,6 +195,6 @@ class Fasta:
                     print("This protein fasta data is already in the database")
 
 
-        print(f"{i} {seq_type} fasta data parsered to the database")
+        print(f"{i} {seq_type} fasta data parsed to the database")
         
         return model_data

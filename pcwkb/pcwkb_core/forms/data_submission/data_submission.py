@@ -41,11 +41,8 @@ class DataSubmissionForm(forms.Form):
         df_dict = pd.read_excel(uploaded_file, sheet_name=None)
         for sheet in df_dict:
             if type_of_data == sheet and df_dict[sheet].empty:
-                print("empty")
-                print(f"The sheet {sheet} is empty or only contains empty rows. Please ensure that it has non-empty data.")
                 raise forms.ValidationError(f"The sheet {sheet} is empty or only contains empty rows. Please ensure that it has non-empty data.")
             if type_of_data != sheet and type_of_data != 'biomass_gene_association_data' and not df_dict[sheet].empty and (sheet == 'species_data' or sheet == 'experiment_data'):
-                print(sheet)
                 raise forms.ValidationError(f"The sheet {sheet} is not empty. Please select Biomass Gene Association Data if you have all the sheets filled. \
                                             (Now it is not available to send experiment data and species data at the same time)")
 
@@ -258,8 +255,6 @@ class DataSubmissionForm(forms.Form):
             for sub_key in sub_keys_to_remove:
                 for key in errors:
                     del errors[key][sub_key]
-        
-        print(errors, warnings, validation_choice)
 
         return errors, warnings
 

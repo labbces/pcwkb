@@ -17,10 +17,6 @@ def search_pcwkb(request):
 
     search_results = SearchQuerySet().filter(text__exact=query).load_all()
 
-    print(query, search_results)
-    for result in search_results:
-        print("," , query, result.object)
-
     results = []
 
     if model == 'species':
@@ -91,11 +87,9 @@ def search_pcwkb(request):
 
     else:    
         for result in search_results:
-            print("resultados",result)
             result_data = {}  # Create a new dictionary for each result
 
             if hasattr(result.object, 'species_code'):
-                print(result)
                 url_species = f"pcwkb_core/species_page/{result.object.species_code}"
                 result_data['label'] = query
                 result_data['url_species'] = url_species
@@ -112,7 +106,6 @@ def search_pcwkb(request):
                 result_data['cellwallcomp'] = list(set(result_data['cellwallcomp']))
 
             elif hasattr(result.object, 'gene_name'):
-                print("gene?", result)
                 url_gene = f"pcwkb_core/gene_page/{result.object.gene_name}"
                 url_species = f"pcwkb_core/species_page/{result.object.species.species_code}"
                 result_data['label'] = query
@@ -146,7 +139,5 @@ def search_pcwkb(request):
                 result_data['species'] = list(set(result_data['species']))
 
             results.append(result_data)
-        
-        print(results)
 
     return JsonResponse({'results': results})

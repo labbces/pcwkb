@@ -34,9 +34,6 @@ def exp_page(request, experiment_name):
         assoc_list['genes_count']=len(assoc_list['genes'])
         assoc_list['apecies_count']=len(assoc_list['species'])
 
-        print(assoc_list['species'])
-
-
         context = {
             "experiment": experiment,
             "assoc_list": assoc_list,  

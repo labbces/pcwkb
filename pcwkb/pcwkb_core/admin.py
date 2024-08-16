@@ -73,7 +73,6 @@ def approve_submissions(modeladmin, request, queryset):
             data = json.loads(submission.json_data)
             data=replace_nan_with_none(data)
             data=strip_all_strings(data)
-            print(data)
             
             if submission.data_type == 'biomass_gene_association_data':
                 create_biomass_gene_experiment_assoc(data)

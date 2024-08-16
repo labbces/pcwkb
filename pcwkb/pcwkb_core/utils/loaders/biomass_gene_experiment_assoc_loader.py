@@ -25,7 +25,6 @@ from pcwkb_core.models.molecular_components.genetic.genes import Gene
 def get_id(model, **fields):
     for field, value in fields.items():
         if value is not None:
-            print(value, field)
             try:
                 return model.objects.get(**{field: value}).id
             except ObjectDoesNotExist:

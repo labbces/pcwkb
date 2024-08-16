@@ -11,6 +11,4 @@ def og_page(request, og_name):
      # Access the associated OrthogroupMethods using the ForeignKey relationship
     orthogroup_methods = orthogroup.og_method
 
-    print(orthogroup,proteins)
-
     return render(request, 'relationships/og_page.html', {'orthogroup': orthogroup, 'proteins': proteins, 'method':orthogroup_methods})

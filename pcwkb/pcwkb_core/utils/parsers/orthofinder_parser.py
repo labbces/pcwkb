@@ -28,7 +28,6 @@ class OrthogroupParser:
 
             self.orthogroups[og_id] = polypep_list
 
-        print(og_id, self.orthogroups[og_id])
         f.close()
 
     @staticmethod
@@ -50,34 +49,30 @@ class OrthogroupParser:
             else:
                 print(f"orthogroup_id: {og} with the method: {og_method} already exists")
                 
-            print(f"{i} orthogroup object  parsered to the database")
+            print(f"{i} orthogroup object  parsed to the database")
 
         for p in Protein.objects.all():
             for i, og in enumerate(sorted(og_data.orthogroups.keys()), start=1):
                 if p.protein_name in og_data.orthogroups[og]:
-                    print(p.protein_name, og)
                     if not ProteinOrthogroup.objects.filter(orthogroup=Orthogroup.objects.get(orthogroup_id=og), protein=p):
                         ProteinOrthogroup.objects.create(orthogroup=Orthogroup.objects.get(orthogroup_id=og),
                                                       protein=p
                                                       )
                     else:
-                        print(
-                            f"protein: {p} in orthogroup_id: {og} already exists")
+                        print(f"protein: {p} in orthogroup_id: {og} already exists")
                         
-                    print(f"{i} proteins object parsered to the database")
+                    print(f"{i} proteins object parsed to the database")
 
 #        for p in Protein.objects.all():
 #            for og in Orthogroup.objects.all():
 #                if p.protein_name in og_data.orthogroups[og.orthogroup_id]:
-#                    print(p.protein_name, og)
 #                    if not ProteinOrthogroup.objects.filter(orthogroup=og,protein=p):
 #                        ProteinOrthogroup.objects.create(orthogroup=og,
 #                                                      protein=p
 #                                                     )
 #                    else:
 #                        print(f"protein: {p} in orthogroup_id: {og} already exists")
-#                    print(i)
-#                    i=i+1
+
 
         return
 
@@ -89,7 +84,7 @@ class OrthogroupParser:
                 with zipfile.ZipFile(tree_data_folder, 'r') as zip_ref:
                     zip_ref.extractall(tmp_dir)
 
-                for file_name in os.listdir(tmp_dir):
+                for i, file_name in enumerate(os.listdir(tmp_dir)):
                     og_id = file_name.split("_")[0]
                     file_path = os.path.join(tmp_dir, file_name)
 
@@ -106,7 +101,7 @@ class OrthogroupParser:
                         og.tree = tree_data
                         og.save()
 
-                        print(count)
+                        print(f"{count} tree added to Orthogroup objects")
                         count=count+1
 
         except Exception as e:

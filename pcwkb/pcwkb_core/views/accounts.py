@@ -47,8 +47,6 @@ def handle_review_action(request, submission_id):
         if action == 'approve':
             submission.clean_json_data()
             data = json.loads(submission.json_data)
-
-            print(data)
             
             if submission.data_type == 'biomass_gene_association_data':
                 create_biomass_gene_experiment_assoc(data)

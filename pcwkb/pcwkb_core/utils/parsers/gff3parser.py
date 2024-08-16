@@ -29,7 +29,6 @@ class GFF3Parser:
                                     'source': fields[1]
                                     }
                         genes.append(gene_data)
-            print(genes)
 
         f.close()
         
@@ -51,12 +50,8 @@ class GFF3Parser:
         i = 1
         parser = GFF3Parser()
         genes = parser.parse(gff3_file, compressed)
-        for gene in genes:
+        for i, gene in enumerate(genes):
             print(i)
-#            print(Species.objects.get(id=species_id).scientific_name,
-#                  Species.objects.get(id=species_id).id)
-#            print(gene, species_id)
-
             if not Gene.objects.filter(gene_name=gene['gene_name'],
                                        gene_id=gene['gene_id'],
                                     original_db_info=gene['source'],
@@ -70,6 +65,6 @@ class GFF3Parser:
                                     genome=Genome.objects.get(id=genome_id),
                                     )
             else:
-                print("Já existe")
-            i=i+1
+                print("Gene object already exists")
+            print(f"{i} genes parsed")
         return g
