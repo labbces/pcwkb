@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models.temporary_data.data_submission import DataSubmission
-from .utils.data_submission import create_biomass_gene_experiment_assoc, get_or_create_species, get_or_create_experiment, replace_nan_with_none
+from .utils.data_submission import create_biomass_gene_experiment_assoc, get_or_create_species, get_or_create_experiment, replace_nan_with_none, strip_all_strings
 import json
 from rolepermissions.roles import assign_role
 from rolepermissions.checkers import has_permission
@@ -72,6 +72,7 @@ def approve_submissions(modeladmin, request, queryset):
         if not submission.reviewed:
             data = json.loads(submission.json_data)
             data=replace_nan_with_none(data)
+            data=strip_all_strings(data)
             print(data)
             
             if submission.data_type == 'biomass_gene_association_data':
@@ -88,10 +89,10 @@ def approve_submissions(modeladmin, request, queryset):
             submission.reviewed = True
             submission.save(using='temporary_data')
 
-@admin.action(description='Assign Collaborator role to selected users')
-def assign_collaborator_role(modeladmin, request, queryset):
+@admin.action(description='Assign Researcher role to selected users')
+def assign_researcher_role(modeladmin, request, queryset):
     for user in queryset:
-        assign_role(user, 'collaborator')
+        assign_role(user, 'researcher')
         user.save()
 
 @admin.action(description='Assign Reviewer role to selected users')
@@ -132,7 +133,7 @@ class DataSubmissionTemporaryAdmin(admin.ModelAdmin):
             formset.save_m2m()
 
 class UserAdmin(DefaultUserAdmin):
-    actions = [assign_collaborator_role, assign_reviewer_role]
+    actions = [assign_researcher_role, assign_reviewer_role]
 
 # Unregister the default User admin
 admin.site.unregister(User)

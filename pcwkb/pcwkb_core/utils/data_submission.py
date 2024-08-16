@@ -1,5 +1,5 @@
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
-from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc
+from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc, GeneRegulation
 from pcwkb_core.models.ontologies.experiment_related.eco import ECOTerm
 from pcwkb_core.models.ontologies.plant_related.peco import PECOTerm
 from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
@@ -25,7 +25,6 @@ def validate_model_data(data, model_class):
     for field_name, field in model_fields.items():       
         
         field_value = data.get(field_name)
-        print(field, field_name,field_value)
         if pd.isna(field_value):
             field_value = None
 
@@ -40,6 +39,7 @@ def validate_model_data(data, model_class):
 
         if (is_blank and field_value == '') or (is_null and field_value is None):
             continue  # Skip validation for this field if it's allowed to be blank or null
+        print(field, field_name,field_value)
 
         # If field is not allowed to be null/blank and value is None, it's an error
         if field_value is None and not (is_blank or is_null):
@@ -48,15 +48,18 @@ def validate_model_data(data, model_class):
         # Add specific validation for field types here, if needed
         if isinstance(field, IntegerField):
             if field_value is not None and not isinstance(field_value, int):
+                field_value=field_value.strip()
                 errors[field_name] = 'Invalid integer value. Field Value: {field_value}'
         elif isinstance(field, CharField):
             if field_value is not None and not isinstance(field_value, str):
+                field_value=field_value.strip()
                 errors[field_name] = 'Invalid string value. Field Value: {field_value}'
             elif field_name == 'experiment_species':
-                if not related_model.objects.filter(scientific_name=field_value).exists():
+                if not Species.objects.filter(scientific_name=field_value).exists():
                     warnings[field_name] = f'Considering "{field_value}" a plant species or non-plant species that does not have a corresponding record.'
         elif isinstance(field, TextField):
             if field_value is not None and not isinstance(field_value, str):
+                field_value=field_value.strip()
                 errors[field_name] = 'Invalid text value. Field Value: {field_value}'
         elif isinstance(field, JSONField):
             if field_value is not None:
@@ -69,6 +72,7 @@ def validate_model_data(data, model_class):
         # ForeignKey fields
         if isinstance(field, ForeignKey):
             if field_value is not None:
+                field_value=field_value.strip()
                 related_model = field.related_model
                 if field_name == 'plant_cell_wall_component':
                     if not related_model.objects.filter(chebi__chebi_id=field_value).exists() or \
@@ -92,25 +96,25 @@ def validate_model_data(data, model_class):
                         errors[field_name] = f'Invalid DOI reference for {field_name}. DOI should start with "10". Field Value: {field_value}'
                 elif field_name == 'gene_regulation':
                     condition_dict = {
-                        'Upregulation': 'UPREG',
-                        'Downregulation': 'DOWNREG',
-                        'Knockout': 'KNOCKOUT',
-                        'Insertion': 'INSERTION',
-                        'Deletion': 'DELETION',
-                        'Point Mutation': 'POINT_MUTATION',
-                        'Substitution': 'SUBSTITUTION',
-                        'Frame Shift Mutation': 'FRAME_SHIFT',
-                        'Gene Amplification': 'GENE_AMPLIFICATION',
-                        'Gene Fusion': 'GENE_FUSION',
-                        'Translocation': 'TRANSLOCATION',
-                        'Duplication': 'DUPLICATION',
-                        'Epigenetic Modification': 'EPIGENETIC_MOD',
-                        'Overexpression': 'OVEREXPRESSION',
-                        'Gene Silencing': 'GENE_SILENCING',
-                        'Conditional Knockout': 'CONDITIONAL_KNOCKOUT',
-                        'Insertional Mutagenesis': 'INSERTIONAL_MUTAGENESIS',
+                        'upregulation': 'UPREGULATION',
+                        'downregulation': 'DOWNREGULATION',
+                        'knockout': 'KNOCKOUT',
+                        'insertion': 'INSERTION',
+                        'deletion': 'DELETION',
+                        'point mutation': 'POINT_MUTATION',
+                        'substitution': 'SUBSTITUTION',
+                        'frame shift mutation': 'FRAME_SHIFT',
+                        'gene amplification': 'GENE_AMPLIFICATION',
+                        'gene fusion': 'GENE_FUSION',
+                        'translocation': 'TRANSLOCATION',
+                        'duplication': 'DUPLICATION',
+                        'epigenetic modification': 'EPIGENETIC_MOD',
+                        'overexpression': 'OVEREXPRESSION',
+                        'gene silencing': 'GENE_SILENCING',
+                        'conditional knockout': 'CONDITIONAL_KNOCKOUT',
+                        'insertional mutagenesis': 'INSERTIONAL_MUTAGENESIS',
                         }
-                    field_value=condition_dict[field_value]
+                    field_value=condition_dict[field_value.lower()]
                     if not related_model.objects.filter(condition_type=field_value):
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value} <br>'
                 else:
@@ -120,6 +124,7 @@ def validate_model_data(data, model_class):
         # ManyToMany fields
         elif isinstance(field, ManyToManyField):
             if field_value is not None:
+                field_value=field_value.strip()
                 field_value=field_value.split(", ")
                 if not isinstance(field_value, list):
                     errors[field_name] = f'Invalid format for {field_name} field. Expected a list. \
@@ -157,6 +162,16 @@ def replace_nan_with_none(data):
         return {key: replace_nan_with_none(value) for key, value in data.items()}
     elif isinstance(data, float) and (data != data):  # Check for NaN
         return None
+    else:
+        return data
+
+def strip_all_strings(data):
+    if isinstance(data, dict):
+        return {key: strip_all_strings(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [strip_all_strings(item) for item in data]
+    elif isinstance(data, str):
+        return data.strip()
     else:
         return data
 
@@ -285,12 +300,38 @@ def get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_na
             cell_wall_component = CellWallComponent.add_from_chebi(cell_wall_component_name_id)
     return cell_wall_component
 
-def get_or_create_biomass_gene_experiment_assoc(record, species, gene, literature, cell_wall_component, plant_trait, experiments, plant_components):
+def get_gene_regulation_id(gene_regulation):
+    condition_dict = {
+                        'upregulation': 'UPREGULATION',
+                        'downregulation': 'DOWNREGULATION',
+                        'knockout': 'KNOCKOUT',
+                        'insertion': 'INSERTION',
+                        'deletion': 'DELETION',
+                        'point mutation': 'POINT_MUTATION',
+                        'substitution': 'SUBSTITUTION',
+                        'frame shift mutation': 'FRAME_SHIFT',
+                        'gene amplification': 'GENE_AMPLIFICATION',
+                        'gene fusion': 'GENE_FUSION',
+                        'translocation': 'TRANSLOCATION',
+                        'duplication': 'DUPLICATION',
+                        'epigenetic modification': 'EPIGENETIC_MOD',
+                        'overexpression': 'OVEREXPRESSION',
+                        'gene silencing': 'GENE_SILENCING',
+                        'conditional knockout': 'CONDITIONAL_KNOCKOUT',
+                        'insertional mutagenesis': 'INSERTIONAL_MUTAGENESIS',
+                        }
+    gene_regulation=condition_dict[gene_regulation.lower()]
+    print("OOOOOOOOOOi", gene_regulation)
+    gene_regulation=GeneRegulation.objects.get(condition_type=gene_regulation)
+
+    return gene_regulation
+
+def get_or_create_biomass_gene_experiment_assoc(record, species, gene, literature, cell_wall_component, plant_trait, experiments, plant_components, gene_regulation):
     # Define the unique fields to check for existence
     unique_fields = {
         'experiment_species': species,
         'gene': gene,
-        'gene_expression': record.get('gene_genetic_condition'),
+        'gene_regulation': gene_regulation,
         'effect_on_plant_cell_wall_component': record.get('effect_on_plant_cell_wall_component'),
         'literature': literature,
         'plant_cell_wall_component': cell_wall_component,
@@ -315,6 +356,7 @@ def get_or_create_biomass_gene_experiment_assoc(record, species, gene, literatur
     
     return biomass_gene_experiment_assoc
 
+
 @transaction.atomic
 def create_biomass_gene_experiment_assoc(data):
     if data['species_data']:
@@ -327,11 +369,12 @@ def create_biomass_gene_experiment_assoc(data):
         print("RECORD da VEZ\n\n\n", record)  
         literature = get_or_create_literature(record.get('literature'))
         try:
-            species = Species.objects.get(scientific_name=record.get('experiment_species'))
+            species = Species.objects.get(scientific_name=record.get('experiment_species')).scientific_name
         except Species.DoesNotExist:
             try:
-                species = Species.objects.get(common_name=record.get('experiment_species'))
+                species = Species.objects.get(common_name=record.get('experiment_species')).scientific_name
             except Species.DoesNotExist:
+                species=record.get('experiment_species')
                 print('Considering "{field_value}" a plant species or non-plant species that does not have a corresponding record.')
         gene = get_or_create_gene(record)
 
@@ -354,7 +397,9 @@ def create_biomass_gene_experiment_assoc(data):
         plant_trait = get_or_create_plant_trait_by_name_or_to_id(plant_trait_name_id)
 
         cell_wall_component_name_id = record.get('plant_cell_wall_component')
-        cell_wall_component = get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_name_id)         
+        cell_wall_component = get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_name_id)   
+
+        gene_regulation=get_gene_regulation_id(record.get('gene_regulation'))      
 
         biomass_gene_experiment_assoc = get_or_create_biomass_gene_experiment_assoc(
             record=record,
@@ -364,7 +409,8 @@ def create_biomass_gene_experiment_assoc(data):
             cell_wall_component=cell_wall_component,
             plant_trait=plant_trait,
             experiments=experiments,
-            plant_components=plant_components
+            plant_components=plant_components,
+            gene_regulation=gene_regulation
         )
 
     return biomass_gene_experiment_assoc

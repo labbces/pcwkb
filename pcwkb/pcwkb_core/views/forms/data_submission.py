@@ -86,7 +86,7 @@ def data_submission_view(request):
                 messages.success(request, f"Data submitted successfully by {request.user}!")
                 return redirect('data_submission')
             except DatabaseError as e:
-                messages.error(request, "An error occurred while saving the data submission. Please try again.")
+                messages.error(request, f"An error occurred while saving the data submission. Please try again. {e}")
                 return render(request, 'forms/data_submission.html', {'form': form})
     else:
         form = DataSubmissionForm()

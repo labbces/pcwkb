@@ -1,0 +1,139 @@
+[
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 1,
+      "fields": {
+        "condition_type": "UPREGULATION",
+        "description": "An increase in gene expression leading to higher levels of gene product."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 2,
+      "fields": {
+        "condition_type": "DOWNREGULATION",
+        "description": "A decrease in gene expression resulting in lower levels of gene product."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 3,
+      "fields": {
+        "condition_type": "KNOCKOUT",
+        "description": "A complete loss of function of a gene due to deletion or other genetic modifications."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 4,
+      "fields": {
+        "condition_type": "INSERTION",
+        "description": "Addition of one or more nucleotide base pairs into a DNA sequence."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 5,
+      "fields": {
+        "condition_type": "DELETION",
+        "description": "Removal of one or more nucleotide base pairs from a DNA sequence."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 6,
+      "fields": {
+        "condition_type": "POINT_MUTATION",
+        "description": "A mutation that involves a change in a single nucleotide base pair in the DNA sequence."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 7,
+      "fields": {
+        "condition_type": "SUBSTITUTION",
+        "description": "A type of point mutation where one nucleotide is replaced by another."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 8,
+      "fields": {
+        "condition_type": "FRAME_SHIFT",
+        "description": "A mutation that shifts the reading frame of the genetic code, often leading to significant changes in the resulting protein."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 9,
+      "fields": {
+        "condition_type": "GENE_AMPLIFICATION",
+        "description": "An increase in the number of copies of a particular gene."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 10,
+      "fields": {
+        "condition_type": "GENE_FUSION",
+        "description": "The joining of two separate genes to form a new hybrid gene."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 11,
+      "fields": {
+        "condition_type": "TRANSLOCATION",
+        "description": "A genetic abnormality caused by rearrangement of parts between nonhomologous chromosomes."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 12,
+      "fields": {
+        "condition_type": "DUPLICATION",
+        "description": "A mutation that results in the presence of one or more extra copies of a gene or region of a chromosome."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 13,
+      "fields": {
+        "condition_type": "EPIGENETIC_MOD",
+        "description": "Changes in gene expression caused by mechanisms other than changes in the DNA sequence, such as DNA methylation or histone modification."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 14,
+      "fields": {
+        "condition_type": "OVEREXPRESSION",
+        "description": "An increase in the production of a gene product, often due to genetic modification or other regulatory changes."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 15,
+      "fields": {
+        "condition_type": "GENE_SILENCING",
+        "description": "The process of reducing or completely shutting down the expression of a gene."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 16,
+      "fields": {
+        "condition_type": "CONDITIONAL_KNOCKOUT",
+        "description": "A gene knockout that can be activated or deactivated in response to specific conditions or signals."
+      }
+    },
+    {
+      "model": "pcwkb_core.generegulation",
+      "pk": 17,
+      "fields": {
+        "condition_type": "INSERTIONAL_MUTAGENESIS",
+        "description": "A mutagenesis technique where a foreign DNA sequence is inserted into a genome to induce mutations."
+      }
+    }
+  ]
+  

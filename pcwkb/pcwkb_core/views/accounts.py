@@ -6,9 +6,12 @@ from pcwkb_core.forms.user_forms import CustomUserCreationForm
 from django.db import transaction
 from pcwkb_core.models.temporary_data.data_submission import DataSubmission
 from pcwkb_core.models.correctingmessages import CorrectionMessage
-from pcwkb_core.utils.data_submission import replace_nan_with_none
-import json
+
 from rolepermissions.checkers import has_role
+from rolepermissions.decorators import has_role_decorator
+
+from pcwkb_core.utils.data_submission import create_biomass_gene_experiment_assoc, get_or_create_species, get_or_create_experiment
+import json
 
 def registration(request):
     if request.method == "POST":
@@ -33,6 +36,7 @@ def registration(request):
 
 
 @login_required
+@has_role_decorator('reviewer')
 def handle_review_action(request, submission_id):
     submission = DataSubmission.objects.using('temporary_data').get(id=submission_id)
     
@@ -41,8 +45,25 @@ def handle_review_action(request, submission_id):
         message_content = request.POST.get('reviewer_message', '')
 
         if action == 'approve':
+            submission.clean_json_data()
+            data = json.loads(submission.json_data)
+
+            print(data)
+            
+            if submission.data_type == 'biomass_gene_association_data':
+                create_biomass_gene_experiment_assoc(data)
+
+            elif submission.data_type == 'species_data':
+                for record in data['species_data']:
+                    get_or_create_species(record)
+
+            elif submission.data_type == 'experiment_data':
+                for record in data['experiment_data']:
+                    get_or_create_experiment(record)
+
             submission.reviewed = True
             submission.save(using='temporary_data')
+
             messages.success(request, 'Submission approved successfully.')
 
         elif action == 'request_correction':
@@ -78,15 +99,11 @@ def profile(request):
 
     data_submissions = DataSubmission.objects.using('temporary_data').filter(user=request.user)
     for submission in data_submissions:
-        json_data = json.loads(submission.json_data)
-        json_data = replace_nan_with_none(json_data)
-        submission.json_data = json.dumps(json_data)
+        submission.clean_json_data()
     
     review_submissions = DataSubmission.objects.using('temporary_data').filter(reviewed=False)
     for submission in review_submissions:
-        json_data = json.loads(submission.json_data)
-        json_data = replace_nan_with_none(json_data) 
-        submission.json_data = json.dumps(json_data)
+        submission.clean_json_data()
 
     user_messages = CorrectionMessage.objects.filter(user=request.user)
 

@@ -1,1 +1,78 @@
-[{"model": "pcwkb_core.biomasscomposition", "pk": 5, "fields": {"components_percentage": [{"Neutral_sugar": 36.86, "Uronosyls": 6.37, "Phenolics": 0.8, "Lignin": 6.48, "Protein": 31.82, "Other": 17.67}], "po": 521, "literature": 1, "species": 15}}, {"model": "pcwkb_core.biomasscomposition", "pk": 6, "fields": {"components_percentage": [{"Neutral_sugar": 38.93, "Uronosyls": 6.03, "Phenolics": 0.77, "Lignin": 6.25, "Protein": 29.74, "Other": 18.27}], "po": 169, "literature": 15, "species": 15}}, {"model": "pcwkb_core.biomasscomposition", "pk": 7, "fields": {"components_percentage": [{"Neutral_sugar": 44.29, "Uronosyls": 6.62, "Phenolics": 1.25, "Lignin": 7.92, "Protein": 30.47, "Other": 9.45}], "po": 168, "literature": 1, "species": 15}}, {"model": "pcwkb_core.biomasscomposition", "pk": 8, "fields": {"components_percentage": [{"Cellulose": 45, "Hemicellulose": 20, "Pectin": 3, "Lignin": "~25", "Other": 7}], "po": 4, "literature": 16, "species": 26}}]
+[
+    {
+      "model": "pcwkb_core.biomasscomposition",
+      "pk": 5,
+      "fields": {
+        "components_percentage": [
+          {
+            "Neutral_sugar": 36.86,
+            "Uronosyls": 6.37,
+            "Phenolics": 0.8,
+            "Lignin": 6.48,
+            "Protein": 31.82,
+            "Other": 17.67
+          }
+        ],
+        "po": 521,
+        "literature": 1,
+        "species": 15
+      }
+    },
+    {
+      "model": "pcwkb_core.biomasscomposition",
+      "pk": 6,
+      "fields": {
+        "components_percentage": [
+          {
+            "Neutral_sugar": 38.93,
+            "Uronosyls": 6.03,
+            "Phenolics": 0.77,
+            "Lignin": 6.25,
+            "Protein": 29.74,
+            "Other": 18.27
+          }
+        ],
+        "po": 169,
+        "literature": 15,
+        "species": 15
+      }
+    },
+    {
+      "model": "pcwkb_core.biomasscomposition",
+      "pk": 7,
+      "fields": {
+        "components_percentage": [
+          {
+            "Neutral_sugar": 44.29,
+            "Uronosyls": 6.62,
+            "Phenolics": 1.25,
+            "Lignin": 7.92,
+            "Protein": 30.47,
+            "Other": 9.45
+          }
+        ],
+        "po": 168,
+        "literature": 1,
+        "species": 15
+      }
+    },
+    {
+      "model": "pcwkb_core.biomasscomposition",
+      "pk": 8,
+      "fields": {
+        "components_percentage": [
+          {
+            "Cellulose": 45,
+            "Hemicellulose": 20,
+            "Pectin": 3,
+            "Lignin": "~25",
+            "Other": 7
+          }
+        ],
+        "po": 4,
+        "literature": 16,
+        "species": 26
+      }
+    }
+  ]
+  

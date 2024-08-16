@@ -71,7 +71,7 @@ class DataSubmissionForm(forms.Form):
         # Define required sheets and columns
         required_sheets = ['biomass_gene_association_data', 'experiment_data', 'species_data']
         required_columns = {
-            'biomass_gene_association_data': ['experiment_species', 'gene_name', 'gene_id', 'gene_description', 'gene_species', 'gene_genetic_condition', 'effect_on_plant_cell_wall_component', 'plant_cell_wall_component', 'literature', 'plant_trait', 'experiment', 'plant_component'],
+            'biomass_gene_association_data': ['experiment_species', 'gene_name', 'gene_id', 'gene_description', 'gene_species', 'gene_regulation', 'effect_on_plant_cell_wall_component', 'plant_cell_wall_component', 'literature', 'plant_trait', 'experiment', 'plant_component'],
             'experiment_data': ['experiment_name', 'experiment_category', 'description', 'peco_term', 'eco_term', 'literature'],
             'species_data': ['species_code', 'taxid', 'scientific_name', 'common_name', 'family', 'clade', 'photosystem']
         }
@@ -200,7 +200,7 @@ class DataSubmissionForm(forms.Form):
                 assoc_data_for_validation = {
                     'experiment_species': record.get('experiment_species'),
                     'gene': record.get('gene_name') or record.get('gene_id'),
-                    'gene_expression': record.get('gene_genetic_condition'),
+                    'gene_regulation': record.get('gene_regulation'),
                     'effect_on_plant_cell_wall_component': record.get('effect_on_plant_cell_wall_component'),
                     'plant_cell_wall_component': record.get('plant_cell_wall_component'),
                     'literature': record.get('literature'),
@@ -218,7 +218,7 @@ class DataSubmissionForm(forms.Form):
         # Check and remove errors if related data exists
         if errors and (errors['biomass_gene_association_data'] or errors['gene_data']):
             for field_name in ['experiment_species', 'gene', 'species', 'experiment']:
-               if field_name in errors['biomass_gene_association_data'] or field_name in errors['gene_data']:
+               if (field_name in errors.get('biomass_gene_association_data', {}) or field_name in errors.get('gene_data', {})):
                     field_errors = errors['biomass_gene_association_data'].get(field_name, []) + errors['gene_data'].get(field_name, [])
                     if field_errors:
                         # Extract the list of errors for the field

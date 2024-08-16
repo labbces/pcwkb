@@ -102,14 +102,14 @@
                 {%if assoc.plant_trait%}
                 <p class="card-text">Trait Ontology Term: {{assoc.plant_trait.name }}</p>
                 {%endif%}
-                <p class="card-text">Gene Expression: {{ assoc.gene_expression }}</p>
+                <p class="card-text">Gene Expression: {{ assoc.gene_regulation }}</p>
                 <p class="card-text">Effect on plant cell wall component: {{ assoc.effect_on_plant_cell_wall_component }}</p>
                 <p class="card-text">Literature: <a href="https://doi.org/{{ assoc.literature.doi }}" target="_blank">"{{ assoc.literature.title }}"</a></p>
                 {% for experiment in assoc.experiment.all %}
                   <p class="card-text">Experiment: <a href="pcwkb_core/experiment_page/{{ experiment.experiment_name }}" target="_blank">{{ experiment.experiment_name }}</a></p>
                 {% endfor %}
-                {% if assoc.experiment_species.scientific_name != species.scientific_name %}
-                  <p class="card-text alert alert-info">Experiment with heterologous expression using <a href="pcwkb_core/species_page/{{ assoc.experiment_species.species_code }}" target="_blank">{{ assoc.experiment_species.scientific_name }}</a></p>
+                {% if assoc.experiment_species != species.scientific_name %}
+                  <p class="card-text alert alert-info">Experiment with heterologous expression using {{ assoc.experiment_species }}</p>
                 {%endif%}
             </div>
         </div>
