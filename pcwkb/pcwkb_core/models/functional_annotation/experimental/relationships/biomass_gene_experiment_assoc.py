@@ -37,7 +37,8 @@ class GeneRegulation(models.Model):
         return self.get_condition_type_display()
 
 class BiomassGeneExperimentAssoc(models.Model):
-    experiment_species = models.CharField(max_length=100, null=False, blank=True)
+    experiment_species = models.CharField(max_length=100, null=False, blank=False)
+    experiment_species_variety = models.CharField(max_length=100, null=True, blank=True)
     plant_component = models.ManyToManyField(PlantComponent, blank=True)
     plant_cell_wall_component = models.ForeignKey(CellWallComponent, on_delete=models.CASCADE)
     experiment = models.ManyToManyField(Experiment)

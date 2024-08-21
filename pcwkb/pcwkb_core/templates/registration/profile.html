@@ -221,6 +221,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (jsonData.species_data && jsonData.species_data.length > 0) {
             createDataTable(jsonData.species_data, "species_data");
         }
+        if (jsonData.gene_gene_association_data && jsonData.gene_gene_association_data.length > 0) {
+            createDataTable(jsonData.gene_gene_association_data, "gene_gene_association_data");
+        }
     }
 
     document.getElementById("export-to-excel").addEventListener("click", function() {

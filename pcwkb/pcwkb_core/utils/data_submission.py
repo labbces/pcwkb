@@ -1,5 +1,6 @@
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc, GeneRegulation
+from pcwkb_core.models.functional_annotation.experimental.relationships.gene_interation_experiment_assoc import GeneInterationExperimentAssociation
 from pcwkb_core.models.ontologies.experiment_related.eco import ECOTerm
 from pcwkb_core.models.ontologies.plant_related.peco import PECOTerm
 from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
@@ -77,7 +78,7 @@ def validate_model_data(data, model_class):
                     if not related_model.objects.filter(chebi__chebi_id=field_value).exists() or \
                         related_model.objects.filter(cellwallcomp_name=field_value).exists():
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}' 
-                elif field_name == 'gene':
+                elif field_name in ['gene', 'gene_target', 'putative_gene_regulator']:
                     if not related_model.objects.filter(gene_name=field_value).exists() or related_model.objects.filter(gene_id=field_value).exists():
                         warnings[field_name] = f'Considering "{field_value}" as a new gene in the database'
                 elif field_name == 'plant_trait':
@@ -322,6 +323,7 @@ def get_or_create_biomass_gene_experiment_assoc(record, species, gene, literatur
     # Define the unique fields to check for existence
     unique_fields = {
         'experiment_species': species,
+        'experiment_species_variety': record.get('experiment_species_variety'),
         'gene': gene,
         'gene_regulation': gene_regulation,
         'effect_on_plant_cell_wall_component': record.get('effect_on_plant_cell_wall_component'),
@@ -347,6 +349,33 @@ def get_or_create_biomass_gene_experiment_assoc(record, species, gene, literatur
         biomass_gene_experiment_assoc.save()
     
     return biomass_gene_experiment_assoc
+
+def get_or_create_gene_gene_interation(record, species, putative_gene_regulator, gene_target, literature, experiments):
+    # Define the unique fields to check for existence
+    unique_fields = {
+        'experiment_species': species,
+        'putative_gene_regulator': putative_gene_regulator,
+        'gene_target': gene_target,
+        'effect_on_target': record.get('effect_on_target'),
+        'literature': literature,
+    }
+    
+    # Check for an existing GeneInterationExperimentAssociation object
+    try:
+        gene_interaction_assoc = GeneInterationExperimentAssociation.objects.get(**unique_fields)
+        is_new = False
+    except GeneInterationExperimentAssociation.DoesNotExist:
+        gene_interaction_assoc = GeneInterationExperimentAssociation.objects.create(**unique_fields)
+        is_new = True
+    
+    # Update many-to-many relationships
+    gene_interaction_assoc.experiment.set(experiments)
+    
+    # If you want to save the object in case any other fields were updated
+    if not is_new:
+        gene_interaction_assoc.save()
+    
+    return gene_interaction_assoc
 
 
 @transaction.atomic
@@ -395,3 +424,54 @@ def create_biomass_gene_experiment_assoc(data):
         )
 
     return biomass_gene_experiment_assoc
+
+@transaction.atomic
+def create_gene_gene_interation(data):
+    if data['species_data']:
+        for record in data['species_data']:
+            get_or_create_species(record)
+    
+    if data['experiment_data']:
+        for record in data['experiment_data']:
+            get_or_create_experiment(record)
+
+    for record in data['gene_gene_interation_data']:
+        literature = get_or_create_literature(record.get('literature'))
+        species = record.get('experiment_species')
+        
+        # Fetch the putative gene regulator
+        putative_gene_regulator = get_or_create_gene({
+            'gene_id': record.get('putative_gene_regulator_id'),
+            'gene_name': record.get('putative_gene_regulator_name'),
+            'gene_species': species,
+            'gene_description': None,  # Assuming description is not provided here
+            'species_variety': None  # Assuming species_variety is not provided here
+        })
+
+        # Fetch the gene target
+        gene_target = get_or_create_gene({
+            'gene_id': record.get('gene_target_id'),
+            'gene_name': record.get('gene_target_name'),
+            'gene_species': species,
+            'gene_description': None,  # Assuming description is not provided here
+            'species_variety': None  # Assuming species_variety is not provided here
+        })
+
+        # Fetch experiments associated with the interaction
+        experiments = []
+        experiment_list = record.get('experiment').split(", ")
+        for experiment_name_id in experiment_list:
+            experiment = get_or_create_experiment_by_name_or_eco_id(experiment_name_id)
+            experiments.append(experiment)
+
+        # Create or update the gene-gene interaction association
+        gene_interaction_assoc = get_or_create_gene_gene_interation(
+            record=record,
+            species=species,
+            putative_gene_regulator=putative_gene_regulator,
+            gene_target=gene_target,
+            literature=literature,
+            experiments=experiments
+        )
+
+    return gene_interaction_assoc
