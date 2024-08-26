@@ -192,9 +192,9 @@ class Fasta:
                                                         source = source,
                                                         )
                 else:
-                    print("This protein fasta data is already in the database")
+                    print(f"This protein '{name}'fasta data is already in the database")
 
 
-        print(f"{i} {seq_type} fasta data parsed to the database")
+        print(f"{i+1} {seq_type} fasta data parsed to the database")
         
         return model_data

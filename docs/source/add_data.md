@@ -57,16 +57,21 @@ Parser.add_from_obo("./pcwkb_core/tests/data/ontologies/po.obo",ont="po")
 Parser.add_from_obo("./pcwkb_core/tests/data/ontologies/eco.obo",ont="eco")
 ```
 
+Also include some objects to CellWallComponent model:
+
+
 After loading those, now we can use loaddata to load data that relies on ontology terms.
 
-```python
+```bash
+python manage.py loaddata pcwkb_core/tests/data/molecular_components/cellwallcomponents.json
 python manage.py loaddata pcwkb_core/tests/data/relationships/biomasscomposition_test_data.json
-python manage.py loaddata pcwkb/pcwkb/pcwkb_core/tests/data/experiment/experiment_details.json
+python manage.py loaddata pcwkb_core/tests/data/experiment/experiment_details.json
 ```
 
 And load the first biomass-gene-experiment association file:
 
-```python
+
+```bash
 python ./pcwkb_core/utils/loaders/biomass_gene_experiment_assoc_loader.py ./pcwkb_core/tests/data/experiment/biomass_gene_experimen_assoc.json
 ```
 
@@ -118,7 +123,7 @@ Fasta.add_from_fasta("./pcwkb_core/tests/data/molecular_components/Bdi_minimal_p
 To use the orthogroup parser you will need an orthogroup method that defines the tool or approach used to create orthogroups, here we provide an example:
 
 ```python
-python manage.py loaddata pcwkb/pcwkb_core/tests/data/relationships/orthogroupmethods_test_data.json
+python manage.py loaddata pcwkb_core/tests/data/relationships/orthogroupmethods_test_data.json
 ```
 
 After loading the orthogroup method, you can use the orthogroup parser to include orthogroups and associate with proteins inside your database. To do it execute the following commands:

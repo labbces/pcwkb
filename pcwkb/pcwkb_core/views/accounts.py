@@ -10,7 +10,7 @@ from pcwkb_core.models.correctingmessages import CorrectionMessage
 from rolepermissions.checkers import has_role
 from rolepermissions.decorators import has_role_decorator
 
-from pcwkb_core.utils.data_submission import create_biomass_gene_experiment_assoc, get_or_create_species, get_or_create_experiment
+from pcwkb_core.utils.data_submission import create_biomass_gene_experiment_assoc, get_or_create_species, get_or_create_experiment, create_gene_gene_interation
 import json
 
 def registration(request):
@@ -58,6 +58,9 @@ def handle_review_action(request, submission_id):
             elif submission.data_type == 'experiment_data':
                 for record in data['experiment_data']:
                     get_or_create_experiment(record)
+            
+            elif submission.data_type == 'gene_gene_association_data':
+                create_gene_gene_interation(data)
 
             submission.reviewed = True
             submission.save(using='temporary_data')

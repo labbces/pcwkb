@@ -54,7 +54,7 @@ def validate_model_data(data, model_class):
             if field_value is not None and not isinstance(field_value, str):
                 field_value=field_value.strip()
                 errors[field_name] = 'Invalid string value. Field Value: {field_value}'
-            elif field_name == 'experiment_species':
+            elif field_name in ['experiment_species']:
                 if not Species.objects.filter(scientific_name=field_value).exists():
                     warnings[field_name] = f'Considering "{field_value}" a plant species or non-plant species that does not have a corresponding record.'
         elif isinstance(field, TextField):
@@ -184,29 +184,29 @@ def get_or_create_literature(doi):
         literature = Literature.get_lit_info(doi)
     return literature
 
-def get_or_create_gene(gene_data):
+def get_or_create_gene(gene_id, gene_name, description, species, species_variety):
     gene = None
     
-    if gene_data.get('gene_id'):
+    if gene_id:
         try:
-            gene = Gene.objects.get(gene_id=gene_data.get('gene_id'))
+            gene = Gene.objects.get(gene_id=gene_id)
         except Gene.DoesNotExist:
             pass
 
-    if gene is None and gene_data.get('gene_name'):
+    if gene is None and gene_name:
         try:
-            gene = Gene.objects.get(gene_name=gene_data.get('gene_name'))
+            gene = Gene.objects.get(gene_name=gene_name)
         except Gene.DoesNotExist:
             pass
 
     if gene is None:
-        species = Species.objects.get(scientific_name=gene_data.get('gene_species'))
+        species = Species.objects.get(scientific_name=species)
         gene = Gene.objects.create(
-            gene_id=gene_data.get('gene_id'),
-            gene_name=gene_data.get('gene_name'),
-            description=gene_data.get('gene_description'),
+            gene_id=gene_id,
+            gene_name=gene_name,
+            description=description,
             species=species,
-            species_variety=gene_data.get('species_variety')
+            species_variety=species_variety
         )
 
     return gene
@@ -389,7 +389,11 @@ def create_biomass_gene_experiment_assoc(data):
     for record in data['biomass_gene_association_data']:
         literature = get_or_create_literature(record.get('literature'))
         species=record.get('experiment_species')
-        gene = get_or_create_gene(record)
+        gene = get_or_create_gene(gene_id=record.get('gene_id'),
+                                  gene_name=record.get('gene_name'),
+                                  description=record.get('gene_description'),
+                                  species=record.get('gene_species'),
+                                  species_variety=record.get('species_variety'))
 
         experiments = []
         experiements_list = record.get('experiment').split(", ")
@@ -435,28 +439,26 @@ def create_gene_gene_interation(data):
         for record in data['experiment_data']:
             get_or_create_experiment(record)
 
-    for record in data['gene_gene_interation_data']:
+    for record in data['gene_gene_association_data']:
         literature = get_or_create_literature(record.get('literature'))
         species = record.get('experiment_species')
         
         # Fetch the putative gene regulator
-        putative_gene_regulator = get_or_create_gene({
-            'gene_id': record.get('putative_gene_regulator_id'),
-            'gene_name': record.get('putative_gene_regulator_name'),
-            'gene_species': species,
-            'gene_description': None,  # Assuming description is not provided here
-            'species_variety': None  # Assuming species_variety is not provided here
-        })
+        putative_gene_regulator = get_or_create_gene(gene_id = record.get('putative_gene_regulator_id'),
+                                                     gene_name = record.get('putative_gene_regulator_name'),
+                                                     species = record.get('putative_gene_regulator_species_name'),
+                                                     description = record.get('putative_gene_regulator_description'),
+                                                     species_variety =  None  
+        )
 
         # Fetch the gene target
-        gene_target = get_or_create_gene({
-            'gene_id': record.get('gene_target_id'),
-            'gene_name': record.get('gene_target_name'),
-            'gene_species': species,
-            'gene_description': None,  # Assuming description is not provided here
-            'species_variety': None  # Assuming species_variety is not provided here
-        })
-
+        gene_target = get_or_create_gene(gene_id = record.get('gene_target_id'),
+                                         gene_name = record.get('gene_target_name'),
+                                         species = record.get('gene_target_species_name'),
+                                         description = record.get('gene_target_description'),
+                                         species_variety = None  
+        )
+    
         # Fetch experiments associated with the interaction
         experiments = []
         experiment_list = record.get('experiment').split(", ")

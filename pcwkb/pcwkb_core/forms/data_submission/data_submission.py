@@ -74,7 +74,7 @@ class DataSubmissionForm(forms.Form):
             'biomass_gene_association_data': ['experiment_species', 'gene_name', 'gene_id', 'gene_description', 'gene_species', 'gene_regulation', 'effect_on_plant_cell_wall_component', 'plant_cell_wall_component', 'literature', 'plant_trait', 'experiment', 'plant_component'],
             'experiment_data': ['experiment_name', 'experiment_category', 'description', 'peco_term', 'eco_term', 'literature'],
             'species_data': ['species_code', 'taxid', 'scientific_name', 'common_name', 'family', 'clade', 'photosystem'],
-            'gene_gene_association_data': ['putative_gene_regulator_id', 'putative_gene_regulator_name', 'putative_gene_regulator_species_name', 'putative_gene_regulator_description', 'gene_target_id', 'gene_target_name', 'gene_target_species', 'gene_target_description', 'experiment_species', 'experiment', 'literature', 'effect_on_target']
+            'gene_gene_association_data': ['putative_gene_regulator_id', 'putative_gene_regulator_name', 'putative_gene_regulator_species_name', 'putative_gene_regulator_description', 'gene_target_id', 'gene_target_name', 'gene_target_species_name', 'gene_target_description', 'experiment_species', 'experiment', 'literature', 'effect_on_target']
         }
         row_limit=50
 
@@ -237,7 +237,7 @@ class DataSubmissionForm(forms.Form):
                     'gene_name': record.get('gene_target_name'),
                     'gene_id': record.get('gene_target_id'),
                     'description': record.get('gene_target_description'),
-                    'species': record.get('gene_target_species'),
+                    'species': record.get('gene_target_species_name'),
                 }
                 print("regulator_data_for_validation", regulator_data_for_validation)
                 is_valid, field_errors, field_warnings = validate_model_data(regulator_data_for_validation, Gene)

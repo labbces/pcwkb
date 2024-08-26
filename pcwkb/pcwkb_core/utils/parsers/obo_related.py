@@ -238,6 +238,7 @@ class Parser:
                 new_object = model.objects.create(**kwargs)
                 print(f"Created {model.__name__} object:", new_object)
             else:
+                new_object=None
                 print(f"{model.__name__} already in the database")
         print(f"{i} files parsed")
         return new_object

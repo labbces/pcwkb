@@ -16,7 +16,7 @@ class Genome(models.Model):
     genome_size = models.CharField(max_length=50)
     coding_genes_count = models.CharField(max_length=50)
     coding_transcripts_count = models.CharField(max_length=50)
-    variety = models.CharField(max_length=50, blank=True, null=True) #Plant variety
+    variety = models.CharField(max_length=50, blank=True, null=True)
 
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
     species = models.ForeignKey(Species, on_delete=models.CASCADE)

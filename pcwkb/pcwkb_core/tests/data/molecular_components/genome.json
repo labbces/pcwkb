@@ -1,42 +1,93 @@
 [
- {
-  "model": "pcwkb_core.genome",
-  "pk": 1,
-  "fields": {
-   "literature": 3,
-   "species": 1,
-   "source_db": "Phytozome",
-   "version": "Osativa_v7_0"
-  }
- },
- {
-  "model": "pcwkb_core.genome",
-  "pk": 2,
-  "fields": {
-   "literature": 8,
-   "species": 15,
-   "source_db": "Phytozome",
-   "version": "Bdistachyon_v3_1"
-  }
- },
- {
-  "model": "pcwkb_core.genome",
-  "pk": 3,
-  "fields": {
-   "literature": 11,
-   "species": 8,
-   "source_db": "Phytozome",
-   "version": "Zmays_RefGen_V4"
-  }
- },
- {
+   {
     "model": "pcwkb_core.genome",
-    "pk": 4,
+    "pk": 1,
     "fields": {
-     "literature": 14,
-     "species": 2,
+     "literature": 3,
+     "species": 1,
      "source_db": "Phytozome",
-     "version": "Sviridis_v2_1"
-  }
- }
-]
+     "genome_size": 374471240,
+     "coding_genes_count": 42189,
+     "coding_transcripts_count": 52424,
+     "version": "Osativa_v7_0"
+    }
+   },
+   {
+    "model": "pcwkb_core.genome",
+    "pk": 2,
+    "fields": {
+     "literature": 8,
+     "species": 15,
+     "source_db": "Phytozome",
+     "coding_transcripts_count": 52972,
+     "genome_size": 271163419,
+     "coding_genes_count": 34310,
+     "version": "Bdistachyon_v3_2"
+    }
+   },
+   {
+    "model": "pcwkb_core.genome",
+    "pk": 3,
+    "fields": {
+     "literature": 11,
+     "species": 8,
+     "source_db": "Phytozome",
+     "coding_transcripts_count": 131496,
+     "genome_size": 2135083061,
+     "coding_genes_count": 39498,
+     "version": "Zmays_RefGen_V5_0_55"
+    }
+   },
+   {
+      "model": "pcwkb_core.genome",
+      "pk": 4,
+      "fields": {
+       "literature": 14,
+       "species": 2,
+       "source_db": "Phytozome",
+       "coding_transcripts_count": 52459,
+       "genome_size": 395731502,
+       "coding_genes_count": 38334,
+       "version": "Sviridis_v2_1"
+    }
+   },
+   {
+     "model": "pcwkb_core.genome",
+     "pk": 5,
+     "fields": {
+      "literature": 18,
+      "species": 9,
+      "source_db": "Phytozome",
+      "coding_transcripts_count": 48456,
+      "genome_size": 119667750,
+      "coding_genes_count": 27655,
+      "version": "Athaliana_Araport11"
+     }
+   },
+   {
+     "model": "pcwkb_core.genome",
+     "pk": 6,
+     "fields": {
+      "literature": 17,
+      "species": 27,
+      "source_db": "Phytozome",
+      "coding_transcripts_count": 52400,
+      "genome_size": 392162179,
+      "coding_genes_count": 34699,
+      "version": "Ptrichocarpa_v4_1"
+     }
+   },
+   {
+      "model": "pcwkb_core.genome",
+      "pk": 7,
+      "fields": {
+       "literature": 19,
+       "species": 6,
+       "source_db": "Phytozome",
+       "coding_transcripts_count": 44210,
+       "genome_size": 719894357,
+       "coding_genes_count": 32160,
+       "version": "Sbicolor_v5_1"
+      }
+    }
+  ]
