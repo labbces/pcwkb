@@ -51,17 +51,21 @@ class OrthogroupParser:
                 
             print(f"{i} orthogroup object  parsed to the database")
 
+        count=0
+
         for p in Protein.objects.all():
-            for i, og in enumerate(sorted(og_data.orthogroups.keys()), start=1):
+            for og in sorted(og_data.orthogroups.keys()):
                 if p.protein_name in og_data.orthogroups[og]:
+                    count+=1
                     if not ProteinOrthogroup.objects.filter(orthogroup=Orthogroup.objects.get(orthogroup_id=og), protein=p):
                         ProteinOrthogroup.objects.create(orthogroup=Orthogroup.objects.get(orthogroup_id=og),
                                                       protein=p
                                                       )
                     else:
                         print(f"protein: {p} in orthogroup_id: {og} already exists")
+            print(f"{p} is associated with {count} orthogroups")
+            count=0
                         
-                    print(f"{i} proteins object parsed to the database")
 
 #        for p in Protein.objects.all():
 #            for og in Orthogroup.objects.all():
