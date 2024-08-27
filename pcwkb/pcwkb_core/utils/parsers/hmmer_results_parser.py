@@ -24,16 +24,31 @@ def import_hmmer_data(file_path):
         literature=None
     )
     
-
     for index, row in df.iterrows():
         print(row)
-        gene_id = row['Gene'].split('.')[0]
         class_name = row['Family']
         family_name = row['Unnamed']
         
-
         try:
-            gene = Gene.objects.get(gene_id=gene_id)
+            # Divide o Gene ID em partes
+            gene_parts = row['Gene'].split('.')
+            
+            # Inicializa o gene_id com a primeira parte
+            gene_id = gene_parts[0]
+            
+            # Tenta concatenar até 4 partes no total
+            for i in range(1, min(4, len(gene_parts))):
+                gene_id += f".{gene_parts[i]}"
+                try:
+                    gene = Gene.objects.get(gene_id=gene_id)
+                    break  # Sai do loop se encontrar o gene
+                except Gene.DoesNotExist:
+                    continue  # Continua a adicionar mais partes se o gene não for encontrado
+            
+            # Se nenhum gene for encontrado após o loop, gera um erro
+            else:
+                raise Gene.DoesNotExist
+            
         except Gene.DoesNotExist:
             print(f"Gene {gene_id} não encontrado no banco de dados.")
             continue
