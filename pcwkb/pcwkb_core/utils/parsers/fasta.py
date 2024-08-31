@@ -142,14 +142,14 @@ class Fasta:
                     transcript = ""
                 
                 if not CDS.objects.filter(cds_name = name,
-                                          cds_id = fa_id,
+                                          cds_id = name,
                                           sequence = sequence,
                                           gene = gene,
                                           transcript = transcript,
                                           protein_name = protein_name):
                     
                     model_data = CDS.objects.create(cds_name = name,
-                                               cds_id = fa_id,
+                                               cds_id = name,
                                                sequence = sequence,
                                                gene = gene,
                                                transcript = transcript,
@@ -177,14 +177,14 @@ class Fasta:
             
                 
                 if not Protein.objects.filter(protein_name = name,
-                                              protein_id = fa_id,
+                                              protein_id = name,
                                               sequence = sequence,
                                               gene = gene,
                                               transcript = transcript,
                                               cds = cds):
 
                     model_data = Protein.objects.create(protein_name = name,
-                                                        protein_id = fa_id,
+                                                        protein_id = name,
                                                         sequence = sequence,
                                                         gene = gene,
                                                         transcript = transcript,
