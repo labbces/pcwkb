@@ -16,5 +16,6 @@ class AnnotationMethod(models.Model):
                                    null=True, blank=True) #software literature
     
     def __str__(self):
-        return f"{self.software}_{self.software_version}_{self.literature.doi}"
+        doi = f"_{self.literature.doi}" if self.literature else ""
+        return f"{self.software}_{self.software_version}_{doi}"
     
