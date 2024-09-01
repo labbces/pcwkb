@@ -8,6 +8,7 @@ from pcwkb_core.models.molecular_components.genetic.genes import Gene
 from pcwkb_core.models.molecular_components.relationships.pcw_genetics_association import BiomassComposition
 from pcwkb_core.models.functional_annotation.experimental.relationships.gene_experiment_association import GeneExperimentAssociation
 from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc
+from pcwkb_core.models.functional_annotation.experimental.relationships.gene_interation_experiment_assoc import GeneInterationExperimentAssociation
 
 def species_page(request, species_code):
     """
@@ -41,7 +42,10 @@ def species_page(request, species_code):
     context['genes_paginated'] = Gene.objects.filter(species_id=species.id)
     
     species_gene = Gene.objects.filter(species_id=species.id)
+    
     context['genes_biomass_assoc'] = BiomassGeneExperimentAssoc.objects.filter(gene__in=species_gene)
+
+    context['genes_interaction_assoc'] = GeneInterationExperimentAssociation.objects.filter(gene__in=species_gene)
 
     if BiomassComposition.objects.filter(species_id=species.id).exists():
         BiomassComponent_objects = BiomassComposition.objects.filter(species_id=species.id)
