@@ -75,15 +75,14 @@ def validate_model_data(data, model_class):
                 field_value=field_value.strip()
                 related_model = field.related_model
                 if field_name == 'plant_cell_wall_component':
-                    if not related_model.objects.filter(chebi__chebi_id=field_value).exists() or \
-                        related_model.objects.filter(cellwallcomp_name=field_value).exists():
+                    if not (related_model.objects.filter(chebi__chebi_id=field_value).exists() or \
+                        related_model.objects.filter(cellwallcomp_name=field_value).exists()):
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}' 
                 elif field_name in ['gene', 'gene_target', 'putative_gene_regulator']:
-                    if not related_model.objects.filter(gene_name=field_value).exists() or related_model.objects.filter(gene_id=field_value).exists():
+                    if not (related_model.objects.filter(gene_name=field_value).exists() or related_model.objects.filter(gene_id=field_value).exists()):
                         warnings[field_name] = f'Considering "{field_value}" as a new gene in the database'
                 elif field_name == 'plant_trait':
-                    if not related_model.objects.filter(name=field_value).exists() or related_model.objects.filter(to__to_id=field_value).exists() or \
-                        TOTerm.objects.filter(to_id=field_value):
+                    if not (related_model.objects.filter(name=field_value).exists() or related_model.objects.filter(to__to_id=field_value).exists() or TOTerm.objects.filter(to_id=field_value)):
                         errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}' 
                 elif field_name == 'species':
                     if not related_model.objects.filter(scientific_name=field_value).exists():

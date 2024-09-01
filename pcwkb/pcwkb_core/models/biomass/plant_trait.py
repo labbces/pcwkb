@@ -15,16 +15,16 @@ class PlantTrait(models.Model):
     def __str__(self):
         return self.name
     
-    def add_from_to(to_id):
+    def add_from_to(to_name):
         """ Gets Plant Trait information using the trait ontology (to) identifier from the TOTerm model.
 
         Verify if to already exists in the PlantTrait objects, if not, collect data and store in the fields from this class.
         """
 
         try:
-            to = TOTerm.objects.get(to_id=to_id)
+            to = TOTerm.objects.get(to_name=to_name)
         except:
-            return "to_id incorrect"
+            return "to_name incorrect"
         try:
             plant_trait = PlantTrait.objects.get(to=to)
             return plant_trait
