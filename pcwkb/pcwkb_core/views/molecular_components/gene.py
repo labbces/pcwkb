@@ -75,7 +75,7 @@ def paginated_gene_interaction_list(request, species_id):
     page_number = request.GET.get('page', 1)
     
     # Filter GeneInterationExperimentAssociation by genes within the species
-    data_list = GeneInterationExperimentAssociation.objects.filter(gene_target__in=species_gene)
+    data_list = GeneInterationExperimentAssociation.objects.filter(putative_gene_regulator__in=species_gene)
     
     # Paginate the data list
     paginator = Paginator(data_list, 15)
@@ -106,6 +106,8 @@ def paginated_gene_interaction_list(request, species_id):
                 'effect_on_target': assoc.effect_on_target,
                 'experiment_count': assoc.experiment.count(),
             })
+
+    print("UNIQ",unique_associations)
     
     # Return the data as a JSON response
     return JsonResponse({

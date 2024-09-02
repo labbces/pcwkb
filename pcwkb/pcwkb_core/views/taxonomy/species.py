@@ -45,7 +45,8 @@ def species_page(request, species_code):
     
     context['genes_biomass_assoc'] = BiomassGeneExperimentAssoc.objects.filter(gene__in=species_gene)
 
-    context['genes_interaction_assoc'] = GeneInterationExperimentAssociation.objects.filter(gene__in=species_gene)
+    context['genes_interaction_assoc'] = GeneInterationExperimentAssociation.objects.filter(putative_gene_regulator__in=species_gene)
+    print(context['genes_interaction_assoc'])
 
     if BiomassComposition.objects.filter(species_id=species.id).exists():
         BiomassComponent_objects = BiomassComposition.objects.filter(species_id=species.id)
