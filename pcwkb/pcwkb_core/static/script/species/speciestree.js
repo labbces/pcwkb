@@ -1,3 +1,5 @@
+// Copyright 2018–2024 Observable, Inc.
+// Released under the ISC license.
 // Collapsible tree based on https://observablehq.com/@d3/collapsible-tree by Mike Bostock
 console.log(data);
 

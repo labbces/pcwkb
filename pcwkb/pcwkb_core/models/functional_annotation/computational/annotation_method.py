@@ -14,6 +14,7 @@ class AnnotationMethod(models.Model):
     software_version = models.CharField('Software version', max_length=10)
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE,
                                    null=True, blank=True) #software literature
+    #incluir experimento
     
     def __str__(self):
         doi = f"_{self.literature.doi}" if self.literature else ""
