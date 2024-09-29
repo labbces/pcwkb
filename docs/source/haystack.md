@@ -18,9 +18,6 @@ INSTALLED_APPS = [
 
     # Added.
     'haystack',
-
-    # Then your usual apps...
-    'blog',
 ]
 ```
 

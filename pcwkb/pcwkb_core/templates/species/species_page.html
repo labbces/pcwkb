@@ -61,17 +61,16 @@
   <div class="card border-success mx-4 rounded-4">
     <h5 class="card-header"> General information </h5>
     <div class="card-body">
-      <p class="card-text"> Genes count: </p>
-      <p class="card-text"> Experiments count: </p>
-      <p class="card-text"> </p>
+      <p class="card-text"> Genes count: {{ genes_count }} </p>
+      <p class="card-text"> Experiments count: {{ experiments_count }} </p>
     </div>
   </div>
 </div>
 
 {% if biomass_composition %}
 
-{{ biomass_composition|json_script:"biomass_composition" }}
-<div class="mx-auto w-75">
+  {{ biomass_composition|json_script:"biomass_composition" }}
+  <div class="mx-auto w-75">
   <script>
     const scientificName = '{{ scientific_name }}'
     const biomasscomp = JSON.parse(document.getElementById('biomass_composition').textContent);
@@ -102,7 +101,29 @@
           <th scope="col">Gene Name</th>
           <th scope="col">Description</th>
           <th scope="col">Chemical entity</th>
-          <th scope="col">Effect on chemical entity</th>
+          <th scope="col">Experiments</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <nav aria-label="Gene navigation">
+      <ul class="pagination justify-content-center d-flex flex-wrap" id="pagination-links">
+      </ul>
+    </nav>
+  </div>
+
+  {% endif %}
+
+  {% if genes_interaction_assoc %}
+  <div class="border border-success rounded-2 p-2 m-4" style="background-color: white">
+    <h4 class="text-center m-4">Genes involved in gene interaction experiments</h4>
+    <table class="table table-striped table-responsive" text-align="center" id="gene-interaction-table">
+      <thead> 
+        <tr>
+          <th scope="col">Putative Gene Regulator ID</th>
+          <th scope="col">Gene Target</th>
+          <th scope="col">Effect on Target</th>
+          <th scope="col">Experiments</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -186,9 +207,126 @@
           const cell3 = row.insertCell(2);
           cell3.innerHTML = rowData.description;
           const cell4 = row.insertCell(3);
-          cell4.innerHTML = rowData.chebi;
+          cell4.innerHTML = `<a href="/pcwkb_core/cellwallcomponent_page/${rowData.chebi}">${rowData.chebi}</a>`;
           const cell5 = row.insertCell(4);
-          cell5.innerHTML = rowData.effect_on_plant_cell_wall_component;
+          cell5.innerHTML = rowData.experiment_count;
+        });
+
+        // Handle pagination links
+        const paginationLinks = document.getElementById('pagination-links');
+        paginationLinks.innerHTML = '';  // Clear current pagination links
+
+        const maxPagesToShow = 5;  // Maximum number of page links to show
+        let startPage = Math.max(1, page - Math.floor(maxPagesToShow / 2));
+        let endPage = startPage + maxPagesToShow - 1;
+
+        if (endPage > data.num_pages) {
+          endPage = data.num_pages;
+          startPage = Math.max(1, endPage - maxPagesToShow + 1);
+        }
+
+        // Frist page link
+        const firstPageItem = document.createElement('li');
+        firstPageItem.className = 'page-item';
+        firstPageItem.innerHTML = `<a class="page-link" href="?page=1" aria-label="First">First</a>`;
+        if (page > 1) {
+          firstPageItem.addEventListener('click', (event) => {
+            event.preventDefault();
+            loadTableData(1);
+          });
+        } else {
+          firstPageItem.classList.add('disabled');
+        }
+        paginationLinks.appendChild(firstPageItem);
+
+        // Previous page link
+        const prevPageItem = document.createElement('li');
+        prevPageItem.className = 'page-item';
+        prevPageItem.innerHTML = `
+          <a class="page-link" href="?page=${page - 1}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>`;
+        if (page > 1) {
+          prevPageItem.addEventListener('click', (event) => {
+            event.preventDefault();
+            loadTableData(page - 1);
+          });
+        } else {
+          prevPageItem.classList.add('disabled');
+        }
+        paginationLinks.appendChild(prevPageItem);
+
+        // Page number links
+        for (let i = startPage; i <= endPage; i++) {
+          const pageItem = document.createElement('li');
+          pageItem.className = `page-item ${i === page ? 'active disabled' : ''}`;
+          pageItem.innerHTML = `<a class="page-link" href="?page=${i}">${i}</a>`;
+          if (i !== page) {
+            pageItem.addEventListener('click', (event) => {
+              event.preventDefault();
+              loadTableData(i);
+            });
+          }
+          paginationLinks.appendChild(pageItem);
+        }
+
+        // Next page link
+        const nextPageItem = document.createElement('li');
+        nextPageItem.className = 'page-item';
+        nextPageItem.innerHTML = `
+          <a class="page-link" href="?page=${page + 1}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>`;
+        if (page < data.num_pages) {
+          nextPageItem.addEventListener('click', (event) => {
+            event.preventDefault();
+            loadTableData(page + 1);
+          });
+        } else {
+          nextPageItem.classList.add('disabled');
+        }
+        paginationLinks.appendChild(nextPageItem);
+
+        // Last page link
+        const lastPageItem = document.createElement('li');
+        lastPageItem.className = 'page-item';
+        lastPageItem.innerHTML = `<a class="page-link" href="?page=${data.num_pages}" aria-label="Last">Last</a>`;
+        if (page < data.num_pages) {
+          lastPageItem.addEventListener('click', (event) => {
+            event.preventDefault();
+            loadTableData(data.num_pages);
+          });
+        } else {
+          lastPageItem.classList.add('disabled');
+        }
+        paginationLinks.appendChild(lastPageItem);
+      });
+  }
+
+  // Load first page on page load
+  loadTableData(1);
+
+</script>
+
+<script>
+  function loadTableData(page) {
+    fetch(`/pcwkb_core/gene_interaction_list/{{ species_id }}?page=${page}`)
+      .then(response => response.json())
+      .then(data => {
+        const tableBody = document.getElementById('gene-interaction-table').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = '';  // Clear current table data
+
+        data.data.forEach(rowData => {
+          console.log(rowData.putative_gene_regulator)
+          const row = tableBody.insertRow();
+          const cell1 = row.insertCell(0);
+          cell1.innerHTML = `<a href="pcwkb_core/gene_page/${rowData.putative_gene_regulator}">${rowData.putative_gene_regulator}</a>`;
+          const cell2 = row.insertCell(1);
+          cell2.innerHTML =  `<a href="pcwkb_core/gene_page/${rowData.gene_target}">${rowData.gene_target}</a>`;
+          const cell3 = row.insertCell(2);
+          cell3.innerHTML = rowData.effect_on_target;
+          const cell4 = row.insertCell(3);
+          cell4.innerHTML = rowData.experiment_count;
         });
 
         // Handle pagination links

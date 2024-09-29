@@ -1,6 +1,6 @@
 """
 Parser class for obo files (ontology structure files).
-Copied from Conekt source code (https://github.com/sepro/conekt)
+Copied and adapted Conekt source code (https://github.com/sepro/conekt)
 """
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
@@ -86,28 +86,25 @@ class Fasta:
 
         # the correct order to input is transcript, cds and protein
         
-        print("filename:")
-        print(filename)
         fasta_data = Fasta()
         fasta_data.readfile(filename, compressed, verbose)
 
         new_sequences = []
 
         # Loop over sequences, sorted by name (key here) and add to db
-        i=1
-        for header, sequence in sorted(fasta_data.sequences.items()):
+        for i, (header, sequence) in enumerate(sorted(fasta_data.sequences.items()), start=1):
 
             fa_id = ""
             transcript_name = ""
             protein_name = ""
-            gene_name = ""
+            gene_id = ""
 
             header = header.split()
             name=header[0]
             
             for str in header:
                 if str.startswith("locus"):
-                    _, gene_name = str.split("=")
+                    _, gene_id = str.split("=")
                 elif str.startswith("ID"):
                     _, fa_id = str.split("=")
                 elif str.startswith("transcript"):
@@ -115,8 +112,8 @@ class Fasta:
                 elif str.startswith("polypeptide"):
                     _, protein_name  = str.split("=")
             
-            if Gene.objects.filter(gene_name=gene_name).exists(): #could be a try and except to raise a gene obligatory request
-                gene = Gene.objects.get(gene_name=gene_name)
+            if Gene.objects.filter(gene_id=gene_id).exists(): #could be a try and except to raise a gene obligatory request
+                gene = Gene.objects.get(gene_id=gene_id)
             else:
                 gene = ""
 
@@ -145,14 +142,14 @@ class Fasta:
                     transcript = ""
                 
                 if not CDS.objects.filter(cds_name = name,
-                                          cds_id = fa_id,
+                                          cds_id = name,
                                           sequence = sequence,
                                           gene = gene,
                                           transcript = transcript,
                                           protein_name = protein_name):
                     
                     model_data = CDS.objects.create(cds_name = name,
-                                               cds_id = fa_id,
+                                               cds_id = name,
                                                sequence = sequence,
                                                gene = gene,
                                                transcript = transcript,
@@ -180,14 +177,14 @@ class Fasta:
             
                 
                 if not Protein.objects.filter(protein_name = name,
-                                              protein_id = fa_id,
+                                              protein_id = name,
                                               sequence = sequence,
                                               gene = gene,
                                               transcript = transcript,
                                               cds = cds):
 
                     model_data = Protein.objects.create(protein_name = name,
-                                                        protein_id = fa_id,
+                                                        protein_id = name,
                                                         sequence = sequence,
                                                         gene = gene,
                                                         transcript = transcript,
@@ -195,10 +192,9 @@ class Fasta:
                                                         source = source,
                                                         )
                 else:
-                    print("This protein fasta data is already in the database")
+                    print(f"This protein '{name}'fasta data is already in the database")
 
 
-            print(i)
-            i=i+1
+        print(f"{i+1} {seq_type} fasta data parsed to the database")
         
         return model_data

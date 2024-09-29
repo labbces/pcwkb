@@ -25,12 +25,12 @@ class CellWallComponent(models.Model):
         try:
             chebi = ChEBI.objects.get(chebi_name=chebi_name)
         except:
-            return "chebi_name incorrect"
+            return "chebi_id incorrect"
         try:
             cellwall_component = CellWallComponent.objects.get(chebi=chebi)
             return cellwall_component
         except:
-            new_cell_wall_component = CellWallComponent.objects.create(name=chebi.chebi_name,
+            new_cell_wall_component = CellWallComponent.objects.create(cellwallcomp_name=chebi.chebi_name,
                                                            description=chebi.definition,
                                                            chebi=chebi)
             return new_cell_wall_component

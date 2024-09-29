@@ -4,12 +4,12 @@
      "pk": 1,
      "fields": {
       "experiment_species": "Brachypodium distachyon",
-      "plantcomponent": ["stem"],
+      "plant_component": ["stem"],
       "experiment": ["RNAi-silencing"],
       "literature": "10.1111/nph.15089",
       "gene": "BdGT43A",
-      "cellwall_component": "xylose", 
-      "gene_expression": "Decreased expression",
+      "plant_cell_wall_component": "xylose", 
+      "gene_regulation": "Downregulation",
       "effect_on_plant_cell_wall_component": "Decreased xylose content",
       "plant_trait": "xylose content"
      }
@@ -19,13 +19,13 @@
      "pk": 2,
      "fields": {
       "experiment_species": "Brachypodium distachyon",
-      "plantcomponent": ["stem"],
+      "plant_component": ["stem"],
       "experiment": ["Klason Method"],
       "literature": "10.1186/s13068-019-1525-5",
       "gene": "LAC8",
       "plant_trait": "lignin content",
-      "cellwall_component": "CHEBI:6457",
-      "gene_expression": "Decreased expressed",
+      "plant_cell_wall_component": "CHEBI:6457",
+      "gene_regulation": "Downregulation",
       "effect_on_plant_cell_wall_component": "Decreased"
      }
     },
@@ -34,13 +34,13 @@
      "pk": 3,
      "fields": {
       "experiment_species": "Sorghum bicolor",
-      "plantcomponent": ["stem"],
-      "cellwall_component": "lignin",
+      "plant_component": ["stem"],
+      "plant_cell_wall_component": "lignin",
       "experiment": ["Klason Method"],
       "literature": "10.1186/s13068-021-02068-9",
       "gene": "OsAT10",
       "plant_trait": "lignin content",
-      "gene_expression": "Increased expressed",
+      "gene_regulation": "Upregulation",
       "effect_on_plant_cell_wall_component": "Decreased"
      }
     }

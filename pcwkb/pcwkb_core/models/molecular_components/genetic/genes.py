@@ -15,7 +15,7 @@ class Gene(models.Model):
     """
 
     gene_name = models.CharField(max_length=100, null=True, blank=True) #gene name
-    gene_id = models.CharField(max_length=100, unique=True, null=True, blank=True) #gene identifier
+    gene_id = models.CharField(max_length=100, null=True, blank=True) #gene identifier
     description = models.TextField(blank=True, null=True) #gene description
     original_db_info = models.CharField(max_length=50, blank=True, null=True) #Gene information db source (E.g. Phytozome)
     species = models.ForeignKey(Species, on_delete=models.CASCADE) # Species the gene belongs to

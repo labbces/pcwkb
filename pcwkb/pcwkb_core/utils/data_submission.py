@@ -1,0 +1,478 @@
+from pcwkb_core.models.molecular_components.genetic.genes import Gene
+from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc, GeneRegulation
+from pcwkb_core.models.functional_annotation.experimental.relationships.gene_interation_experiment_assoc import GeneInterationExperimentAssociation
+from pcwkb_core.models.ontologies.experiment_related.eco import ECOTerm
+from pcwkb_core.models.ontologies.plant_related.peco import PECOTerm
+from pcwkb_core.models.ontologies.plant_related.po import PlantOntologyTerm
+from pcwkb_core.models.ontologies.plant_related.to import TOTerm
+from pcwkb_core.models.biomass.cellwall_component import CellWallComponent
+from pcwkb_core.models.biomass.plant_component import PlantComponent
+from pcwkb_core.models.biomass.plant_trait import PlantTrait
+from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
+from pcwkb_core.models.literature.literature import Literature
+from pcwkb_core.models.functional_annotation.experimental.experiment import Experiment
+from django.db import transaction
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import ForeignKey, ManyToManyField, CharField, IntegerField, TextField, JSONField, ManyToOneRel
+import pandas as pd
+
+def validate_model_data(data, model_class):
+    errors = {}
+    warnings = {}
+
+    # Get model fields
+    model_fields = {field.name: field for field in model_class._meta.get_fields()}
+
+    for field_name, field in model_fields.items():       
+        
+        field_value = data.get(field_name)
+        if pd.isna(field_value):
+            field_value = None
+
+        # Skip ManyToOneRel fields (reverse relationships)
+        if isinstance(field, ManyToOneRel):
+            continue
+
+        # Check if the field is allowed to be null or blank
+        is_null = getattr(field, 'null', False)
+        is_blank = getattr(field, 'blank', False)
+
+
+        if (is_blank and field_value == '') or (is_null and field_value is None):
+            continue  # Skip validation for this field if it's allowed to be blank or null
+
+        # If field is not allowed to be null/blank and value is None, it's an error
+        if field_value is None and not (is_blank or is_null):
+            errors[field_name] = 'This field is required and cannot be null or blank.'
+
+        # Add specific validation for field types here, if needed
+        if isinstance(field, IntegerField):
+            if field_value is not None and not isinstance(field_value, int):
+                field_value=field_value.strip()
+                errors[field_name] = 'Invalid integer value. Field Value: {field_value}'
+        elif isinstance(field, CharField):
+            if field_value is not None and not isinstance(field_value, str):
+                field_value=field_value.strip()
+                errors[field_name] = 'Invalid string value. Field Value: {field_value}'
+            elif field_name in ['experiment_species']:
+                if not Species.objects.filter(scientific_name=field_value).exists():
+                    warnings[field_name] = f'Considering "{field_value}" a plant species or non-plant species that does not have a corresponding record.'
+        elif isinstance(field, TextField):
+            if field_value is not None and not isinstance(field_value, str):
+                field_value=field_value.strip()
+                errors[field_name] = 'Invalid text value. Field Value: {field_value}'
+        elif isinstance(field, JSONField):
+            if field_value is not None:
+                import json
+                try:
+                    json.loads(field_value)  # Try to parse JSON
+                except json.JSONDecodeError:
+                    errors[field_name] = 'Invalid JSON value. Field Value: {field_value}'
+
+        # ForeignKey fields
+        if isinstance(field, ForeignKey):
+            if field_value is not None:
+                field_value=field_value.strip()
+                related_model = field.related_model
+                if field_name == 'plant_cell_wall_component':
+                    if not (related_model.objects.filter(chebi__chebi_id=field_value).exists() or \
+                        related_model.objects.filter(cellwallcomp_name=field_value).exists()):
+                        errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}' 
+                elif field_name in ['gene', 'gene_target', 'putative_gene_regulator']:
+                    if not (related_model.objects.filter(gene_name=field_value).exists() or related_model.objects.filter(gene_id=field_value).exists()):
+                        warnings[field_name] = f'Considering "{field_value}" as a new gene in the database'
+                elif field_name == 'plant_trait':
+                    if not (related_model.objects.filter(name=field_value).exists() or related_model.objects.filter(to__to_id=field_value).exists() or TOTerm.objects.filter(to_id=field_value)):
+                        errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}' 
+                elif field_name == 'species':
+                    if not related_model.objects.filter(scientific_name=field_value).exists():
+                        errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value}'
+                elif field_name == 'literature':
+                    if field_value.startswith('10'):
+                        if not related_model.objects.filter(doi=field_value).exists():
+                            warnings[field_name] = f'Considering "{field_value}" a new DOI that does not have a corresponding record.'
+                    else:
+                        errors[field_name] = f'Invalid DOI reference for {field_name}. DOI should start with "10". Field Value: {field_value}'
+                elif field_name == 'gene_regulation':
+                    condition_dict = {
+                        'upregulation': 'UPREGULATION',
+                        'downregulation': 'DOWNREGULATION',
+                        'knockout': 'KNOCKOUT',
+                        'insertion': 'INSERTION',
+                        'deletion': 'DELETION',
+                        'point mutation': 'POINT_MUTATION',
+                        'substitution': 'SUBSTITUTION',
+                        'frame shift mutation': 'FRAME_SHIFT',
+                        'gene amplification': 'GENE_AMPLIFICATION',
+                        'gene fusion': 'GENE_FUSION',
+                        'translocation': 'TRANSLOCATION',
+                        'duplication': 'DUPLICATION',
+                        'epigenetic modification': 'EPIGENETIC_MOD',
+                        'overexpression': 'OVEREXPRESSION',
+                        'gene silencing': 'GENE_SILENCING',
+                        'conditional knockout': 'CONDITIONAL_KNOCKOUT',
+                        'insertional mutagenesis': 'INSERTIONAL_MUTAGENESIS',
+                        }
+                    field_value=condition_dict[field_value.lower()]
+                    if not related_model.objects.filter(condition_type=field_value):
+                        errors[field_name] = f'Invalid reference for {field_name}. Field Value: {field_value} <br>'
+                else:
+                    if not related_model.objects.filter(pk=field_value).exists():
+                        errors[field_name] = f'Invalid reference for {field_name}.'
+
+        # ManyToMany fields
+        elif isinstance(field, ManyToManyField):
+            if field_value is not None:
+                field_value=field_value.strip()
+                field_value=field_value.split(", ")
+                if not isinstance(field_value, list):
+                    errors[field_name] = f'Invalid format for {field_name} field. Expected a list. \
+                                            Your data should be like "ECO:0001050, ECO:0007045, Klason method"'
+                else:
+                    related_model = field.related_model
+                    if field_name == 'plant_component':
+                        for item in field_value:
+                            if item.startswith('PO:'):
+                                if not related_model.objects.filter(po__po_id=item).exists() and not PlantOntologyTerm.objects.filter(po_id=item):
+                                    errors[field_name] = f'Invalid PO term reference in {item}. Field Value: {field_value}'
+                            else:
+                                if not related_model.objects.filter(name=item).exists():
+                                     errors[field_name] = f'Invalid reference in {item}. Field Value: {field_value}'
+                    elif field_name == 'experiment':
+                        for item in field_value:
+                            if item.startswith('ECO:'):
+                                if not related_model.objects.filter(eco_term__eco_id=item).exists() and not ECOTerm.objects.filter(eco_id=item):
+                                    errors[field_name] = f'Invalid ECO term reference in {item}. Field Value: {field_value}'
+                            else:
+                                if not related_model.objects.filter(experiment_name=item).exists():
+                                    warnings[field_name] = f'Considering "{item}" a new experiment name that does not have a corresponding ECO term.'
+                                    errors[field_name] = f'Invalid reference for {field_name}. Field Value: {item}'
+                    else:
+                        for item in field_value:
+                            if not related_model.objects.filter(pk=item).exists():
+                                errors[field_name] = f'Invalid reference in {item}. Field Value: {field_value}'
+
+    return not bool(errors), errors, warnings
+
+def replace_nan_with_none(data):
+    if isinstance(data, list):
+        return [replace_nan_with_none(item) for item in data]
+    elif isinstance(data, dict):
+        return {key: replace_nan_with_none(value) for key, value in data.items()}
+    elif isinstance(data, float) and (data != data):  # Check for NaN
+        return None
+    else:
+        return data
+
+def strip_all_strings(data):
+    if isinstance(data, dict):
+        return {key: strip_all_strings(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [strip_all_strings(item) for item in data]
+    elif isinstance(data, str):
+        return data.strip()
+    else:
+        return data
+
+def get_or_create_literature(doi):
+    try:
+        # Try to retrieve the literature by DOI
+        literature = Literature.objects.get(doi=doi)
+    except Literature.DoesNotExist:
+        # If not found, create the literature using get_lit_info
+        literature = Literature.get_lit_info(doi)
+    return literature
+
+def get_or_create_gene(gene_id, gene_name, description, species, species_variety):
+    gene = None
+    
+    if gene_id:
+        try:
+            gene = Gene.objects.get(gene_id=gene_id)
+        except Gene.DoesNotExist:
+            pass
+
+    if gene is None and gene_name:
+        try:
+            gene = Gene.objects.get(gene_name=gene_name)
+        except Gene.DoesNotExist:
+            pass
+
+    if gene is None:
+        species = Species.objects.get(scientific_name=species)
+        gene = Gene.objects.create(
+            gene_id=gene_id,
+            gene_name=gene_name,
+            description=description,
+            species=species,
+            species_variety=species_variety
+        )
+
+    return gene
+
+
+def get_or_create_experiment(exp_data):
+    if exp_data.get('literature'):
+        literature = get_or_create_literature(exp_data.get('literature'))
+    else:
+        literature = None
+
+    peco_term = None
+    eco_term = None
+
+    if exp_data.get('peco_term'):
+        peco_term = PECOTerm.objects.get(peco_id=exp_data.get('peco_term'))
+    
+    if exp_data.get('eco_term'):
+        eco_term = ECOTerm.objects.get(eco_id=exp_data.get('eco_term'))
+    
+
+    experiment, created = Experiment.objects.get_or_create(
+        experiment_name=exp_data.get('experiment_name'),
+        defaults={
+            'experiment_category': exp_data.get('experiment_category'),
+            'description': exp_data.get('description'),
+            'peco_term': peco_term,
+            'eco_term': eco_term,
+            'literature': literature,
+        }
+    )
+    return experiment
+
+def get_or_create_species(species_data):
+    species, created = Species.objects.get_or_create(
+        scientific_name=species_data.get('scientific_name'),
+        defaults={
+            'species_code': species_data.get('species_code'),
+            'taxid': species_data.get('taxid'),
+            'common_name': species_data.get('common_name'),
+            'family': species_data.get('family'),
+            'clade': species_data.get('clade'),
+            'photosystem': species_data.get('photosystem'),
+        }
+    )
+    return species
+
+def get_or_create_experiment_by_name_or_eco_id(experiment_name_or_id):
+    try:
+        experiment = Experiment.objects.get(experiment_name=experiment_name_or_id)
+    except Experiment.DoesNotExist:
+        try:
+            experiment = Experiment.objects.get(eco_term__eco_id=experiment_name_or_id)
+        except Experiment.DoesNotExist:
+            experiment = Experiment.add_from_eco(experiment_name_or_id)
+    return experiment
+
+def get_or_create_plant_component_by_name_or_po_id(plant_component_name_id):
+    try:
+        plant_component = PlantComponent.objects.get(name=plant_component_name_id)
+    except PlantComponent.DoesNotExist:
+        try:
+            plant_component = PlantComponent.objects.get(po__po_id=plant_component_name_id)
+        except PlantComponent.DoesNotExist:
+            plant_component = PlantComponent.add_from_po(plant_component_name_id)
+    return plant_component
+
+def get_or_create_plant_trait_by_name_or_to_id(plant_trait_name_id):
+    try:
+        plant_trait = PlantTrait.objects.get(name=plant_trait_name_id)
+    except PlantTrait.DoesNotExist:
+        try:
+            plant_trait = PlantTrait.objects.get(to__to_id=plant_trait_name_id)
+        except PlantTrait.DoesNotExist:
+            plant_trait = PlantTrait.add_from_to(plant_trait_name_id)
+    return plant_trait
+
+def get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_name_id):
+    try:
+        cell_wall_component = CellWallComponent.objects.get(cellwallcomp_name=cell_wall_component_name_id)
+    except CellWallComponent.DoesNotExist:
+        try:
+            cell_wall_component = CellWallComponent.objects.get(chebi__chebi_id=cell_wall_component_name_id)
+        except CellWallComponent.DoesNotExist:
+            cell_wall_component = CellWallComponent.add_from_chebi(cell_wall_component_name_id)
+    return cell_wall_component
+
+def get_gene_regulation_id(gene_regulation):
+    condition_dict = {
+                        'upregulation': 'UPREGULATION',
+                        'downregulation': 'DOWNREGULATION',
+                        'knockout': 'KNOCKOUT',
+                        'insertion': 'INSERTION',
+                        'deletion': 'DELETION',
+                        'point mutation': 'POINT_MUTATION',
+                        'substitution': 'SUBSTITUTION',
+                        'frame shift mutation': 'FRAME_SHIFT',
+                        'gene amplification': 'GENE_AMPLIFICATION',
+                        'gene fusion': 'GENE_FUSION',
+                        'translocation': 'TRANSLOCATION',
+                        'duplication': 'DUPLICATION',
+                        'epigenetic modification': 'EPIGENETIC_MOD',
+                        'overexpression': 'OVEREXPRESSION',
+                        'gene silencing': 'GENE_SILENCING',
+                        'conditional knockout': 'CONDITIONAL_KNOCKOUT',
+                        'insertional mutagenesis': 'INSERTIONAL_MUTAGENESIS',
+                        }
+    gene_regulation=condition_dict[gene_regulation.lower()]
+    gene_regulation=GeneRegulation.objects.get(condition_type=gene_regulation)
+
+    return gene_regulation
+
+def get_or_create_biomass_gene_experiment_assoc(record, species, gene, literature, cell_wall_component, plant_trait, experiments, plant_components, gene_regulation):
+    # Define the unique fields to check for existence
+    unique_fields = {
+        'experiment_species': species,
+        'experiment_species_variety': record.get('experiment_species_variety'),
+        'gene': gene,
+        'gene_regulation': gene_regulation,
+        'effect_on_plant_cell_wall_component': record.get('effect_on_plant_cell_wall_component'),
+        'literature': literature,
+        'plant_cell_wall_component': cell_wall_component,
+        'plant_trait': plant_trait if record.get('plant_trait') else None
+    }
+    
+    # Check for an existing BiomassGeneExperimentAssoc object
+    try:
+        biomass_gene_experiment_assoc = BiomassGeneExperimentAssoc.objects.get(**unique_fields)
+        is_new = False
+    except BiomassGeneExperimentAssoc.DoesNotExist:
+        biomass_gene_experiment_assoc = BiomassGeneExperimentAssoc.objects.create(**unique_fields)
+        is_new = True
+    
+    # Update many-to-many relationships
+    biomass_gene_experiment_assoc.experiment.set(experiments)
+    biomass_gene_experiment_assoc.plant_component.set(plant_components)
+
+    # If you want to save the object in case any other fields were updated
+    if not is_new:
+        biomass_gene_experiment_assoc.save()
+    
+    return biomass_gene_experiment_assoc
+
+def get_or_create_gene_gene_interation(record, species, putative_gene_regulator, gene_target, literature, experiments):
+    # Define the unique fields to check for existence
+    unique_fields = {
+        'experiment_species': species,
+        'putative_gene_regulator': putative_gene_regulator,
+        'gene_target': gene_target,
+        'effect_on_target': record.get('effect_on_target'),
+        'literature': literature,
+    }
+    
+    # Check for an existing GeneInterationExperimentAssociation object
+    try:
+        gene_interaction_assoc = GeneInterationExperimentAssociation.objects.get(**unique_fields)
+        is_new = False
+    except GeneInterationExperimentAssociation.DoesNotExist:
+        gene_interaction_assoc = GeneInterationExperimentAssociation.objects.create(**unique_fields)
+        is_new = True
+    
+    # Update many-to-many relationships
+    gene_interaction_assoc.experiment.set(experiments)
+    
+    # If you want to save the object in case any other fields were updated
+    if not is_new:
+        gene_interaction_assoc.save()
+    
+    return gene_interaction_assoc
+
+
+@transaction.atomic
+def create_biomass_gene_experiment_assoc(data):
+    if data['species_data']:
+        for record in data['species_data']:
+            get_or_create_species(record)
+    if data['experiment_data']:
+        for record in data['experiment_data']:
+            get_or_create_experiment(record)
+    for record in data['biomass_gene_association_data']:
+        literature = get_or_create_literature(record.get('literature'))
+        species=record.get('experiment_species')
+        gene = get_or_create_gene(gene_id=record.get('gene_id'),
+                                  gene_name=record.get('gene_name'),
+                                  description=record.get('gene_description'),
+                                  species=record.get('gene_species'),
+                                  species_variety=record.get('species_variety'))
+
+        experiments = []
+        experiements_list = record.get('experiment').split(", ")
+        for experiment_name_id in experiements_list:
+            experiment = get_or_create_experiment_by_name_or_eco_id(experiment_name_id)
+            experiments.append(experiment)
+
+        plant_components = []
+        plant_components_list = record.get('plant_component').split(", ")
+        for plant_component_name_id in plant_components_list:
+            plant_component = get_or_create_plant_component_by_name_or_po_id(plant_component_name_id)
+            plant_components.append(plant_component)
+
+        plant_trait_name_id = record.get('plant_trait')
+        plant_trait = get_or_create_plant_trait_by_name_or_to_id(plant_trait_name_id)
+
+        cell_wall_component_name_id = record.get('plant_cell_wall_component')
+        cell_wall_component = get_or_create_cell_wall_component_by_name_or_chebi_id(cell_wall_component_name_id)   
+
+        gene_regulation=get_gene_regulation_id(record.get('gene_regulation'))      
+
+        biomass_gene_experiment_assoc = get_or_create_biomass_gene_experiment_assoc(
+            record=record,
+            species=species,
+            gene=gene,
+            literature=literature,
+            cell_wall_component=cell_wall_component,
+            plant_trait=plant_trait,
+            experiments=experiments,
+            plant_components=plant_components,
+            gene_regulation=gene_regulation
+        )
+
+    return biomass_gene_experiment_assoc
+
+@transaction.atomic
+def create_gene_gene_interation(data):
+    if data['species_data']:
+        for record in data['species_data']:
+            get_or_create_species(record)
+    
+    if data['experiment_data']:
+        for record in data['experiment_data']:
+            get_or_create_experiment(record)
+
+    for record in data['gene_gene_association_data']:
+        literature = get_or_create_literature(record.get('literature'))
+        species = record.get('experiment_species')
+        
+        # Fetch the putative gene regulator
+        putative_gene_regulator = get_or_create_gene(gene_id = record.get('putative_gene_regulator_id'),
+                                                     gene_name = record.get('putative_gene_regulator_name'),
+                                                     species = record.get('putative_gene_regulator_species_name'),
+                                                     description = record.get('putative_gene_regulator_description'),
+                                                     species_variety =  None  
+        )
+
+        # Fetch the gene target
+        gene_target = get_or_create_gene(gene_id = record.get('gene_target_id'),
+                                         gene_name = record.get('gene_target_name'),
+                                         species = record.get('gene_target_species_name'),
+                                         description = record.get('gene_target_description'),
+                                         species_variety = None  
+        )
+    
+        # Fetch experiments associated with the interaction
+        experiments = []
+        experiment_list = record.get('experiment').split(", ")
+        for experiment_name_id in experiment_list:
+            experiment = get_or_create_experiment_by_name_or_eco_id(experiment_name_id)
+            experiments.append(experiment)
+
+        # Create or update the gene-gene interaction association
+        gene_interaction_assoc = get_or_create_gene_gene_interation(
+            record=record,
+            species=species,
+            putative_gene_regulator=putative_gene_regulator,
+            gene_target=gene_target,
+            literature=literature,
+            experiments=experiments
+        )
+
+    return gene_interaction_assoc

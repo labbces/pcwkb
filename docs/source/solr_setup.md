@@ -1,6 +1,8 @@
 Setting up Solr for Plant Cell Wall KnowledgeBase
 =====
 
+Here we are using conda to set a virtual envoroment, please install conda before proceeding with this documentation.
+
 Step 1: Installation of Java 11
 ------------
 
@@ -35,7 +37,7 @@ Step 3: Building a Core
 Step 4: Building a Schema
 ------------
 
-A schema in Solr is a fundamental component that defines the structure and behavior of your search index. It's essential for maintaining data quality, enabling effective searching, and improving search relevance. Creating and managing a well-designed wschema is crucial for getting the most out of Solr's search capabilities. 
+A schema in Solr is a fundamental component that defines the structure and behavior of your search index. It's essential for maintaining data quality, enabling effective searching, and improving search relevance. Creating and managing a well-designed schema is crucial for getting the most out of Solr's search capabilities. 
     Here, we build the schema:
 
 ```bash

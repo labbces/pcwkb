@@ -213,6 +213,36 @@
          "title": "Abundance of Major Cell Wall Components in Natural Variants and Pedigrees of Populus trichocarpa",
          "public_year": "2022-01-01"
      }
-   }
-   ] 
-      
+    },
+    {
+      "model": "pcwkb_core.literature",
+      "pk": 17,
+      "fields": {
+          "doi": "10.1126/science.1128691",
+          "author_name": "Tuskan",
+          "title": "The Genome of Black Cottonwood, Populus trichocarpa (Torr. &amp; Gray)",
+          "public_year": "2006-01-01"
+      }
+    },
+    {
+      "model": "pcwkb_core.literature",
+      "pk": 18,
+      "fields": {
+          "doi": "10.1111/tpj.13415",
+          "author_name": "Cheng",
+          "title": "Araport11: a complete reannotation of the Arabidopsis thaliana reference genome.",
+          "public_year": "2017-01-01"
+      }
+    },
+    {
+      "model": "pcwkb_core.literature",
+      "pk": 19,
+      "fields": {
+          "doi": "10.1111/tpj.13781",
+          "author_name": "McComrmick",
+          "title": "The Sorghum bicolor reference genome: improved assembly, gene annotations, a transcriptome atlas, and signatures of genome organization",
+          "public_year": "2017-01-01"
+      }
+    } 
+    ] 
+       

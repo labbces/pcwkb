@@ -87,12 +87,70 @@
   </div>
 </section>
 
+<section class="mx-auto overflow-auto p-4">
+  <ul class="nav nav-tabs" id="annotationTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="go-tab" data-bs-toggle="tab" data-bs-target="#tf" type="button" role="tab" aria-controls="go" aria-selected="true">Transcriptional regulator Annotations</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="cazyme-tab" data-bs-toggle="tab" data-bs-target="#cazyme" type="button" role="tab" aria-controls="cazyme" aria-selected="false">CAZyme Annotations</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="interpro-tab" data-bs-toggle="tab" data-bs-target="#interpro" type="button" role="tab" aria-controls="interpro" aria-selected="false">InterPro Annotations</button>
+    </li>
+  </ul>
+  <div class="tab-content" id="annotationTabsContent">
+    <!-- TF Annotations Tab -->
+    <div class="tab-pane fade show active" id="tf" role="tabpanel" aria-labelledby="go-tab">
+      <h3 class="mt-4">Transcriptional regulator Annotations</h3>
+      {% if tf_annotations %}
+        <ul>
+          {% for annotation in tf_annotations %}
+          <li>{{ annotation.transcriptionalregulatorfamily.family }} {{ annotation.transcriptionalregulatorfamily.regulator_class }} ({{ annotation.annotation_method.software }} {{ annotation.annotation_method.software_version }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No GO annotations available.</p>
+      {% endif %}
+    </div>
+
+    <!-- CAZyme Annotations Tab -->
+    <div class="tab-pane fade" id="cazyme" role="tabpanel" aria-labelledby="cazyme-tab">
+      <h3 class="mt-4">CAZyme Annotations</h3>
+      {% if cazyme_annotations %}
+        <ul>
+          {% for annotation in cazyme_annotations %}
+          <li>{{ annotation.cazyme.cazyme_class }} {{ annotation.cazyme.family }} ({{ annotation.annotation_method.software }} {{ annotation.annotation_method.software_version }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No CAZyme annotations available.</p>
+      {% endif %}
+    </div>
+
+    <!-- InterPro Annotations Tab -->
+    <div class="tab-pane fade" id="interpro" role="tabpanel" aria-labelledby="interpro-tab">
+      <h3 class="mt-4">InterPro Annotations</h3>
+      {% if interpro_annotations %}
+        <ul>
+          {% for annotation in interpro_annotations %}
+          <li>{{ annotation.interpro.name }} ({{ annotation.annotation_method.method_name }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No InterPro annotations available.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
 {% if assoc_list %}
     <section class="mb-5 py-4 rounded-5 pcwkb-bg-color m-4">
         <h3 class="m-2 text-center"><strong>Biomass and gene associations</strong></h3>
         {% for assoc in assoc_list %}
         <div class="card border-success mb-3">
-            <h5 class="card-header"><strong>Chemical Entity Term: {{ assoc.cellwall_component.cellwallcomp_name }}</strong></h5>
+            <h5 class="card-header"><strong>Chemical Entity Term: {{ assoc.plant_cell_wall_component.cellwallcomp_name }}</strong></h5>
             <div class="card-body">
                 {%if assoc.plantcomponent%}
                   {% for pc in assoc.plantcomponent.all %}
@@ -102,14 +160,14 @@
                 {%if assoc.plant_trait%}
                 <p class="card-text">Trait Ontology Term: {{assoc.plant_trait.name }}</p>
                 {%endif%}
-                <p class="card-text">Gene Expression: {{ assoc.gene_expression }}</p>
+                <p class="card-text">Gene Expression: {{ assoc.gene_regulation }}</p>
                 <p class="card-text">Effect on plant cell wall component: {{ assoc.effect_on_plant_cell_wall_component }}</p>
                 <p class="card-text">Literature: <a href="https://doi.org/{{ assoc.literature.doi }}" target="_blank">"{{ assoc.literature.title }}"</a></p>
                 {% for experiment in assoc.experiment.all %}
                   <p class="card-text">Experiment: <a href="pcwkb_core/experiment_page/{{ experiment.experiment_name }}" target="_blank">{{ experiment.experiment_name }}</a></p>
                 {% endfor %}
-                {% if assoc.experiment_species.scientific_name != species.scientific_name %}
-                  <p class="card-text alert alert-info">Experiment with heterologous expression using <a href="pcwkb_core/species_page/{{ assoc.experiment_species.species_code }}" target="_blank">{{ assoc.experiment_species.scientific_name }}</a></p>
+                {% if assoc.experiment_species != species.scientific_name %}
+                  <p class="card-text alert alert-info">Experiment with heterologous expression using {{ assoc.experiment_species }}</p>
                 {%endif%}
             </div>
         </div>

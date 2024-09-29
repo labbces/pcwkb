@@ -1,4 +1,9 @@
+"""
+Parser class for GFF3 files.
+"""
+
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
+from pcwkb_core.models.molecular_components.genetic.genomes import Genome
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
 import gzip
@@ -13,23 +18,21 @@ class GFF3Parser:
             f = gzip.open(gff3_file, "rt")
         else:
             f = open(gff3_file, "r")
-            for line in f:
-                if not line.startswith('#'):
-                    fields = line.strip().split('\t')
-                    if fields[2] == 'gene':
-                        attributes = self.parse_attributes(fields[8])
-                        gene_data = {
-                                    'gene_id': attributes.get('ID', ''),
-                                    'gene_name': attributes.get('Name', ''),
-                                    'source': fields[1]
-                                    }
-                        genes.append(gene_data)
-            print(genes)
+        for line in f:
+            if not line.startswith('#'):
+                fields = line.strip().split('\t')
+                if fields[2] == 'gene': 
+                    attributes = self.parse_attributes(fields[8])
+                    gene_data = {
+                                'gene_id': attributes.get('ID', ''),
+                                'gene_name': attributes.get('Name', ''),
+                                'source': fields[1]
+                                }
+                    genes.append(gene_data)
 
         f.close()
         
         return genes
-        
         
 
     def parse_attributes(self, attribute_string):
@@ -41,29 +44,24 @@ class GFF3Parser:
         return attributes
 
     @staticmethod
-    def add_from_gff3(gff3_file, species_id, compressed=False):
+    def add_from_gff3(gff3_file, species_id, genome_id, compressed=False):
         i = 1
         parser = GFF3Parser()
         genes = parser.parse(gff3_file, compressed)
-        for gene in genes:
-            print(i)
-#            print(Species.objects.get(id=species_id).scientific_name,
-#                  Species.objects.get(id=species_id).id)
-#            print(gene, species_id)
-
-            if not Gene.objects.filter(gene_name=gene['gene_name'],
-                                       gene_id=gene['gene_id'],
-                                    original_db=gene['source'],
+        g = None
+        for i, gene in enumerate(genes):
+            if not Gene.objects.filter(gene_id=gene['gene_name'],
                                     species=Species.objects.get(id=species_id),
-                                    source="gff3"
+                                    genome=Genome.objects.get(id=genome_id),
                                     ):
-                g = Gene.objects.create(gene_name=gene['gene_name'],
-                                        gene_id=gene['gene_id'],
-                                    original_db=gene['source'],
+                 g = Gene.objects.create(gene_name=gene['gene_name'],
+                                        gene_id=gene['gene_name'],
+                                    original_db_info=gene['source'],
                                     species=Species.objects.get(id=species_id),
-                                    source="gff3"
+                                    genome=Genome.objects.get(id=genome_id),
                                     )
             else:
-                print("Já existe")
-            i=i+1
+                print("Gene object already exists")
+                g = None
+            print(f"{i+1} genes parsed")
         return g

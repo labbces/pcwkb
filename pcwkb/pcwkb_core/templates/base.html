@@ -55,24 +55,31 @@
               </ul>
           </li>
         </ul>
-        <form class="d-flex" method="get" action="{% url 'search_engine' %}">
-          <input class="btn btn-success" type="submit" value="Try out our search engine">
-        </form>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link text-white btn btn-success" href="{% url 'search_engine' %}">Try out our search engine</a>
+          </li>
+        </ul>
+
+
+
         <ul class="navbar-nav ml-auto">
           {% if not request.user.is_authenticated %}
           <li class="nav-item"><a class="nav-link text-white btn btn-success" href="{% url 'registration' %}">Register</a></li>
           <li class="nav-item"><a class="nav-link text-white btn btn-success" href="{% url 'login' %}">Login</a></li>
           {% else %}
-          <li class="nav-item dropdown">
-            <button class="btn btn-success dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Profile
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="/pcwkb_core/experiment_form">Submit data</a></li>
-              <li><a class="dropdown-item" href="/pcwkb_core/data_submission">Submit data in batch</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-            </ul>
+          <li class="nav-item">
+            <div class="btn-group">
+              <button type="button" class="btn btn-light"><a href="/pcwkb_core/accounts/profile">  {{user.username}} {% for group in user.groups.all %} ({{ group.name }}) {% endfor %}</a></button>
+              <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="visually-hidden">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/pcwkb_core/data_submission">Submit data</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+              </ul>
+          </div>
           {% endif %}
         </ul>
       </div>
@@ -81,12 +88,19 @@
 </header>
 
 {% if messages %}
-<div id="message" class="messages">
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}">
-        {{ message }}
-    </div>
-    {% endfor %}
+<div id="message" class="alert-container">
+  {% if messages %}
+      {% for message in messages %}
+          {% if message.tags == 'error' %}
+              <div class="alert alert-danger">
+          {% else %}
+              <div class="alert alert-{{ message.tags }}">
+          {% endif %}
+                {{ message }}
+                <button data-bs-theme="dark" type="button" class="btn-close position-absolute top-0 end-0" aria-label="Close"></button>
+          </div>
+      {% endfor %}
+  {% endif %}
 </div>
 {% endif %}
 
@@ -113,12 +127,24 @@
 </footer>
 
 <script>
-  setTimeout(function() {
-      var messageDiv = document.getElementById('message');
-      if (messageDiv) {
-          messageDiv.style.display = 'none';
-      }
-  }, 15000);
+  document.addEventListener('DOMContentLoaded', function() {
+      // Add event listeners to close buttons
+      var closeButtons = document.querySelectorAll('.btn-close');
+      closeButtons.forEach(function(button) {
+          button.addEventListener('click', function() {
+              var alert = this.parentElement;
+              alert.style.display = 'none';
+          });
+      });
+
+      // Optionally hide messages after a timeout
+      //setTimeout(function() {
+      //    var messageDiv = document.getElementById('message');
+      //    if (messageDiv) {
+      //       messageDiv.style.display = 'none';
+      //    }
+      //}, 120000); // 120 seconds
+  });
 </script>
 
 <style>

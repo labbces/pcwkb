@@ -10,11 +10,13 @@ class AnnotationMethod(models.Model):
     compatibility. This class also requires a related literature to
     verify the method used.
     """
-    software = models.CharField('Software name', max_length=20) #Phytozome
+    software = models.CharField('Software name', max_length=20)
     software_version = models.CharField('Software version', max_length=10)
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE,
                                    null=True, blank=True) #software literature
+    #incluir experimento
     
     def __str__(self):
-        return f"{self.software}_{self.software_version}_{self.literature.doi}"
+        doi = f"_{self.literature.doi}" if self.literature else ""
+        return f"{self.software}_{self.software_version}_{doi}"
     

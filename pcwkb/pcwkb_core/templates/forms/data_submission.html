@@ -1,23 +1,76 @@
 {% extends "base.html" %}
-
-{% block content %}
-
+{% load widget_tweaks %}
 {% load static %}
 
-<title>Data Submission</title>
 
-<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.3/components/teams/team-1/assets/css/team-1.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""/>
+{% block content %}
+<div class="container mt-4">
+    <h2>Data Submission</h2>
+    <p class="text-muted">Please make sure that your data sheets have at most 50 rows. You can download the template file <a href="{% static 'template_file/Template_file.xlsx' %}" download>here</a>.</p>
 
-<h2>Data Submission</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" class="btn btn-success">
-</form>
+        <div class="form-group mb-3">
+            <label class="form-label" for="{{ form.title.id_for_label }}">Title</label>
+            {% render_field form.title class="form-control" %}
+            {% if form.title.errors %}
+                <div class="text-danger">
+                    {% for error in form.title.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
 
+        <div class="form-group mb-3">
+            <label class="form-label" for="{{ form.input_file.id_for_label }}">Input File</label>
+            {% render_field form.input_file class="form-control" %}
+            {% if form.input_file.errors %}
+                <div class="text-danger">
+                    {% for error in form.input_file.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.non_field_errors %}
+                <div class="text-danger">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label" for="{{ form.type_of_data.id_for_label }}">Type of Data</label>
+            <div>
+            {% render_field form.type_of_data class="form-check form-check-inline"%}
+            </div>
+            {% if form.type_of_data.errors %}
+                <div class="text-danger">
+                    {% for error in form.type_of_data.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <input type="submit" value="Submit" class="btn btn-success mt-3">
+    </form>
+
+    {% if invalid_species_error %}
+    <div id="species-error-box" class="alert alert-warning mt-3">
+        <p>Invalid reference for species. Please complete the species_data sheet or submit a new species using the form.</p>
+        <button id="complete-species-data" class="btn btn-primary">Complete species_data sheet</button>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    document.getElementById('complete-species-data').addEventListener('click', function() {
+        alert('Please complete the species_data sheet as per the given instructions.');
+        window.location.href = "{% url 'data_submission' %}";
+    });
+</script>
 {% endblock %}

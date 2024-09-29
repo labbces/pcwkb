@@ -8,33 +8,47 @@ from pcwkb_core.models.functional_annotation.experimental.experiment import Expe
 from pcwkb_core.models.literature.literature import Literature
 from pcwkb_core.models.molecular_components.genetic.genes import Gene
 
+
+class GeneRegulation(models.Model):
+    CONDITION_CHOICES = [
+        ('UPREGULATION', 'upregulation'),
+        ('DOWNREGULATION', 'downregulation'),
+        ('KNOCKOUT', 'knockout'),
+        ('INSERTION', 'insertion'),
+        ('DELETION', 'deletion'),
+        ('POINT_MUTATION', 'point mutation'),
+        ('SUBSTITUTION', 'substitution'),
+        ('FRAME_SHIFT', 'frame shift mutation'),
+        ('GENE_AMPLIFICATION', 'gene amplification'),
+        ('GENE_FUSION', 'gene fusion'),
+        ('TRANSLOCATION', 'translocation'),
+        ('DUPLICATION', 'duplication'),
+        ('EPIGENETIC_MOD', 'epigenetic modification'),
+        ('OVEREXPRESSION', 'overexpression'),
+        ('GENE_SILENCING', 'gene silencing'),
+        ('CONDITIONAL_KNOCKOUT', 'conditional knockout'),
+        ('INSERTIONAL_MUTAGENESIS', 'insertional mutagenesis'),
+    ]
+
+    condition_type = models.CharField(max_length=50, choices=CONDITION_CHOICES)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.get_condition_type_display()
+
 class BiomassGeneExperimentAssoc(models.Model):
-    experiment_species = models.ForeignKey(Species, on_delete=models.CASCADE, null=True, blank=True) #explicar melhor
-    plantcomponent = models.ManyToManyField(PlantComponent, blank=True)
-    cellwall_component = models.ForeignKey(CellWallComponent, on_delete=models.CASCADE)
+    experiment_species = models.CharField(max_length=100, null=False, blank=False)
+    experiment_species_variety = models.CharField(max_length=100, null=True, blank=True)
+    plant_component = models.ManyToManyField(PlantComponent, blank=True)
+    plant_cell_wall_component = models.ForeignKey(CellWallComponent, on_delete=models.CASCADE)
     experiment = models.ManyToManyField(Experiment)
     literature = models.ForeignKey(Literature, on_delete=models.CASCADE)
     gene = models.ForeignKey(Gene, on_delete=models.CASCADE)
     plant_trait = models.ForeignKey(PlantTrait, on_delete=models.CASCADE, null=True, blank=True)
-    gene_expression = models.CharField("Gene expression",max_length=100, null=True, blank=True)
+    gene_regulation = models.ForeignKey(GeneRegulation, on_delete=models.CASCADE)
     effect_on_plant_cell_wall_component = models.CharField("Effect on plant", max_length=100)
 
     def __str__(self):
-        return f"{self.experiment}_{self.experiment_species}_{self.plant_trait or 'N/A'}"
-    
-#uma tabela para cada categoria
-#checar o tipo
-class RelationshipsExpressionExperiment(models.Model):
-    expression = models.CharField(max_length=100)
-    biomass_gene_experiment_assoc  = models.ForeignKey(BiomassGeneExperimentAssoc, on_delete=models.CASCADE)
+        return f"{self.experiment_species}_{self.plant_cell_wall_component}_{self.gene}_{self.literature}"
 
-    def __str__(self):
-        return self.expression
 
-class RelationshipsMutationExperiment(models.Model): #(knockout tá dentro de mutação)
-    mutation = models.CharField(max_length=100)
-    effect_on_gene = models.CharField(max_length=100)
-    biomass_gene_experiment_assoc  = models.ForeignKey(BiomassGeneExperimentAssoc, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.mutation

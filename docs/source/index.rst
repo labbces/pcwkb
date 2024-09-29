@@ -6,7 +6,7 @@ Welcome to Plant Cell Wall KnowledgeBase's documentation!
    :caption: Contents:
 
    connect_mysql
-   add_test_data
+   add_data
    haystack
    solr_setup
-   automated_tests
+   automated_testss

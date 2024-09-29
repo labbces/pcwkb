@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ur)qjhc%)28%(t0x9e4g@()^mt@e&)4g+0-okbnqtugnx1qx%f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pcwkb_core',
     'haystack',
+    'rolepermissions',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -82,7 +84,7 @@ WSGI_APPLICATION = 'pcwkb.wsgi.application'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://0.0.0.0:8983/solr/testeconfiguration',                 # Assuming you created a core named 'tester' as described in installing search engines.
+        'URL': 'http://0.0.0.0:8983/solr/pcwkb_core',                 # Assuming you created a core named 'tester' as described in installing search engines.
         'ADMIN_URL': 'http://0.0.0.0:8983/solr/admin/cores',
         'INCLUDE_SPELLING': True,
         # ...or for multicore...
@@ -122,6 +124,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "OPTIONS": {
+            "min_length": 9,
+        },
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -155,5 +160,9 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/pcwkb_core'
+LOGIN_REDIRECT_URL = '/pcwkb_core/accounts/profile'
 LOGOUT_REDIRECT_URL = '/pcwkb_core'
+
+# Role permissions
+ROLEPERMISSIONS_MODULE = 'pcwkb_core.permissions'
+ROLEPERMISSIONS_REDIRECT_TO_LOGIN = True

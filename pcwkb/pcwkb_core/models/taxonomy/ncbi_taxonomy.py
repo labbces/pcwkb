@@ -10,8 +10,8 @@ class Species(models.Model):
     where the specie is assigned and its photosystem type.  
     """
     species_code = models.CharField(max_length=10, null=False, blank=True)
-    taxid = models.IntegerField()
-    scientific_name = models.CharField(max_length=50, null=False, blank=True)
+    taxid = models.IntegerField(null=True, blank=True)
+    scientific_name = models.CharField(max_length=100, null=False, blank=True)
     common_name = models.CharField(max_length=30, null=True, blank=True)
     family = models.CharField(max_length=30, null=False, blank=True)
     clade = models.CharField(max_length=50, null=False, blank=True)
@@ -53,7 +53,7 @@ class Species(models.Model):
                 species_code = species_code + str(i)
                 db_species = Species.objects.filter(species_code=species_code).first()
             
-            common_name = 'batata' #tax_item['OtherNames']
+            common_name = tax_item['OtherNames']
             family = 'Poaceae'
             clade = 'mmonocot'
             photosystem = 'C4'

@@ -1,7 +1,20 @@
 """
 Parser class for obo files (ontology structure files).
-Copied from Conekt source code (https://github.com/sepro/conekt)
+Copied and adapted from Conekt source code (https://github.com/sepro/conekt)
+
+<ontology_abbreviation>
+
+po', 'eco', 'peco', 'chebi', 'to', 'go
+
+po = Plant Ontology (PO)
+to - Trait Ontology (TO)
+go - Gene Ontology (GO)
+chebi - Chemical Entities of Biological Interest (ChEBI)
+peco - Plant Experimental Conditions Ontology (PECO)
+eco -  Evidence and Conclusion Ontology (ECO)
+
 """
+
 from copy import deepcopy
 import gzip
 
@@ -200,18 +213,15 @@ class Parser:
             from pcwkb_core.models.ontologies.molecular_related.gene_ontology import GeneOntologyTerm
             model=GeneOntologyTerm
         else:
-            raise ValueError("Unsupported ontology type. Only 'po', 'eco', 'peco', 'chebi', 'to' are supported.")
+            raise ValueError("Unsupported ontology type. Only 'po', 'eco', 'peco', 'chebi', 'to', 'go' are supported.")
 
-        print(model.objects.all())
 
         if empty:
             model.objects.all().delete()
 
         obo_parser = Parser()
-        print("Filename:", filename)
-        print("Empty:", empty)
-        print("Compressed:", compressed)
-        obo_parser.readfile(filename)
+
+        obo_parser.readfile(filename, compressed)
 
         obo_parser.extend_go()
 
@@ -228,6 +238,7 @@ class Parser:
                 new_object = model.objects.create(**kwargs)
                 print(f"Created {model.__name__} object:", new_object)
             else:
-                print("Já existe")
-            print(i)
+                new_object=None
+                print(f"{model.__name__} already in the database")
+        print(f"{i} files parsed")
         return new_object

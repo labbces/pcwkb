@@ -24,7 +24,7 @@ class PlantTrait(models.Model):
         try:
             to = TOTerm.objects.get(to_name=to_name)
         except:
-            return "to_id incorrect"
+            return "to_name incorrect"
         try:
             plant_trait = PlantTrait.objects.get(to=to)
             return plant_trait

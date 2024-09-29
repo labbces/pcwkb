@@ -17,7 +17,8 @@ urlpatterns = [
     path('species_page/<str:species_code>', species.species_page, name='species_page'),
     path('gene_page/<str:gene_name>', gene.gene_page, name='gene_page'),
     path('gene_list/<int:species_id>', gene.paginated_gene_list, name='gene_list'),
-    path('gene_biomass_list/<int:species_id>', gene.paginated_gene_experiment_list, name='gene_biomass_list'),
+    path('gene_biomass_list/<int:species_id>', gene.paginated_gene_biomass_list, name='gene_biomass_list'),
+    path('gene_interaction_list/<int:species_id>', gene.paginated_gene_interaction_list, name='gene_interaction_list'),
     path('og_page/<str:og_name>', orthogroup.og_page, name='og_page'),
     path('', base_views.index, name='index'),
     path('team', base_views.team, name='team'),
@@ -37,4 +38,7 @@ urlpatterns = [
     path('experiment_form', data_submission.experiment_form_view, name='experiment_form'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/registration', accounts.registration, name='registration'),
+    path('accounts/profile', accounts.profile, name='users-profile'),
+    path('approve_submission/<int:submission_id>/', data_submission.approve_submission_DataSubmission, name='approve_submission'),
+    path('handle_review_action/<int:submission_id>/', accounts.handle_review_action, name='handle_review_action'),
 ]

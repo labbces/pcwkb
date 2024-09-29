@@ -1,5 +1,7 @@
 # Plant Cell Wall KnowledgeBase
 
+## Preparing the environment
+
 Ensure that you have Python 3.8 or higher installed.
 
 To install Python 3.8 on WSL2 (Windows 10), run:
@@ -25,21 +27,46 @@ Install all dependencies:
 sudo apt-get install python3.8-dev default-libmysqlclient-dev build-essential python3.8-distutils
 pip install -r requirements.txt
 ```
-Django has a settings.py documment, heve we supply a settings.template.py, that you can use as model to create a setting.py in the pcwkb folder. Inside it you can change to use your database/user configuration.
+**Note**: The `requirements.txt` file contains all the Python packages required for the project.
 
-To build the documentation, go to `docs/` and run:
+Django has a `settings.py` document. Here, we supply a `settings.template.py`, which you can use as a template to create a `settings.py` file in the pcwkb folder. Inside it, you can change the database/user configuration to match your setup.
 
+```bash
+cp pcwkb/settings.template.py pcwkb/settings.py
 ```
+
+## Building the documentation
+
+To build the documentation, go to `pcwkb/docs/` and run:
+
+```bash
+cd docs/
 sphinx-build -b html source/ build/html
 ```
 
 Note that we changed the default Sphinx builder to use the Markdown parser. This is done by adding the following line to `conf.py` file in the `pcwkb/docs` folder:
 
-```
+```python
 extensions = ["myst_parser"]
 ```
 
-# Reseach and Development Team
+You can find the generated documentation in the `docs/build/html` directory.
+
+## Running the Server
+
+After following the steps to set up the environment and build the documentation, you can run the server and access the web page. Navigate to the `pcwkb/pcwkb` folder in your terminal and execute the following command:
+
+```bash
+python manage.py runserver
+```
+
+This will start the Django development server. You can then open your web browser and go to http://127.0.0.1:8000/pcwkb_core to access the web page.
+
+
+
+If you encounter any issues while loading data or using the parsers, please refer to the project’s support resources or contact the development team for assistance.
+
+# Research and Development Team
  
  * João Vitor Leite Novoletti (IFSP, Piracicaba)
  * Bianca Sagiorato (UFSCar, São Carlos)

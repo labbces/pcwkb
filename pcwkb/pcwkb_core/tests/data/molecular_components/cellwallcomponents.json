@@ -1,0 +1,20 @@
+[
+{
+  "model": "pcwkb_core.cellwallcomponent",
+  "pk": 1,
+  "fields": {
+    "cellwallcomp_name": "lignin",
+    "description": "\"A polyphenylpropanoid derived from three monolignol monomers: trans-p-coumaryl alcohol, coniferol and trans-sinapyl alcohol. There is extensive cross-linking and no defined primary structure.\" []",
+    "chebi": 167847
+  }
+},
+{
+  "model": "pcwkb_core.cellwallcomponent",
+  "pk": 2,
+  "fields": {
+    "cellwallcomp_name": "xylose",
+    "description": "\"An aldopentose, found in the embryos of most edible plants and used in medicine to test for malabsorption by administration in water to the patient.\" []",
+    "chebi": 191688
+  }
+}
+]

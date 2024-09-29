@@ -37,5 +37,13 @@
    "experiment_category": "gene silencing",
    "eco_term_id": 19
   }
+ },
+ {"model": "pcwkb_core.experiment",
+  "pk": 5,
+  "fields": {
+   "experiment_name": "Phloroglucinol-HCl staining",
+   "description": "Phloroglucinol stain reacts with cinnamaldehyde end-groups of lignin to give a pink or fuchsia color.",
+   "experiment_category": "staining evidence"
+  }
  }
 ]

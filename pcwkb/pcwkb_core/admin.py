@@ -1,5 +1,13 @@
 from django.contrib import admin
+from .models.temporary_data.data_submission import DataSubmission
+from .utils.data_submission import create_biomass_gene_experiment_assoc, get_or_create_species, get_or_create_experiment, replace_nan_with_none, strip_all_strings
+import json
+from rolepermissions.roles import assign_role
+from rolepermissions.checkers import has_permission
 
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
+from .models.correctingmessages import CorrectionMessage
 from .models.taxonomy.ncbi_taxonomy import Species
 from .models.molecular_components.genetic.genes import Gene
 from .models.molecular_components.genetic.genomes import Genome
@@ -27,7 +35,7 @@ from .models.ontologies.molecular_related.chebi import ChEBI
 from .models.ontologies.plant_related.peco import PECOTerm
 from .models.ontologies.plant_related.to import TOTerm
 from .models.ontologies.plant_related.po import PlantOntologyTerm
-from .models.temporary_data.data_submission import TemporaryData
+from .models.temporary_data.data_submission import DataSubmission
 from .models.temporary_data.species_submission import SpeciesTemporaryData
 from .models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import BiomassGeneExperimentAssoc
 
@@ -57,6 +65,82 @@ class LitAdmin(admin.ModelAdmin):
         obj = Literature.get_lit_info(doi)
         super().save_model(request, obj, form, change)
 
+#Approve and process selected submissions
+@admin.action(description='Approve and process selected submissions')
+def approve_submissions(modeladmin, request, queryset):
+    for submission in queryset.using('temporary_data'):
+        if not submission.reviewed:
+            data = json.loads(submission.json_data)
+            data=replace_nan_with_none(data)
+            data=strip_all_strings(data)
+            
+            if submission.data_type == 'biomass_gene_association_data':
+                create_biomass_gene_experiment_assoc(data)
+
+            elif submission.data_type == 'species_data':
+                for record in data['species_data']:
+                    get_or_create_species(record)
+
+            elif submission.data_type == 'experiment_data':
+                for record in data['experiment_data']:
+                    get_or_create_experiment(record)
+
+            submission.reviewed = True
+            submission.save(using='temporary_data')
+
+@admin.action(description='Assign Researcher role to selected users')
+def assign_researcher_role(modeladmin, request, queryset):
+    for user in queryset:
+        assign_role(user, 'researcher')
+        user.save()
+
+@admin.action(description='Assign Reviewer role to selected users')
+def assign_reviewer_role(modeladmin, request, queryset):
+    for user in queryset:
+        assign_role(user, 'reviewer')
+        user.is_staff = True
+        user.save()
+
+class DataSubmissionTemporaryAdmin(admin.ModelAdmin):
+    list_display = ('title', 'user', 'reviewed', 'created_at')
+    actions = [approve_submissions]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.using('temporary_data')
+
+    def has_module_permission(self, request):
+        return has_permission(request.user, 'edit_submitted_data')
+
+    def has_change_permission(self, request, obj=None):
+        return has_permission(request.user, 'edit_submitted_data')
+
+    def save_model(self, request, obj, form, change):
+        # Save the object to the temporary_data database
+        obj.save(using='temporary_data')
+
+    def delete_model(self, request, obj):
+        # Delete the object from the temporary_data database
+        obj.delete(using='temporary_data')
+
+    def save_related(self, request, form, formsets, change):
+        # Save related objects to the temporary_data database
+        form.save_m2m()
+        for formset in formsets:
+            for obj in formset.save(commit=False):
+                obj.save(using='temporary_data')
+            formset.save_m2m()
+
+class UserAdmin(DefaultUserAdmin):
+    actions = [assign_researcher_role, assign_reviewer_role]
+
+# Unregister the default User admin
+admin.site.unregister(User)
+# Register the custom User admin
+admin.site.register(User, UserAdmin)
+
+# Register the DataSubmissionTemporaryAdmin
+admin.site.register(DataSubmission, DataSubmissionTemporaryAdmin)
 
 admin.site.register(Species, SpeciesAdmin)
 admin.site.register(Gene)
@@ -76,3 +160,4 @@ admin.site.register(InterPro)
 admin.site.register(MetabolicMap)
 admin.site.register(TranscriptionalRegulatorFamily)
 admin.site.register(PlantOntologyTerm)
+admin.site.register(BiomassGeneExperimentAssoc)

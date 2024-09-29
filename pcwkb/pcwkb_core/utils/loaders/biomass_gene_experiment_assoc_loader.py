@@ -13,6 +13,7 @@ print((str(BASE_DIR)), "DJANGO_SETTINGS_MODULE:", os.environ.get("DJANGO_SETTING
 django.setup()
 
 # Import updated models
+from pcwkb_core.models.functional_annotation.experimental.relationships.biomass_gene_experiment_assoc import GeneRegulation
 from pcwkb_core.models.taxonomy.ncbi_taxonomy import Species
 from pcwkb_core.models.biomass.plant_trait import PlantTrait
 from pcwkb_core.models.biomass.cellwall_component import CellWallComponent
@@ -24,7 +25,6 @@ from pcwkb_core.models.molecular_components.genetic.genes import Gene
 def get_id(model, **fields):
     for field, value in fields.items():
         if value is not None:
-            print(value, field)
             try:
                 return model.objects.get(**{field: value}).id
             except ObjectDoesNotExist:
@@ -50,14 +50,41 @@ processed_data = []
 for record in data:
     fields = record['fields']
 
+    condition_dict = {
+        'upregulation': 'UPREGULATION',
+        'downregulation': 'DOWNREGULATION',
+        'knockout': 'KNOCKOUT',
+        'insertion': 'INSERTION',
+        'deletion': 'DELETION',
+        'point mutation': 'POINT_MUTATION',
+        'substitution': 'SUBSTITUTION',
+        'frame shift mutation': 'FRAME_SHIFT',
+        'gene amplification': 'GENE_AMPLIFICATION',
+        'gene fusion': 'GENE_FUSION',
+        'translocation': 'TRANSLOCATION',
+        'duplication': 'DUPLICATION',
+        'epigenetic modification': 'EPIGENETIC_MOD',
+        'overexpression': 'OVEREXPRESSION',
+        'gene silencing': 'GENE_SILENCING',
+        'conditional knockout': 'CONDITIONAL_KNOCKOUT',
+        'insertional mutagenesis': 'INSERTIONAL_MUTAGENESIS',
+        }
+
+    try:
+        gene_regulation = condition_dict[fields.get('gene_regulation').lower()]
+    except:
+        gene_regulation = fields.get('gene_regulation')
+
+
     # Fetch the IDs based on the readable names or IDs
     fields['experiment_species'] = get_id(Species, pk=fields.get('experiment_species'), species_code=fields.get('experiment_species'), scientific_name=fields.get('experiment_species'), taxid=fields.get('experiment_species'))
-    fields['plantcomponent'] = [get_id(PlantComponent, pk=value, name=value, po__po_id=value) for value in fields.get('plantcomponent', [])]
-    fields['cellwall_component'] = get_id(CellWallComponent, pk=fields.get('cellwall_component'), name=fields.get('cellwall_component'), chebi__chebi_id=fields.get('cellwall_component'))
+    fields['plant_component'] = [get_id(PlantComponent, pk=value, name=value, po__po_id=value) for value in fields.get('plant_component', [])]
+    fields['plant_cell_wall_component'] = get_id(CellWallComponent, pk=fields.get('plant_cell_wall_component'), cellwallcomp_name=fields.get('plant_cell_wall_component'), chebi__chebi_id=fields.get('plant_cell_wall_component'))
     fields['experiment'] = [get_id(Experiment, experiment_name=value, pk=value, eco_term=value) for value in fields.get('experiment', [])]
     fields['literature'] = get_id(Literature, doi=fields.get('literature'), title=fields.get('literature'), pk=fields.get('literature'), pmid=fields.get('literature'))
     fields['gene'] = get_id(Gene, gene_name=fields.get('gene'), gene_id=fields.get('gene'), pk=fields.get('gene'))
     fields['plant_trait'] = get_id(PlantTrait, pk=fields.get('plant_trait'), name=fields.get('plant_trait'), to__to_id=fields.get('plant_trait'))
+    fields['gene_regulation'] = get_id(GeneRegulation, pk=gene_regulation, condition_type=gene_regulation)
 
     # Append the processed record
     processed_data.append(record)
