@@ -14,8 +14,8 @@ CREATE USER pcwkb_db_admin@localhost IDENTIFIED BY 'password1';
 Create Databases in this case there will be a database that will be used in the site directly and a other to receive submissions:
 
 ```sql
-CREATE DATABASE pcwkb_db;
-CREATE DATABASE pcwkb_db_temp_data;
+CREATE DATABASE pcwkb_db CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
+CREATE DATABASE pcwkb_db_temp_data CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 ```
 
 Give permissions to that user to access the database:
