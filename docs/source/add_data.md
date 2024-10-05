@@ -135,7 +135,7 @@ OrthogroupParser.add_from_orthofinder("<orthogroup_txt_file.txt>", <orthogroup_m
 
 Try it using:
 ```python
-OrthogroupParser.add_from_orthofinder("./pcwkb/pcwkb_core/tests/data/relationships/orthogroup_minimal.txt", 1)
+OrthogroupParser.add_from_orthofinder("./pcwkb_core/tests/data/relationships/orthogroup_minimal.txt", 1)
 ```
 
 Then you can add orthogroup trees files to each orthogroup as long as you have a zipped folder with orthogroup trees .txt files inside it. The usage is as it follows:
