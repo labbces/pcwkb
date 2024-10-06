@@ -38,12 +38,12 @@ Step 4: Building a Schema
 ------------
 
 A schema in Solr is a fundamental component that defines the structure and behavior of your search index. It's essential for maintaining data quality, enabling effective searching, and improving search relevance. Creating and managing a well-designed schema is crucial for getting the most out of Solr's search capabilities. 
-    Here, we build the schema:
+    Here, we build the schema (from the pcwkb Django folder):
 
 ```bash
-./manage.py build_solr_schema > "<path_to_tester_core_managed-schema.xml_file>"
+python manage.py build_solr_schema > "<path_to_tester_core_managed-schema.xml_file>"
 ```
-Instead of "path to tester core managed-schema.xml file" you should have something like: ./solr-9.5.0/server/solr/pcwkb_core/conf/managed-schema.xml
+Instead of "path to tester core managed-schema.xml file" you should have something like `/home/software/solr-9.5.0/server/solr/pcwkb_core/conf/managed-schema.xml`
 
 Step 5: Rebuild Index
 -------------
@@ -51,7 +51,7 @@ Step 5: Rebuild Index
 Use the Django `manage.py` command to rebuild the index:
 
 ```bash
-./manage.py rebuild_index
+python manage.py rebuild_index
 ```
 
 Type this command in order to build your index, based on the fields given to Solr and
@@ -60,5 +60,5 @@ Type this command in order to build your index, based on the fields given to Sol
    Whenever you wish to update the index, type:
 
 ```bash
-./manage.py update_index
+python manage.py update_index
 ```
