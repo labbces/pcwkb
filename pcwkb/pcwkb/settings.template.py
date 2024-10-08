@@ -160,8 +160,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/pcwkb_core/accounts/profile'
-LOGOUT_REDIRECT_URL = '/pcwkb_core'
+LOGIN_REDIRECT_URL = '/accounts/profile'
+LOGOUT_REDIRECT_URL = ''
 
 # Role permissions
 ROLEPERMISSIONS_MODULE = 'pcwkb_core.permissions'
