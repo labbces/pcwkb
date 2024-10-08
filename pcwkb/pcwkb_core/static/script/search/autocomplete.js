@@ -6,7 +6,7 @@ $(document).ready(function () {
             // jQuery AJAX:  Make an AJAX request to autocomplete
             //(according to the view this autocomplete depends on the "*_auto" indexes in the search_view and search_indexes)
             $.ajax({
-                url: '/pcwkb_core/autocomplete/',
+                url: '/autocomplete/',
                 method: 'GET',
                 data: { q: request.term }, // Pass search term as data
                 success: function (data) {

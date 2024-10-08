@@ -12,14 +12,14 @@
   integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <base href="http://127.0.0.1:8000/">
+  <base href="">
 </head>
 
 <header>
 
   <nav class="navbar navbar-expand-lg bg-success">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/pcwkb_core" style="color: white; font-family: 'Nome da Fonte', sans-serif;">PCW
+      <a class="navbar-brand" href="" style="color: white; font-family: 'Nome da Fonte', sans-serif;">PCW
         KB</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,30 +28,30 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link text-white btn btn-success" aria-current="page" href="/pcwkb_core">Home</a>
+            <a class="nav-link text-white btn btn-success" aria-current="page" href="{% url 'index' %}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white btn btn-success" href="/pcwkb_core/cellwallcomponents">Cell Wall Components</a>
+            <a class="nav-link text-white btn btn-success" href="{% url 'cellwallcomponents' %}">Cell Wall Components</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white btn btn-success" href="/pcwkb_core/browse_species">Species</a>
+            <a class="nav-link text-white btn btn-success" href="{% url 'browse_species' %}">Species</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white btn btn-success" href="/pcwkb_core/experiments">Experiments</a>
+            <a class="nav-link text-white btn btn-success" href="{% url 'experiments' %}">Experiments</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white btn btn-success" href="/pcwkb_core/team">Contact Us</a>
+            <a class="nav-link text-white btn btn-success" href="{% url 'team' %}">Contact Us</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white btn btn-success" href="/pcwkb_core/funding">Funding</a>
+            <a class="nav-link text-white btn btn-success" href="{% url 'funding' %}">Funding</a>
           </li>
           <li class="nav-item dropdown">
               <button class="btn btn-success dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Help
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/pcwkb_core/ontologies">Ontologies</a></li>
-                <li><a class="dropdown-item" href="/pcwkb_core/faq">FAQ</a></li>
+                <li><a class="dropdown-item" href="{% url 'ontologies' %}">Ontologies</a></li>
+                <li><a class="dropdown-item" href="{% url 'faq' %}">FAQ</a></li>
               </ul>
           </li>
         </ul>
@@ -70,12 +70,12 @@
           {% else %}
           <li class="nav-item">
             <div class="btn-group">
-              <button type="button" class="btn btn-light"><a href="/pcwkb_core/accounts/profile">  {{user.username}} {% for group in user.groups.all %} ({{ group.name }}) {% endfor %}</a></button>
+              <button type="button" class="btn btn-light"><a href="{% url 'users-profile' %}">  {{user.username}} {% for group in user.groups.all %} ({{ group.name }}) {% endfor %}</a></button>
               <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <span class="visually-hidden">Toggle Dropdown</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="/pcwkb_core/data_submission">Submit data</a></li>
+                <li><a class="dropdown-item" href="{% url 'data_submission' %}">Submit data</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
               </ul>
@@ -116,10 +116,10 @@
   <div class="container">
     <footer class="py-3 my-4">
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="/pcwkb_core" class="nav-link px-2 text-muted">Home</a></li>
-        <li class="nav-item"><a href="/pcwkb_core/team" class="nav-link px-2 text-muted">Contact Us</a></li>
-        <li class="nav-item"><a href="/pcwkb_core/faq" class="nav-link px-2 text-muted">FAQs</a></li>
-        <li class="nav-item"><a href="/pcwkb_core/team" class="nav-link px-2 text-muted">About Us</a></li>
+        <li class="nav-item"><a href="{% url 'index' %}" class="nav-link px-2 text-muted">Home</a></li>
+        <li class="nav-item"><a href="{% url 'team' %}" class="nav-link px-2 text-muted">Contact Us</a></li>
+        <li class="nav-item"><a href="{% url 'faq' %}" class="nav-link px-2 text-muted">FAQs</a></li>
+        <li class="nav-item"><a href="{% url 'team' %}" class="nav-link px-2 text-muted">About Us</a></li>
       </ul>
       <p class="text-center text-muted">&copy; 2024 PlantCellWall KnoledgeBase</p>
     </footer>

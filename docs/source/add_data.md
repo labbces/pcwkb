@@ -141,7 +141,7 @@ OrthogroupParser.add_from_orthofinder("./pcwkb/pcwkb_core/tests/data/relationshi
 Then you can add orthogroup trees files to each orthogroup as long as you have a zipped folder with orthogroup trees .txt files inside it. The usage is as it follows:
 
 ```python
-OrthogroupParser.import_trees_zipped_folder("<orthogroup_tree_zipped_folder.txt>", <orthogroup_method>)
+OrthogroupParser.import_trees_zipped_folder("<orthogroup_tree_zipped_folder.zip>", <orthogroup_method>)
 ```
 
 Try it using:

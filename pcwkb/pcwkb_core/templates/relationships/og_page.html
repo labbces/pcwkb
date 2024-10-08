@@ -5,7 +5,7 @@
 <div class="container-fluid px-4 py-3">
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb rounded-pill px-3 border border-success pcwkb-bg-color">
-        <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">Gene family</li>
         <li class="breadcrumb-item active" aria-current="page">{{ orthogroup }}</li>
       </ol>
@@ -57,7 +57,7 @@
         <p><strong>Proteins in this Orthogroup:</strong></p>
         <ul>
             {% for og in proteins %}
-            <li><a href="pcwkb_core/gene_page/{{og.protein.gene.gene_name}}">{{ og.protein.protein_name }}</a></li>
+            <li><a href="{% url 'gene_page' gene_name=og.protein.gene.gene_name %}">{{ og.protein.protein_name }}</a></li>
             {% empty %}
             <li>No proteins found in this orthogroup.</li>
             {% endfor %}

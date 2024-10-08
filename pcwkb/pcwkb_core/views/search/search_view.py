@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 from django.http import JsonResponse
 from haystack.query import SearchQuerySet
 
@@ -24,7 +25,7 @@ def search_pcwkb(request):
 
         for result in search_results:
             result_data = {}  # Create a new dictionary for each result
-            url_species = f"pcwkb_core/species_page/{result.object.species_code}"
+            url_species = reverse('species_page', kwargs={'species_code': result.object.species_code})
             result_data['url_species'] = url_species
             result_data['species'] = result.object.scientific_name
             result_data['genes_count'] = Gene.objects.filter(species=result.object).count()
@@ -48,8 +49,8 @@ def search_pcwkb(request):
 
         for result in search_results:
             result_data = {}  # Create a new dictionary for each result
-            url_gene = f"pcwkb_core/gene_page/{result.object.gene_name}"
-            url_species = f"pcwkb_core/species_page/{result.object.species.species_code}"
+            url_gene = reverse('gene_page', kwargs={'gene_name': result.object.gene_name})
+            url_species = reverse('species_page', kwargs={'species_code': result.object.species.species_code })
             result_data['url_gene'] = url_gene
             result_data['url_species'] = url_species
             result_data['gene'] = result.object.gene_name
@@ -70,7 +71,7 @@ def search_pcwkb(request):
        
         for result in search_results:
             result_data = {}  # Create a new dictionary for each result
-            url_cellwallcomp = f"pcwkb_core/cellwallcomponent_page/{result.object.cellwallcomp_name}"
+            url_cellwallcomp = reverse('cellwallcomponent_page', kwargs={'cellwallcomp_name': result.object.cellwallcomp_name } )
             result_data['url_cellwallcomp'] = url_cellwallcomp
             result_data['cellwallcomp'] = result.object.cellwallcomp_name
             result_data['species'] = []
@@ -90,7 +91,7 @@ def search_pcwkb(request):
             result_data = {}  # Create a new dictionary for each result
 
             if hasattr(result.object, 'species_code'):
-                url_species = f"pcwkb_core/species_page/{result.object.species_code}"
+                url_species = reverse('species_page', kwargs={'species_code': result.object.species_code})
                 result_data['label'] = query
                 result_data['url_species'] = url_species
                 result_data['species'] = result.object.scientific_name
@@ -106,8 +107,8 @@ def search_pcwkb(request):
                 result_data['cellwallcomp'] = list(set(result_data['cellwallcomp']))
 
             elif hasattr(result.object, 'gene_name'):
-                url_gene = f"pcwkb_core/gene_page/{result.object.gene_name}"
-                url_species = f"pcwkb_core/species_page/{result.object.species.species_code}"
+                url_gene = reverse('gene_page', kwargs={'gene_name': result.object.gene_name})
+                url_species = reverse('species_page', kwargs={'species_code': result.object.species.species_code })
                 result_data['label'] = query
                 result_data['url_gene'] = url_gene
                 result_data['url_species'] = url_species
@@ -123,7 +124,7 @@ def search_pcwkb(request):
                 result_data['cellwallcomp'] = list(set(result_data['cellwallcomp']))
 
             elif hasattr(result.object, 'cellwallcomp_name'):
-                url_cellwallcomp = f"pcwkb_core/cellwallcomponent_page/{result.object.cellwallcomp_name}"
+                url_cellwallcomp = reverse('cellwallcomponent_page', kwargs={'cellwallcomp_name': result.object.cellwallcomp_name } )
                 result_data['url_cellwallcomp'] = url_cellwallcomp
                 result_data['cellwallcomp'] = result.object.cellwallcomp_name
                 result_data['species'] = []

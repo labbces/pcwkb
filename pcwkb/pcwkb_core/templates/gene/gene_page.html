@@ -5,9 +5,9 @@
 <div class="container-fluid px-4 py-3">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb rounded-pill px-3 border boder-success pcwkb-bg-color">
-      <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
-      <li class="breadcrumb-item"><a href="pcwkb_core/browse_species">Species</a></li>
-      <li class="breadcrumb-item"><a href="pcwkb_core/species_page/{{species.species_code}}"><i>{{species.scientific_name}}</i></a></li>
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'browse_species' %}">Species</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'species_page' species_code=species.species_code %}"><i>{{species.scientific_name}}</i></a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ gene_name }}</li>
     </ol>
   </nav>
@@ -71,7 +71,7 @@
         <tr>
           <th scope="col" class="align-middle text-center">Orthogroup</th>
           {% if attributes.orthogroup %}
-          <td class="align-middle"><a href="pcwkb_core/og_page/{{ attributes.orthogroup }}">{{ attributes.orthogroup }}</a></td>
+          <td class="align-middle"><a href="{% url 'og_page' og_name=attributes.orthogroup %}">{{ attributes.orthogroup }}</a></td>
           {% else %}
           <td class="align-middle">None</td>
           {% endif %}
@@ -164,7 +164,7 @@
                 <p class="card-text">Effect on plant cell wall component: {{ assoc.effect_on_plant_cell_wall_component }}</p>
                 <p class="card-text">Literature: <a href="https://doi.org/{{ assoc.literature.doi }}" target="_blank">"{{ assoc.literature.title }}"</a></p>
                 {% for experiment in assoc.experiment.all %}
-                  <p class="card-text">Experiment: <a href="pcwkb_core/experiment_page/{{ experiment.experiment_name }}" target="_blank">{{ experiment.experiment_name }}</a></p>
+                  <p class="card-text">Experiment: <a href="{% url 'experiment_page' experiment_name=experiment.experiment_name %}" target="_blank">{{ experiment.experiment_name }}</a></p>
                 {% endfor %}
                 {% if assoc.experiment_species != species.scientific_name %}
                   <p class="card-text alert alert-info">Experiment with heterologous expression using {{ assoc.experiment_species }}</p>

@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // Função para atualizar a URL
     function updateURL(query, model, speciesId) {
-        const newURL = `${window.location.protocol}//${window.location.host}/pcwkb_core/search_engine/?q=${encodeURIComponent(query)}&model=${model}&species_id=${speciesId}`;
+        const newURL = `${window.location.protocol}//${window.location.host}/search_engine/?q=${encodeURIComponent(query)}&model=${model}&species_id=${speciesId}`;
         window.history.pushState({ path: newURL }, '', newURL);
     }
 
@@ -28,7 +28,7 @@ $(document).ready(function () {
             updateURL(query, model, speciesId);
 
             $.ajax({
-                url: '/pcwkb_core/search_pcwkb/',
+                url: '/search_pcwkb/',
                 method: 'GET',
                 data: { 'q': query, 'model': model, 'species_id': speciesId },
                 success: function (response) {
