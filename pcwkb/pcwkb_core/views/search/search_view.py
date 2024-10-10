@@ -31,12 +31,13 @@ def search_pcwkb(request):
             result_data['genes_count'] = Gene.objects.filter(species=result.object).count()
             result_data['cellwallcomp'] = []
 
-            for gene in Gene.objects.filter(species=result.object):
-                biomass_gene_assocs = gene.biomassgeneexperimentassoc_set.all()               
-                if biomass_gene_assocs.exists():
-                    for assoc in biomass_gene_assocs:
-                        result_data['cellwallcomp'].append(assoc.plant_cell_wall_component.cellwallcomp_name)
-            
+            genes = Gene.objects.filter(species=result.object).prefetch_related(
+                    'biomassgeneexperimentassoc_set__plant_cell_wall_component'
+                    )
+            for gene in genes:
+                for assoc in gene.biomassgeneexperimentassoc_set.all():
+                    result_data['cellwallcomp'].append(assoc.plant_cell_wall_component.cellwallcomp_name)
+
             result_data['cellwallcomp'] = list(set(result_data['cellwallcomp']))
             results.append(result_data)
 
@@ -55,6 +56,7 @@ def search_pcwkb(request):
             result_data['url_species'] = url_species
             result_data['gene'] = result.object.gene_name
             result_data['cellwallcomp'] = []
+            result_data['species'] = result.object.species.scientific_name
 
             biomass_gene_assocs = result.object.biomassgeneexperimentassoc_set.all()
             if biomass_gene_assocs.exists():
@@ -66,6 +68,7 @@ def search_pcwkb(request):
 
     elif model == 'cellwallcomp':
         search_results = search_results.models(CellWallComponent)
+
         if species_id != 'all':
             species = Species.objects.get(id=species_id)
        
@@ -77,13 +80,18 @@ def search_pcwkb(request):
             result_data['species'] = []
             result_data['genes'] = []
 
+
             biomass_gene_assocs = result.object.biomassgeneexperimentassoc_set.all()
             if biomass_gene_assocs.exists():
                 for assoc in biomass_gene_assocs:
-                    if assoc.gene.species.scientific_name == species.scientific_name:
+                    if species_id == 'all' or assoc.gene.species.id == species.id:
+                        result_data['species'].append(assoc.gene.species.scientific_name)
                         result_data['genes'].append(assoc.gene.gene_name)
-            
+                        
             result_data['genes'] = list(set(result_data['genes']))
+            result_data['species'] = list(set(result_data['species']))
+            
+            result_data['cellwallcompquery']=True
             results.append(result_data)
 
     else:    
@@ -98,13 +106,15 @@ def search_pcwkb(request):
                 result_data['genes_count'] = Gene.objects.filter(species=result.object).count()
                 result_data['cellwallcomp'] = []
 
-                for gene in Gene.objects.filter(species=result.object):
-                    biomass_gene_assocs = gene.biomassgeneexperimentassoc_set.all()               
-                    if biomass_gene_assocs.exists():
-                        for assoc in biomass_gene_assocs:
-                            result_data['cellwallcomp'].append(assoc.plant_cell_wall_component.cellwallcomp_name)
-                
+                genes = Gene.objects.filter(species=result.object).prefetch_related(
+                        'biomassgeneexperimentassoc_set__plant_cell_wall_component'
+                        )
+                for gene in genes:
+                    for assoc in gene.biomassgeneexperimentassoc_set.all():
+                        result_data['cellwallcomp'].append(assoc.plant_cell_wall_component.cellwallcomp_name)
+    
                 result_data['cellwallcomp'] = list(set(result_data['cellwallcomp']))
+
 
             elif hasattr(result.object, 'gene_name'):
                 url_gene = reverse('gene_page', kwargs={'gene_name': result.object.gene_name})
@@ -112,7 +122,7 @@ def search_pcwkb(request):
                 result_data['label'] = query
                 result_data['url_gene'] = url_gene
                 result_data['url_species'] = url_species
-                result_data['specie'] = result.object.species.scientific_name
+                result_data['species'] = result.object.species.scientific_name
                 result_data['gene'] = result.object.gene_name
                 result_data['cellwallcomp'] = []
 
@@ -129,6 +139,7 @@ def search_pcwkb(request):
                 result_data['cellwallcomp'] = result.object.cellwallcomp_name
                 result_data['species'] = []
                 result_data['genes'] = []
+                result_data['cellwallcompquery']=True
 
                 biomass_gene_assocs = result.object.biomassgeneexperimentassoc_set.all()
                 if biomass_gene_assocs.exists():
@@ -140,5 +151,6 @@ def search_pcwkb(request):
                 result_data['species'] = list(set(result_data['species']))
 
             results.append(result_data)
+
 
     return JsonResponse({'results': results})

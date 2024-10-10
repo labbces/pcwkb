@@ -1,4 +1,9 @@
 $(document).ready(function () {
+
+    $('#species_results').hide();
+    $('#genes_results').hide();
+    $('#cellwallcomp_results').hide();
+
     // Função para atualizar a URL
     function updateURL(query, model, speciesId) {
         const newURL = `${window.location.protocol}//${window.location.host}/search_engine/?q=${encodeURIComponent(query)}&model=${model}&species_id=${speciesId}`;
@@ -23,6 +28,13 @@ $(document).ready(function () {
 
         if (query.length > 0) {
             $('#search-results').html('<p>Loading...</p>');
+            $('#species-data').empty();
+            $('#gene-data').empty();
+            $('#cellwallcomp-data').empty();
+            
+            $('#species_results').hide();
+            $('#genes_results').hide();
+            $('#cellwallcomp_results').hide();
 
             // Atualiza a URL no navegador
             updateURL(query, model, speciesId);
@@ -33,12 +45,9 @@ $(document).ready(function () {
                 data: { 'q': query, 'model': model, 'species_id': speciesId },
                 success: function (response) {
                     $('#search-results').empty();
-                    $('#species-data').empty();
-                    $('#gene-data').empty();
-                    $('#cellwallcomp-data').empty();
+
 
                     let content = "";
-                    console.log(response, response.results, response.species_list);
                     if (response.results && response.results.length > 0) {
                         content = '<p>Search results for <strong>' + query + '</strong>:</p>';
                         response.results.forEach(function(result) {
@@ -63,22 +72,62 @@ $(document).ready(function () {
         var geneTemplate = _.template($('#gene-card-template').html());
         var cellwallcompTemplate = _.template($('#cellwallcomp-card-template').html());
 
-        var speciesHtml = speciesTemplate({ species: '<a href="' + result.url_species + '" target="_blank">' + result.species + '</a>'});
-        
+        var speciesHtml = '';
         var geneHtml = '';
-        if (result.gene) {
-            geneHtml = geneTemplate({ genes: '<p><a href="' + result.url_gene + '" target="_blank">' + result.gene + '</a></p>' });
-        } else if (result.genes_count && result.genes_count !== 0) {
-            geneHtml = geneTemplate({ genes: '<p><a href="' + result.url_species + '#pagination-links" target="_blank">' + result.genes_count + '</a></p>' });
-        } else {
-            geneHtml = geneTemplate({ genes: '<p>No Genes</p>' });
-        }
+        var cwcompHtml = '';
 
-        var cwcompHtml = cellwallcompTemplate({ cellwallcomp: '<p><a href="' + result.url_cellwallcomp + '" target="_blank">' + result.cellwallcomp + '</a></p>'});
+        if (result.cellwallcompquery) {
+            cwcompHtml = cellwallcompTemplate({
+                cellwallcomp: '<p><a href="' + result.url_cellwallcomp + '" target="_blank">' + result.cellwallcomp + '</a></p>'
+            });
+        
+            
+            if (result.species && result.species.length > 0) {
+                result.species.forEach(function(species) {
+                    speciesHtml += speciesTemplate({ species: '<a href="#">' + species + '</a>' });
+                });
+            } else {
+                speciesHtml = speciesTemplate({ species: '<p>No species associated</p>' });
+            }
+        
+            
+            if (result.genes && result.genes.length > 0) {
+                result.genes.forEach(function(gene) {
+                    geneHtml += geneTemplate({ genes: '<p><a href="#">' + gene + '</a></p>' });
+                });
+            } else {
+                geneHtml = geneTemplate({ genes: '<p>No genes associated</p>' });
+            }
+        } else {
+
+            var speciesHtml = speciesTemplate({ species: '<a href="' + result.url_species + '" target="_blank">' + result.species + '</a>'});
+            
+            if (result.gene) {
+                geneHtml = geneTemplate({ genes: '<p><a href="' + result.url_gene + '" target="_blank">' + result.gene + '</a></p>' });
+            } else if (result.genes_count && result.genes_count !== 0) {
+                geneHtml = geneTemplate({ genes: '<p><a href="' + result.url_species + '#pagination-links" target="_blank">' + result.genes_count + '</a></p>' });
+            } else {
+                geneHtml = geneTemplate({ genes: '<p>No Genes</p>' });
+            }
+            
+            if (result.cellwallcomp && result.cellwallcomp.length > 0) {
+                result.cellwallcomp.forEach(function(cellwallcomp) {
+                    cwcompHtml += cellwallcompTemplate({ 
+                        cellwallcomp: '<p><a href="/cellwallcomponent_page/' + cellwallcomp + '" target="_blank">' + cellwallcomp + '</a></p>' 
+                    });
+                });
+            } else {
+                cwcompHtml = cellwallcompTemplate({cellwallcomp: '<p>No Cell Wall Components</p>'});
+            }
+        }
 
         $('#species-data').append(speciesHtml);
         $('#gene-data').append(geneHtml);
         $('#cellwallcomp-data').append(cwcompHtml);
+
+        $('#species_results').show();
+        $('#genes_results').show();
+        $('#cellwallcomp_results').show();
     }
 
     // Função para lidar com o carregamento inicial da página com parâmetros na URL

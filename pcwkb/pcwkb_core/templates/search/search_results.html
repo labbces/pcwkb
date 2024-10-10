@@ -45,8 +45,8 @@
         </div>
         <div id="search-results"></div>
 
-        <div class="card border-success mb-3">
-            <h5 class="card-header">Species</h5>
+        <div id="species_results" class="card border-success mb-3">
+            <h5 class="card-header">Related Species</h5>
             <div id="species-data"></div>
                 <script type="text/template" id="species-card-template">
                     <div id = "species-card-body" class="card-body"><p class="card-text"><i><%= species %></i></p></div>
@@ -55,8 +55,8 @@
         </div>
 
         
-        <div class="card border-success mb-3">
-            <h5 class="card-header">Genes</h5>
+        <div id="genes_results" class="card border-success mb-3">
+            <h5 class="card-header">Related Genes</h5>
             <div id="gene-data"></div>
                 <script type="text/template" id="gene-card-template">
                     <div class="card-body"><p class="card-text"><%= genes %></p></div>
@@ -65,25 +65,15 @@
         </div>
         
 
-        <div class="card border-success mb-3">
-            <h5 class="card-header">Cell Wall Components</h5>
+        <div id="cellwallcomp_results" class="card border-success mb-3">
+            <h5 class="card-header">Related Cell Wall Components</h5>
             <div id="cellwallcomp-data"></div>
                 <script type="text/template" id="cellwallcomp-card-template">
                     <div class="card-body"><p class="card-text"><%= cellwallcomp %></p></div>
                 </script>
             <div class="card-footer"></div>
         </div>
-
-        <div class="card border-success mb-3">
-            <h5 class="card-header">Experiments</h5>
-            <div id="experiment-data"></div>
-                <script type="text/template" id="experiment-card-template">
-                    <div class="card-body"><p class="card-text"><%= experiment %></p></div>
-                </script>
-            <div class="card-footer"></div>
-        </div>
-
-        
+      
     </div>
 </div>
 
