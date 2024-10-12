@@ -6,7 +6,7 @@
 <div class="container-fluid px-4 py-3">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb rounded-pill px-3 border border-success pcwkb-bg-color">
-      <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
       <li class="breadcrumb-item active" aria-current="page">Experiments</li>
     </ol>
   </nav>
@@ -30,7 +30,7 @@
   <div class="p-4">
     {% for experiment_name, experiment_data in experiments.items %}
     <div class="card border-success mb-3">
-      <h5 class="card-header"><a href="pcwkb_core/experiment_page/{{experiment_name}}">
+      <h5 class="card-header"><a href="{% url 'experiment_page' experiment_name=experiment_name %}">
         {{ experiment_name }}<br>
         Evidence &#38 Conclusion Ontology: {{ experiment_data.eco.eco_name }}, {{ experiment_data.eco.eco_id }}
       </a></h5>

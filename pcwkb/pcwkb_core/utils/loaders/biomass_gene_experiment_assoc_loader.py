@@ -77,7 +77,6 @@ for record in data:
 
 
     # Fetch the IDs based on the readable names or IDs
-    fields['experiment_species'] = get_id(Species, pk=fields.get('experiment_species'), species_code=fields.get('experiment_species'), scientific_name=fields.get('experiment_species'), taxid=fields.get('experiment_species'))
     fields['plant_component'] = [get_id(PlantComponent, pk=value, name=value, po__po_id=value) for value in fields.get('plant_component', [])]
     fields['plant_cell_wall_component'] = get_id(CellWallComponent, pk=fields.get('plant_cell_wall_component'), cellwallcomp_name=fields.get('plant_cell_wall_component'), chebi__chebi_id=fields.get('plant_cell_wall_component'))
     fields['experiment'] = [get_id(Experiment, experiment_name=value, pk=value, eco_term=value) for value in fields.get('experiment', [])]

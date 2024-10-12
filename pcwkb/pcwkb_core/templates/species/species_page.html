@@ -8,8 +8,8 @@
 <div class="container-fluid px-4 py-3">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb rounded-pill px-3 border border-success pcwkb-bg-color">
-      <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
-      <li class="breadcrumb-item"><a href="pcwkb_core/browse_species">Species</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'browse_species' %}">Species</a></li>
       <li class="breadcrumb-item active" aria-current="page"><i>{{ scientific_name }}</i></li>
     </ol>
   </nav>
@@ -192,7 +192,7 @@
 
 <script>
   function loadTableData(page) {
-    fetch(`/pcwkb_core/gene_biomass_list/{{ species_id }}?page=${page}`)
+    fetch(`/gene_biomass_list/{{ species_id }}?page=${page}`)
       .then(response => response.json())
       .then(data => {
         const tableBody = document.getElementById('gene-biomass-table').getElementsByTagName('tbody')[0];
@@ -201,13 +201,13 @@
         data.data.forEach(rowData => {
           const row = tableBody.insertRow();
           const cell1 = row.insertCell(0);
-          cell1.innerHTML = `<a href="pcwkb_core/gene_page/${rowData.gene_name}">${rowData.gene_id}</a>`;
+          cell1.innerHTML = `<a href="/gene_page/${rowData.gene_name}">${rowData.gene_id}</a>`;
           const cell2 = row.insertCell(1);
-          cell2.innerHTML =  `<a href="pcwkb_core/gene_page/${rowData.gene_name}">${rowData.gene_name}</a>`;
+          cell2.innerHTML =  `<a href="/gene_page/${rowData.gene_name}">${rowData.gene_name}</a>`;
           const cell3 = row.insertCell(2);
           cell3.innerHTML = rowData.description;
           const cell4 = row.insertCell(3);
-          cell4.innerHTML = `<a href="/pcwkb_core/cellwallcomponent_page/${rowData.chebi}">${rowData.chebi}</a>`;
+          cell4.innerHTML = `<a href="/cellwallcomponent_page/${rowData.chebi}">${rowData.chebi}</a>`;
           const cell5 = row.insertCell(4);
           cell5.innerHTML = rowData.experiment_count;
         });
@@ -310,7 +310,7 @@
 
 <script>
   function loadTableData(page) {
-    fetch(`/pcwkb_core/gene_interaction_list/{{ species_id }}?page=${page}`)
+    fetch(`/gene_interaction_list/{{ species_id }}?page=${page}`)
       .then(response => response.json())
       .then(data => {
         const tableBody = document.getElementById('gene-interaction-table').getElementsByTagName('tbody')[0];
@@ -320,9 +320,9 @@
           console.log(rowData.putative_gene_regulator)
           const row = tableBody.insertRow();
           const cell1 = row.insertCell(0);
-          cell1.innerHTML = `<a href="pcwkb_core/gene_page/${rowData.putative_gene_regulator}">${rowData.putative_gene_regulator}</a>`;
+          cell1.innerHTML = `<a href="/gene_page/${rowData.putative_gene_regulator}">${rowData.putative_gene_regulator}</a>`;
           const cell2 = row.insertCell(1);
-          cell2.innerHTML =  `<a href="pcwkb_core/gene_page/${rowData.gene_target}">${rowData.gene_target}</a>`;
+          cell2.innerHTML =  `<a href="/gene_page/${rowData.gene_target}">${rowData.gene_target}</a>`;
           const cell3 = row.insertCell(2);
           cell3.innerHTML = rowData.effect_on_target;
           const cell4 = row.insertCell(3);
@@ -427,7 +427,7 @@
 
 <script>
   function loadTableData(page) {
-    fetch(`/pcwkb_core/gene_list/{{ species_id }}?page=${page}`)
+    fetch(`/gene_list/{{ species_id }}?page=${page}`)
       .then(response => response.json())
       .then(data => {
         const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
@@ -436,9 +436,9 @@
         data.data.forEach(rowData => {
           const row = tableBody.insertRow();
           const cell1 = row.insertCell(0);
-          cell1.innerHTML = `<a href="pcwkb_core/gene_page/${rowData.gene_name}">${rowData.gene_id}</a>`;
+          cell1.innerHTML = `<a href="/gene_page/${rowData.gene_name}">${rowData.gene_id}</a>`;
           const cell2 = row.insertCell(1);
-          cell2.innerHTML =  `<a href="pcwkb_core/gene_page/${rowData.gene_name}">${rowData.gene_name}</a>`;
+          cell2.innerHTML =  `<a href="/gene_page/${rowData.gene_name}">${rowData.gene_name}</a>`;
           const cell3 = row.insertCell(2);
           cell3.innerHTML = rowData.description;
         });

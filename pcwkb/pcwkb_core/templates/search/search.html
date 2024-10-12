@@ -20,7 +20,7 @@
 
             {% for result in page.object_list %}
                 <p>
-                    <a href="pcwkb_core/species_page/{{ result.object.species_code }}">{{ result.object }}</a>
+                    <a href="{% url 'species_page' species_code=result.object.species_code %}">{{ result.object }}</a>
                 </p>
             {% empty %}
                 <p>No results found.</p>

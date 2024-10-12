@@ -83,7 +83,7 @@ function update(event, source) {
           if (matches) {
             const lastMatch = matches[matches.length - 1];
             const textInside = lastMatch.slice(1, -1); 
-            return "pcwkb_core/species_page/" + textInside;
+            return "species_page/" + textInside;
           }
           return "#";
           })

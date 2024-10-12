@@ -5,8 +5,8 @@
 <div class="container-fluid px-4 py-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb rounded-pill px-3 border border-success pcwkb-bg-color">
-        <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
-        <li class="breadcrumb-item"><a href="pcwkb_core/experiments">Experiments</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'experiments' %}">Experiments</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ experiment.experiment_name }}</li>
       </ol>
     </nav>
@@ -45,7 +45,7 @@
             <h5 class="card-header"><strong>Species</strong></h5>
             <div class="card-body">
                 {% for assoc in assoc_list.species %}
-                <p class="card-text"><a href="pcwkb_core/species_page/{{assoc.species_code}}"><i>{{assoc.scientific_name}}</i></a></p>
+                <p class="card-text"><a href="{% url 'species_page' species_code=assoc.species_code %}"><i>{{assoc.scientific_name}}</i></a></p>
                 {% endfor %}
             </div>
         </div>
@@ -55,7 +55,7 @@
             <h5 class="card-header"><strong>Genes</strong></h5>
             <div class="card-body">
                 {% for assoc in assoc_list.genes %}
-                <p class="card-text"><a href="pcwkb_core/gene_page/{{assoc.gene_name}}"><i>{{assoc.gene_name}}</i></a></p>
+                <p class="card-text"><a href="{% url 'gene_page' gene_name=assoc.gene_name %}"><i>{{assoc.gene_name}}</i></a></p>
                 {% endfor %}
             </div>
         </div>

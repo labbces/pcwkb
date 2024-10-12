@@ -6,7 +6,7 @@
 <div class="container-fluid px-4 py-3">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb rounded-pill px-3 border border-success pcwkb-bg-color">
-      <li class="breadcrumb-item"><a href="pcwkb_core">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
       <li class="breadcrumb-item active" aria-current="page">Cell Wall Components</li>
     </ol>
   </nav>
@@ -30,7 +30,7 @@
   <div class="p-4">
     {% for cellwallcomp_name, cellwallcomp_data in cellwallcomponents.items %}
     <div class="card border-success mb-3">
-      <h5 class="card-header"><a href="pcwkb_core/cellwallcomponent_page/{{cellwallcomp_name}}">
+      <h5 class="card-header"><a href="{% url 'cellwallcomponent_page' cellwallcomp_name=cellwallcomp_name %}">
         {{ cellwallcomp_name | upper }}<br>
         Chebi Ontology: {{ cellwallcomp_data.chebi_id }}
       </a></h5>
