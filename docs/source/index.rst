@@ -9,4 +9,3 @@ Welcome to Plant Cell Wall KnowledgeBase's documentation!
    add_data
    haystack
    solr_setup
-   automated_testss
