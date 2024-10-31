@@ -26,6 +26,10 @@ To include other necessary data we will be using the shell. To access the Django
 python manage.py shell
 ```
 
+### Fnctional annotation basis parser
+
+
+
 ### Ontology parser
 
 As this project relies on ontology terms as the primary classifiers and most of the models are related to them, we have implemented a parser to include these terms in our database.
@@ -117,6 +121,9 @@ Fasta.add_from_fasta("./pcwkb_core/tests/data/molecular_components/Bdi_minimal_t
 Fasta.add_from_fasta("./pcwkb_core/tests/data/molecular_components/Bdi_minimal_cds.fa","cds",source="Phytozome")
 Fasta.add_from_fasta("./pcwkb_core/tests/data/molecular_components/Bdi_minimal_protein.fa","protein",source="Phytozome")
 ```
+
+# Functional annotation of individual species
+
 
 # Orthogroup parser
 
